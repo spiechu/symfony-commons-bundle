@@ -25,7 +25,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Spiechu\\": "src/Spiechu"
+      "Spiechu\\SymfonyCommonsBundle\\": "src"
     }
   }
 }
