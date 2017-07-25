@@ -16,7 +16,7 @@
         </service>
 
         <service id="spiechu_symfony_commons.event_listener.request_schema_validator_listener"
-                 class="Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListeners"
+                 class="Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener"
         >
             <argument type="service" id="annotations.cached_reader"/>
 
