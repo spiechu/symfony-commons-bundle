@@ -29,7 +29,7 @@
         >
             <argument type="service" id="event_dispatcher"/>
 
-            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse"/>
+            <tag name="kernel.event_listener" event="kernel.response" priority="-90" method="onKernelResponse"/>
         </service>
 
     </services>
