@@ -65,7 +65,7 @@ class ResponseSchemaValidatorListener
     {
         $checkRequest = new CheckRequest($format, $content, $responseSchemaLocation);
 
-        $this->eventDispatcher->dispatch(Commands::CHECK_SCHEMA, $checkRequest);
+        $this->eventDispatcher->dispatch(Commands::getCheckSchemaEventNameFor($format), $checkRequest);
 
         if (!$checkRequest->wasChecked()) {
             throw new \RuntimeException(sprintf('No listener was able to check request for format "%s"', $format));
