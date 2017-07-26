@@ -39,7 +39,6 @@ class ResponseSchemaValidatorListener
         }
 
         $response = $filterResponseEvent->getResponse();
-        $responseStatusCode = $response->getStatusCode();
         $format = $request->getFormat($response->headers->get('content_type'));
 
         // not able to determine format
@@ -49,8 +48,12 @@ class ResponseSchemaValidatorListener
 
         $format = strtolower($format);
 
-        if (!empty($responseSchemas[$format]) && array_key_exists($responseStatusCode, $responseSchemas[$format])) {
-            $this->dispatchCheckSchemaRequest($format, $response->getContent(), $responseSchemas[$format]);
+        if (empty($responseSchemas[$format])) {
+            return;
+        }
+
+        if (array_key_exists($responseStatusCode = $response->getStatusCode(), $responseSchemas[$format])) {
+            $this->dispatchCheckSchemaRequest($format, $response->getContent(), $responseSchemas[$format][$responseStatusCode]);
         }
     }
 
