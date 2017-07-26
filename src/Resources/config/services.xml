@@ -23,6 +23,14 @@
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController"/>
         </service>
 
+        <service id="spiechu_symfony_commons.event_listener.response_schema_validator_listener"
+                 class="Spiechu\SymfonyCommonsBundle\EventListener\ResponseSchemaValidatorListener"
+        >
+            <argument type="service" id="event_dispatcher"/>
+
+            <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse"/>
+        </service>
+
     </services>
 
 </container>
