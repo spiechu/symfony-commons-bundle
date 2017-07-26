@@ -24,6 +24,10 @@ class ResponseSchemaValidatorListener
 
     public function onKernelResponse(FilterResponseEvent $filterResponseEvent)
     {
+        if (!$filterResponseEvent->isMasterRequest()) {
+            return;
+        }
+
         $request = $filterResponseEvent->getRequest();
         $responseSchemas = $request->attributes->get(
             RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS,
