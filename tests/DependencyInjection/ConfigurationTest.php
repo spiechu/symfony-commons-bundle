@@ -38,5 +38,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         );
 
         self::assertNotEmpty($config['get_method_override']);
+        self::assertNotEmpty($config['response_schema_validation']);
     }
 }

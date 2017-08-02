@@ -20,6 +20,7 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('spiechu_symfony_commons');
 
         $this->addGetMethodOverride($rootNode);
+        $this->addResponseValidation($rootNode);
 
         return $treeBuilder;
     }
@@ -31,10 +32,9 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('get_method_override')
+                    ->addDefaultsIfNotSet()
                     ->children()
-                        ->booleanNode('enabled')
-                            ->defaultFalse()
-                        ->end()
+                        ->booleanNode('enabled')->defaultFalse()->end()
                         ->scalarNode('listener_service_id')
                             ->cannotBeEmpty()
                             ->defaultValue('spiechu_symfony_commons.event_listener.get_method_override_listener')
@@ -69,6 +69,25 @@ class Configuration implements ConfigurationInterface
                                     return array_unique(array_map('strtoupper', $methods));
                                 })
                             ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ->end();
+    }
+
+    protected function addResponseValidation(ArrayNodeDefinition $rootNode): void
+    {
+        $rootNode
+            ->children()
+                ->arrayNode('response_schema_validation')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('enabled')->defaultFalse()->end()
+                        ->booleanNode('throw_exception_when_format_not_found')->defaultTrue()->end()
+                        ->scalarNode('listener_service_id')
+                            ->cannotBeEmpty()
+                            ->defaultValue('spiechu_symfony_commons.event_listener.response_schema_validator_listener')
                         ->end()
                     ->end()
                 ->end()
