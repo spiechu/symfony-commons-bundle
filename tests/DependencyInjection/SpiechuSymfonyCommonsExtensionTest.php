@@ -6,6 +6,7 @@ namespace Spiechu\SymfonyCommonsBundle\Test\DependencyInjection;
 
 use Spiechu\SymfonyCommonsBundle\DependencyInjection\SpiechuSymfonyCommonsExtension;
 use Spiechu\SymfonyCommonsBundle\EventListener\GetMethodOverrideListener;
+use Spiechu\SymfonyCommonsBundle\EventListener\JsonCheckSchemaSubscriber;
 use Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener;
 use Spiechu\SymfonyCommonsBundle\EventListener\ResponseSchemaValidatorListener;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -71,6 +72,28 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.response_schema_validator_listener');
         self::assertSame(ResponseSchemaValidatorListener::class, $listenerDefinition->getClass());
         self::assertArrayHasKey('kernel.event_listener', $listenerDefinition->getTags());
+
+        $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.json_check_schema_subscriber');
+        self::assertSame(JsonCheckSchemaSubscriber::class, $listenerDefinition->getClass());
+        self::assertArrayHasKey('kernel.event_subscriber', $listenerDefinition->getTags());
+    }
+
+    public function testJsonCheckSchemaSubscriberWontListenWhenOverridden()
+    {
+        $config = [
+            'spiechu_symfony_commons' => [
+                'response_schema_validation' => [
+                    'enabled' => true,
+                    'json_check_schema_subscriber_service_id' => 'replaced_service_id',
+                ],
+            ],
+        ];
+
+        $this->extension->load($config, $this->container);
+
+        $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.json_check_schema_subscriber');
+        self::assertFalse($listenerDefinition->isPublic());
+        self::assertEmpty($listenerDefinition->getTags());
     }
 
     public function testModifiableListenerArguments()

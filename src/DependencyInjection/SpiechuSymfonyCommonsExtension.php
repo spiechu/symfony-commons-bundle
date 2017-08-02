@@ -58,6 +58,12 @@ class SpiechuSymfonyCommonsExtension extends Extension
             1,
             $options['throw_exception_when_format_not_found']
         );
+
+        if ('spiechu_symfony_commons.event_listener.json_check_schema_subscriber' !== $options['json_check_schema_subscriber_service_id']) {
+            $listenerDefinition = $container->getDefinition('spiechu_symfony_commons.event_listener.json_check_schema_subscriber');
+            $listenerDefinition->clearTag('kernel.event_subscriber');
+            $listenerDefinition->setPublic(false);
+        }
     }
 
     protected function addOrReplaceDefinitionArgument(Definition $definition, int $index, $value): void
