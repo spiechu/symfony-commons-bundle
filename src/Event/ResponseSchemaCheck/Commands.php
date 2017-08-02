@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck;
 
+use Spiechu\SymfonyCommonsBundle\Utils\StringUtils;
 
 final class Commands
 {
@@ -11,6 +12,8 @@ final class Commands
 
     public static function getCheckSchemaEventNameFor(string $format): string
     {
-        return sprintf(self::CHECK_SCHEMA_PATTERN, $format);
+        StringUtils::assertNotEmpty($format);
+
+        return sprintf(self::CHECK_SCHEMA_PATTERN, strtolower($format));
     }
 }
