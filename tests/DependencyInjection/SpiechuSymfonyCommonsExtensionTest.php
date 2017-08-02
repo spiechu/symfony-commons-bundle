@@ -37,9 +37,9 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        parent::setUp();
+
         $this->container = new ContainerBuilder();
-        $this->container->setParameter('kernel.bundles', array('JMSSerializerBundle' => true));
-        $this->container->setParameter('kernel.debug', false);
         $this->extension = new SpiechuSymfonyCommonsExtension();
     }
 }

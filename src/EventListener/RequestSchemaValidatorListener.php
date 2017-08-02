@@ -33,10 +33,7 @@ class RequestSchemaValidatorListener
             return;
         }
 
-        $event->getRequest()->attributes->set(self::ATTRIBUTE_RESPONSE_SCHEMAS, [
-            'xml' => $responseSchemaValidator->getXmlSchemas(),
-            'json' => $responseSchemaValidator->getJsonSchemas(),
-        ]);
+        $event->getRequest()->attributes->set(self::ATTRIBUTE_RESPONSE_SCHEMAS, $responseSchemaValidator->getSchemas());
     }
 
     protected function getResponseSchemaValidator(callable $controller = null): ?ResponseSchemaValidator

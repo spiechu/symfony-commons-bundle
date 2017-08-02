@@ -20,7 +20,7 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('spiechu_symfony_commons');
 
         $this->addGetMethodOverride($rootNode);
-        $this->addResponseValidation($rootNode);
+        $this->addResponseSchemaValidation($rootNode);
 
         return $treeBuilder;
     }
@@ -76,7 +76,7 @@ class Configuration implements ConfigurationInterface
         ->end();
     }
 
-    protected function addResponseValidation(ArrayNodeDefinition $rootNode): void
+    protected function addResponseSchemaValidation(ArrayNodeDefinition $rootNode): void
     {
         $rootNode
             ->children()
@@ -85,10 +85,6 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->booleanNode('enabled')->defaultFalse()->end()
                         ->booleanNode('throw_exception_when_format_not_found')->defaultTrue()->end()
-                        ->scalarNode('listener_service_id')
-                            ->cannotBeEmpty()
-                            ->defaultValue('spiechu_symfony_commons.event_listener.response_schema_validator_listener')
-                        ->end()
                     ->end()
                 ->end()
             ->end()

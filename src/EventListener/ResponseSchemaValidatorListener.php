@@ -17,9 +17,15 @@ class ResponseSchemaValidatorListener
      */
     protected $eventDispatcher;
 
-    public function __construct(EventDispatcherInterface $eventDispatcher)
+    /**
+     * @var bool
+     */
+    protected $throwExceptionWhenFormatNotFound;
+
+    public function __construct(EventDispatcherInterface $eventDispatcher, bool $throwExceptionWhenFormatNotFound)
     {
         $this->eventDispatcher = $eventDispatcher;
+        $this->throwExceptionWhenFormatNotFound = $throwExceptionWhenFormatNotFound;
     }
 
     public function onKernelResponse(FilterResponseEvent $filterResponseEvent)
@@ -41,8 +47,11 @@ class ResponseSchemaValidatorListener
         $response = $filterResponseEvent->getResponse();
         $format = $request->getFormat($response->headers->get('content_type'));
 
-        // not able to determine format
         if (null === $format) {
+            if ($this->throwExceptionWhenFormatNotFound) {
+                throw new \RuntimeException('Not able to determine response format');
+            }
+
             return;
         }
 

@@ -56,7 +56,7 @@ class SpiechuSymfonyCommonsExtension extends Extension
         $this->addOrReplaceDefinitionArgument(
             $container->getDefinition('spiechu_symfony_commons.event_listener.response_schema_validator_listener'),
             1,
-            $options['dd']
+            $options['throw_exception_when_format_not_found']
         );
 
     }
