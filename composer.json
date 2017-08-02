@@ -1,7 +1,7 @@
 {
   "name": "spiechu/symfony-commons-bundle",
   "description": "My handy toolkit for Symfony.",
-  "type": "library",
+  "type": "symfony-bundle",
   "license": "MIT",
   "keywords": [
     "symfony",
@@ -27,6 +27,11 @@
   "autoload": {
     "psr-4": {
       "Spiechu\\SymfonyCommonsBundle\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Spiechu\\SymfonyCommonsBundle\\Test\\": "tests"
     }
   }
 }
