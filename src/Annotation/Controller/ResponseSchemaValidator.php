@@ -13,44 +13,49 @@ use Doctrine\Common\Annotations\Annotation\Target;
 class ResponseSchemaValidator
 {
     /**
-     * @var array [int responseCode => string pathToSchemaFile]
+     * @var array [string format => [int responseCode => string pathToSchemaFile]]
      */
-    protected $xmlSchemas = [];
+    protected $schemas = [];
 
     /**
-     * @var array [int responseCode => string pathToSchemaFile]
-     */
-    protected $jsonSchemas = [];
-
-    /**
-     * @param array $data
+     * @param array $data [string format => [int responseCode => string pathToSchemaFile]]
      *
-     * @throws \InvalidArgumentException When parameters different than 'xml' or 'json' provided
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $data)
     {
-        if (!empty($data['xml'])) {
-            $this->xmlSchemas = (array)$data['xml'];
+        if (empty($data)) {
+            throw new \InvalidArgumentException('Empty schemas provided');
         }
 
-        if (!empty($data['json'])) {
-            $this->jsonSchemas = (array)$data['json'];
-        }
+        foreach ($data as $format => $schemas) {
+            if (!is_string($format)) {
+                throw new \InvalidArgumentException($format . ' is not a string');
+            }
 
-        unset($data['xml'], $data['json']);
+            if (!is_array($schemas)) {
+                throw new \InvalidArgumentException($schemas . ' is not an array');
+            }
 
-        if (!empty($data)) {
-            throw new \InvalidArgumentException('Only "xml" and "json" parameters are supported');
+            $format = strtolower($format);
+            $this->schemas[$format] = [];
+
+            foreach ($schemas as $responseCode => $schema) {
+                if (!is_int($responseCode)) {
+                    throw new \InvalidArgumentException($responseCode . ' is not an integer');
+                }
+
+                if (!is_string($schema)) {
+                    throw new \InvalidArgumentException($schema . ' is not a string');
+                }
+
+                $this->schemas[$format][$responseCode] = $schema;
+            }
         }
     }
 
-    public function getXmlSchemas(): array
+    public function getSchemas(): array
     {
-        return $this->xmlSchemas;
-    }
-
-    public function getJsonSchemas(): array
-    {
-        return $this->jsonSchemas;
+        return $this->schemas;
     }
 }
