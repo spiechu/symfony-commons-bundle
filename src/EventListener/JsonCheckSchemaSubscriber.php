@@ -8,7 +8,7 @@ use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckRequest;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Commands;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class JsonCheckSchemaListener implements EventSubscriberInterface
+class JsonCheckSchemaSubscriber implements EventSubscriberInterface
 {
     /**
      * {@inheritdoc}
@@ -22,6 +22,6 @@ class JsonCheckSchemaListener implements EventSubscriberInterface
 
     public function validateSchema(CheckRequest $checkRequest): void
     {
-        var_dump($checkRequest);
+        $checkRequest->markChecked();
     }
 }

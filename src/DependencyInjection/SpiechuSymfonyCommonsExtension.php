@@ -35,11 +35,11 @@ class SpiechuSymfonyCommonsExtension extends Extension
             return;
         }
 
-        $getMethodOverrideListenerDefinition = $container->getDefinition($options['listener_service_id']);
-
         if ('spiechu_symfony_commons.event_listener.get_method_override_listener' === $options['listener_service_id']) {
             $loader->load('get_method_override_listener.xml');
         }
+
+        $getMethodOverrideListenerDefinition = $container->getDefinition($options['listener_service_id']);
 
         $this->addOrReplaceDefinitionArgument($getMethodOverrideListenerDefinition, 0, $options['query_param_name']);
         $this->addOrReplaceDefinitionArgument($getMethodOverrideListenerDefinition, 1, $options['allow_methods_override']);
@@ -58,7 +58,6 @@ class SpiechuSymfonyCommonsExtension extends Extension
             1,
             $options['throw_exception_when_format_not_found']
         );
-
     }
 
     protected function addOrReplaceDefinitionArgument(Definition $definition, int $index, $value): void
