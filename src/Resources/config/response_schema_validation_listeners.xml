@@ -7,15 +7,6 @@
 
     <services>
 
-        <service id="spiechu_symfony_commons.event_listener.get_method_override_listener"
-                 class="Spiechu\SymfonyCommonsBundle\EventListener\GetMethodOverrideListener"
-                 public="false"
-        >
-            <!-- Arguments are configured via SpiechuSymfonyCommonsExtension -->
-
-            <tag name="kernel.event_listener" event="kernel.request" priority="130" method="onKernelRequest"/>
-        </service>
-
         <service id="spiechu_symfony_commons.event_listener.request_schema_validator_listener"
                  class="Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener"
         >

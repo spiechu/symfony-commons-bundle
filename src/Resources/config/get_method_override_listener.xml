@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+
+    <services>
+
+        <service id="spiechu_symfony_commons.event_listener.get_method_override_listener"
+                 class="Spiechu\SymfonyCommonsBundle\EventListener\GetMethodOverrideListener"
+        >
+            <!-- Arguments are configured via SpiechuSymfonyCommonsExtension -->
+
+            <tag name="kernel.event_listener" event="kernel.request" priority="130" method="onKernelRequest"/>
+        </service>
+
+    </services>
+
+</container>

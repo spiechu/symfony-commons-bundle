@@ -7,8 +7,8 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\OutOfBoundsException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\DependencyInjection\Loader;
 
 class SpiechuSymfonyCommonsExtension extends Extension
 {
@@ -19,29 +19,49 @@ class SpiechuSymfonyCommonsExtension extends Extension
      * @throws ServiceNotFoundException
      * @throws \Exception
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $processedConfig = $this->processConfiguration(new Configuration(), $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.xml');
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
-        $this->processGetMethodOverride($container, $processedConfig['get_method_override']);
+        $this->processGetMethodOverride($loader, $container, $processedConfig['get_method_override']);
+        $this->processResponseSchemaValidation($loader, $container, $processedConfig['response_schema_validation']);
     }
 
-    protected function processGetMethodOverride(ContainerBuilder $container, array $options)
+    protected function processGetMethodOverride(XmlFileLoader $loader, ContainerBuilder $container, array $options): void
     {
+        if (!$options['enabled']) {
+            return;
+        }
+
         $getMethodOverrideListenerDefinition = $container->getDefinition($options['listener_service_id']);
+
+        if ('spiechu_symfony_commons.event_listener.get_method_override_listener' === $options['listener_service_id']) {
+            $loader->load('get_method_override_listener.xml');
+        }
 
         $this->addOrReplaceDefinitionArgument($getMethodOverrideListenerDefinition, 0, $options['query_param_name']);
         $this->addOrReplaceDefinitionArgument($getMethodOverrideListenerDefinition, 1, $options['allow_methods_override']);
-
-        if (!$options['enabled']) {
-            $getMethodOverrideListenerDefinition->clearTag('kernel.event_listener');
-        }
     }
 
-    protected function addOrReplaceDefinitionArgument(Definition $definition, int $index, $value)
+    protected function processResponseSchemaValidation(XmlFileLoader $loader, ContainerBuilder $container, array $options): void
+    {
+        if (!$options['enabled']) {
+            return;
+        }
+
+        $loader->load('response_schema_validation_listeners.xml');
+
+        $this->addOrReplaceDefinitionArgument(
+            $container->getDefinition('spiechu_symfony_commons.event_listener.response_schema_validator_listener'),
+            1,
+            $options['dd']
+        );
+
+    }
+
+    protected function addOrReplaceDefinitionArgument(Definition $definition, int $index, $value): void
     {
         if (array_key_exists($index, $definition->getArguments())) {
             $definition->replaceArgument($index, $value);
