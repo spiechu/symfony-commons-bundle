@@ -67,5 +67,13 @@ class CheckRequest extends Event
         return $this->wasChecked;
     }
 
+    public function getContent(): string
+    {
+        return $this->content;
+    }
 
+    public function getResponseSchemaLocation(): string
+    {
+        return $this->responseSchemaLocation;
+    }
 }
