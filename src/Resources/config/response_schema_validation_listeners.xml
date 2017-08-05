@@ -37,6 +37,7 @@
                  class="Spiechu\SymfonyCommonsBundle\Service\JsonSchemaValidatorFactory"
                  public="false"
         >
+            <argument type="service" id="kernel"/>
 
         </service>
 
