@@ -92,7 +92,7 @@ class ResponseSchemaValidatorListener
 
         if (!empty($schemaViolations = $validationResult->getViolations())) {
             throw new \RuntimeException(sprintf(
-                'Schema violations for "%s": "%s"',
+                '"%s" Schema violations: "%s"',
                 $format,
                 implode(', ', $schemaViolations)
             ));
