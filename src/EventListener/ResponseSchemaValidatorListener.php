@@ -67,14 +67,21 @@ class ResponseSchemaValidatorListener
     }
 
     /**
+     * @throws \RuntimeException When no listener listens on check schema event
      * @throws \RuntimeException When no listener was able to check request
      * @throws \RuntimeException When schema violations
      */
     protected function dispatchCheckSchemaRequest(string $format, string $content, string $responseSchemaLocation): void
     {
+        $checkEventName = Commands::getCheckSchemaEventNameFor($format);
+
+        if (!$this->eventDispatcher->hasListeners($checkEventName)) {
+            throw new \RuntimeException(sprintf('No listener listens on "%s" event', $checkEventName));
+        }
+
         $checkRequest = new CheckRequest($format, $content, $responseSchemaLocation);
 
-        $this->eventDispatcher->dispatch(Commands::getCheckSchemaEventNameFor($format), $checkRequest);
+        $this->eventDispatcher->dispatch($checkEventName, $checkRequest);
 
         if (!$checkRequest->wasChecked()) {
             throw new \RuntimeException(sprintf('No listener was able to check request for format "%s"', $format));

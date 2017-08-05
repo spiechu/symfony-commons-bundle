@@ -36,6 +36,7 @@
         <service id="spiechu_symfony_commons.service.json_schema_validator"
                  class="Spiechu\SymfonyCommonsBundle\Service\JsonSchemaValidator"
                  public="false"
+                 lazy="true"
         >
 
         </service>
