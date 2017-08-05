@@ -11,10 +11,14 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class JsonSchemaValidatorFactory
 {
-    /** @var KernelInterface */
+    /**
+     * @var KernelInterface
+     */
     protected $kernel;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected $registeredSchemas;
 
     public function __construct(KernelInterface $kernel)
@@ -46,7 +50,7 @@ class JsonSchemaValidatorFactory
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function getValidator(string $id) : JsonSchemaValidator
+    public function getValidator(string $id): JsonSchemaValidator
     {
         if (!$this->hasSchema($id)) {
             throw new \RuntimeException(sprintf('Schema with id "%s" is not registered.', $id));
@@ -63,12 +67,11 @@ class JsonSchemaValidatorFactory
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    protected function createSchema(string $id)
+    protected function createSchema(string $id): \stdClass
     {
         $mainSchemaFilePath = $this->kernel->locateResource($this->registeredSchemas[$id]);
         $schemaUri = basename($mainSchemaFilePath);
-        $mainSchemaDirPath = dirname($mainSchemaFilePath);
-        $schemaBaseUri = sprintf('file://%s/%s', $mainSchemaDirPath, $schemaUri);
+        $schemaBaseUri = sprintf('file://%s/%s', dirname($mainSchemaFilePath), $schemaUri);
 
         $retriever = new UriRetriever();
         $schema = $retriever->retrieve($schemaUri, $schemaBaseUri);
