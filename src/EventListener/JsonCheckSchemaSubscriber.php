@@ -40,8 +40,7 @@ class JsonCheckSchemaSubscriber implements EventSubscriberInterface
         }
 
         $schemaValidator = $this->jsonSchemaValidatorFactory->getValidator($schemaLocation);
-        $schemaErrors = $schemaValidator->validate($checkRequest->getContent())->getErrors();
 
-        $checkRequest->markChecked();
+        $checkRequest->setValidationResult($schemaValidator->validate($checkRequest->getContent()));
     }
 }

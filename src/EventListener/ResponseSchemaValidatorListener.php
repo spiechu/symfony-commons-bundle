@@ -6,6 +6,7 @@ namespace Spiechu\SymfonyCommonsBundle\EventListener;
 
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckRequest;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Commands;
+use Spiechu\SymfonyCommonsBundle\Service\ValidationResult;
 use Spiechu\SymfonyCommonsBundle\Utils\ArrayUtils;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
@@ -83,11 +84,13 @@ class ResponseSchemaValidatorListener
 
         $this->eventDispatcher->dispatch($checkEventName, $checkRequest);
 
-        if (!$checkRequest->wasChecked()) {
+        $validationResult = $checkRequest->getValidationResult();
+
+        if (!$validationResult instanceof ValidationResult) {
             throw new \RuntimeException(sprintf('No listener was able to check request for format "%s"', $format));
         }
 
-        if (!empty($schemaViolations = $checkRequest->getSchemaViolations())) {
+        if (!empty($schemaViolations = $validationResult->getViolations())) {
             throw new \RuntimeException(sprintf(
                 'Schema violations for "%s": "%s"',
                 $format,

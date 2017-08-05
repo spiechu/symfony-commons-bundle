@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck;
 
+use Spiechu\SymfonyCommonsBundle\Service\ValidationResult;
 use Symfony\Component\EventDispatcher\Event;
 
 class CheckRequest extends Event
@@ -24,47 +25,20 @@ class CheckRequest extends Event
     protected $responseSchemaLocation;
 
     /**
-     * @var string[]
+     * @var ValidationResult|null
      */
-    protected $schemaViolations;
-
-    /**
-     * @var bool
-     */
-    protected $wasChecked;
+    protected $validationResult;
 
     public function __construct(string $format, string $content, string $responseSchemaLocation)
     {
         $this->format = $format;
         $this->content = $content;
         $this->responseSchemaLocation = $responseSchemaLocation;
-
-        $this->schemaViolations = [];
-        $this->wasChecked = false;
     }
 
-    public function addSchemaViolation(string $violation): self
+    public function getFormat(): string
     {
-        $this->schemaViolations[] = $violation;
-
-        return $this;
-    }
-
-    public function getSchemaViolations(): array
-    {
-        return $this->schemaViolations;
-    }
-
-    public function markChecked(): self
-    {
-        $this->wasChecked = true;
-
-        return $this;
-    }
-
-    public function wasChecked(): bool
-    {
-        return $this->wasChecked;
+        return $this->format;
     }
 
     public function getContent(): string
@@ -75,5 +49,17 @@ class CheckRequest extends Event
     public function getResponseSchemaLocation(): string
     {
         return $this->responseSchemaLocation;
+    }
+
+    public function setValidationResult(ValidationResult $validationResult): self
+    {
+        $this->validationResult = $validationResult;
+
+        return $this;
+    }
+
+    public function getValidationResult(): ?ValidationResult
+    {
+        return $this->validationResult;
     }
 }

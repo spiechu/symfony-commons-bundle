@@ -24,9 +24,6 @@ class JsonSchemaValidator
         $this->validator = $validator;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function validate(string $jsonString): ValidationResult
     {
         $this->validator->reset();
@@ -35,7 +32,7 @@ class JsonSchemaValidator
         $decodedJson = json_decode($jsonString);
 
         if (null === $decodedJson) {
-            $validationResult->addError('Not a JSON or invalid format');
+            $validationResult->addViolation(ValidationViolation::create('Not a JSON or invalid format'));
 
             return $validationResult;
         }
@@ -43,7 +40,7 @@ class JsonSchemaValidator
         try {
             $this->validator->check($decodedJson, $this->schema);
         } catch (\Exception $e) {
-            $validationResult->addError($e->getMessage());
+            $validationResult->addViolation(ValidationViolation::create($e->getMessage()));
         }
 
         $this->mapErrors($this->validator, $validationResult);
@@ -54,7 +51,7 @@ class JsonSchemaValidator
     protected function mapErrors(Validator $validator, ValidationResult $validationResult): void
     {
         foreach ($validator->getErrors() as $error) {
-            $validationResult->addError($error['message'], $error['property']);
+            $validationResult->addViolation(ValidationViolation::create($error['message'], $error['property']));
         }
     }
 }

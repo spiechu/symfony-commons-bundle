@@ -6,12 +6,12 @@ namespace Spiechu\SymfonyCommonsBundle\Service;
 
 class ValidationResult
 {
-    /** @var array */
+    /** @var ValidationViolation[] */
     protected $errors = [];
 
-    public function addError(string $message, ?string $property = null): self
+    public function addViolation(ValidationViolation $validationViolation): self
     {
-        $this->errors[] = [$message, $property];
+        $this->errors[] = $validationViolation;
 
         return $this;
     }
@@ -22,9 +22,9 @@ class ValidationResult
     }
 
     /**
-     * @return array [ ['message', 'property'] ... ]
+     * @return ValidationViolation[]
      */
-    public function getErrors(): array
+    public function getViolations(): array
     {
         return $this->errors;
     }
