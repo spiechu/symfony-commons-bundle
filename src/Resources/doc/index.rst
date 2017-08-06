@@ -7,4 +7,4 @@ Contents:
 
 .. toctree::
 
-    installation
+   installation
