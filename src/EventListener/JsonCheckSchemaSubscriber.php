@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Spiechu\SymfonyCommonsBundle\EventListener;
 
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckRequest;
-use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Commands;
+use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Events;
 use Spiechu\SymfonyCommonsBundle\Service\JsonSchemaValidatorFactory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -27,7 +27,7 @@ class JsonCheckSchemaSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            Commands::getCheckSchemaEventNameFor('json') => 'validateSchema',
+            Events::getCheckSchemaEventNameFor('json') => 'validateSchema',
         ];
     }
 

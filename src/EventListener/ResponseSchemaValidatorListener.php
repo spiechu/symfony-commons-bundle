@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Spiechu\SymfonyCommonsBundle\EventListener;
 
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckRequest;
-use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Commands;
+use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckResult;
+use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Events;
 use Spiechu\SymfonyCommonsBundle\Service\ValidationResult;
 use Spiechu\SymfonyCommonsBundle\Utils\ArrayUtils;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -63,7 +64,13 @@ class ResponseSchemaValidatorListener
         }
 
         if (array_key_exists($responseStatusCode = $response->getStatusCode(), $responseSchemas[$format])) {
-            $this->dispatchCheckSchemaRequest($format, $response->getContent(), $responseSchemas[$format][$responseStatusCode]);
+            $content = $response->getContent();
+            $validationResult = $this->dispatchCheckSchemaRequest($format, $content, $responseSchemas[$format][$responseStatusCode]);
+
+            $this->eventDispatcher->dispatch(
+                Events::CHECK_RESULT,
+                new CheckResult($format, $content, $validationResult)
+            );
         }
     }
 
@@ -72,9 +79,9 @@ class ResponseSchemaValidatorListener
      * @throws \RuntimeException When no listener was able to check request
      * @throws \RuntimeException When schema violations
      */
-    protected function dispatchCheckSchemaRequest(string $format, string $content, string $responseSchemaLocation): void
+    protected function dispatchCheckSchemaRequest(string $format, string $content, string $responseSchemaLocation): ValidationResult
     {
-        $checkEventName = Commands::getCheckSchemaEventNameFor($format);
+        $checkEventName = Events::getCheckSchemaEventNameFor($format);
 
         if (!$this->eventDispatcher->hasListeners($checkEventName)) {
             throw new \RuntimeException(sprintf('No listener listens on "%s" event', $checkEventName));
@@ -90,12 +97,6 @@ class ResponseSchemaValidatorListener
             throw new \RuntimeException(sprintf('No listener was able to check request for format "%s"', $format));
         }
 
-        if (!empty($schemaViolations = $validationResult->getViolations())) {
-            throw new \RuntimeException(sprintf(
-                '"%s" Schema violations: "%s"',
-                $format,
-                implode(', ', $schemaViolations)
-            ));
-        }
+        return $validationResult;
     }
 }

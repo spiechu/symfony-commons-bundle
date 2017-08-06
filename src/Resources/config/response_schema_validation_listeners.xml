@@ -25,6 +25,14 @@
             <tag name="kernel.event_listener" event="kernel.response" priority="-90" method="onKernelResponse"/>
         </service>
 
+        <service id="spiechu_symfony_commons.event_listener.failed_schema_check_listener"
+                 class="Spiechu\SymfonyCommonsBundle\EventListener\FailedSchemaCheckListener"
+        >
+            <tag name="kernel.event_listener"
+                 event="spiechu_symfony_commons.event.response_schema_check.check_result"
+                 method="onCheckResult"/>
+        </service>
+
         <service id="spiechu_symfony_commons.event_listener.json_check_schema_subscriber"
                  class="Spiechu\SymfonyCommonsBundle\EventListener\JsonCheckSchemaSubscriber"
         >
