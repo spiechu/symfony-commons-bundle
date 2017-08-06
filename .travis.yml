@@ -32,7 +32,8 @@ install:
   - if [ "$DEPENDENCIES" == "low" ]; then composer update --prefer-lowest; fi;
 
 script:
-  - './vendor/bin/simple-phpunit --testdox'
+  - if [ "$DEPENDENCIES" != "low" ]; then './vendor/bin/simple-phpunit --testdox'; fi;
+  - if [ "$DEPENDENCIES" == "low" ]; then 'phpunit --testdox'; fi;
 
 notifications:
   email: false
