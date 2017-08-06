@@ -43,12 +43,12 @@ class JsonSchemaValidator
             $validationResult->addViolation(ValidationViolation::create($e->getMessage()));
         }
 
-        $this->mapErrors($this->validator, $validationResult);
+        $this->mapErrorsToResultViolations($this->validator, $validationResult);
 
         return $validationResult;
     }
 
-    protected function mapErrors(Validator $validator, ValidationResult $validationResult): void
+    protected function mapErrorsToResultViolations(Validator $validator, ValidationResult $validationResult): void
     {
         foreach ($validator->getErrors() as $error) {
             $validationResult->addViolation(ValidationViolation::create($error['message'], $error['property']));

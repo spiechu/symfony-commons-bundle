@@ -6,7 +6,9 @@ namespace Spiechu\SymfonyCommonsBundle\Service;
 
 class ValidationResult
 {
-    /** @var ValidationViolation[] */
+    /**
+     * @var ValidationViolation[]
+     */
     protected $errors = [];
 
     public function addViolation(ValidationViolation $validationViolation): self

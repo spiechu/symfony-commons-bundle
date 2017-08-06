@@ -27,17 +27,11 @@ class ValidationViolation
         $this->property = $property;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage(): string
     {
         return $this->message;
     }
 
-    /**
-     * @return null|string
-     */
     public function getProperty(): ?string
     {
         return $this->property;

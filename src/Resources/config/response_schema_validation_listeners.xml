@@ -47,7 +47,6 @@
                  lazy="true"
         >
             <argument type="service" id="kernel"/>
-
         </service>
 
     </services>

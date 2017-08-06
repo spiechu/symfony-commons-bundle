@@ -30,7 +30,7 @@ class ResponseSchemaValidatorListener
         $this->throwExceptionWhenFormatNotFound = $throwExceptionWhenFormatNotFound;
     }
 
-    public function onKernelResponse(FilterResponseEvent $filterResponseEvent)
+    public function onKernelResponse(FilterResponseEvent $filterResponseEvent): void
     {
         if (!$filterResponseEvent->isMasterRequest()) {
             return;

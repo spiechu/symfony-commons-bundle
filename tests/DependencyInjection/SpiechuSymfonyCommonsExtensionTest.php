@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Spiechu\SymfonyCommonsBundle\Test\DependencyInjection;
 
 use Spiechu\SymfonyCommonsBundle\DependencyInjection\SpiechuSymfonyCommonsExtension;
+use Spiechu\SymfonyCommonsBundle\EventListener\FailedSchemaCheckListener;
 use Spiechu\SymfonyCommonsBundle\EventListener\GetMethodOverrideListener;
 use Spiechu\SymfonyCommonsBundle\EventListener\JsonCheckSchemaSubscriber;
 use Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener;
@@ -71,6 +72,10 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.response_schema_validator_listener');
         self::assertSame(ResponseSchemaValidatorListener::class, $listenerDefinition->getClass());
+        self::assertArrayHasKey('kernel.event_listener', $listenerDefinition->getTags());
+
+        $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.failed_schema_check_listener');
+        self::assertSame(FailedSchemaCheckListener::class, $listenerDefinition->getClass());
         self::assertArrayHasKey('kernel.event_listener', $listenerDefinition->getTags());
 
         $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.json_check_schema_subscriber');
