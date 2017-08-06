@@ -83,13 +83,13 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         self::assertArrayHasKey('kernel.event_subscriber', $listenerDefinition->getTags());
     }
 
-    public function testJsonCheckSchemaSubscriberWontListenWhenOverridden()
+    public function testJsonCheckSchemaSubscriberWontListenWhenDisabled()
     {
         $config = [
             'spiechu_symfony_commons' => [
                 'response_schema_validation' => [
                     'enabled' => true,
-                    'json_check_schema_subscriber_service_id' => 'replaced_service_id',
+                    'disable_json_check_schema_subscriber' => true,
                 ],
             ],
         ];

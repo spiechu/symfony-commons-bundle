@@ -63,7 +63,7 @@ class SpiechuSymfonyCommonsExtension extends Extension
             $this->clearListenerTags($container->getDefinition('spiechu_symfony_commons.event_listener.failed_schema_check_listener'));
         }
 
-        if ('spiechu_symfony_commons.event_listener.json_check_schema_subscriber' !== $options['json_check_schema_subscriber_service_id']) {
+        if ($options['disable_json_check_schema_subscriber']) {
             $this->clearListenerTags($container->getDefinition('spiechu_symfony_commons.event_listener.json_check_schema_subscriber'));
         }
     }
