@@ -9,4 +9,5 @@ Contents:
    :maxdepth: 2
 
    installation
-   Maybe this works <installation>
+   Maybe this works <installation.rst>
+   Maybe this works <./installation.rst>
