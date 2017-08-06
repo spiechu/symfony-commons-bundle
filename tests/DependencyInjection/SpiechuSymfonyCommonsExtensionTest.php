@@ -127,6 +127,24 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         self::assertFalse($listenerDefinition->getArgument(1));
     }
 
+    public function testEmptyFailedSchemaCheckListener()
+    {
+        $config = [
+            'spiechu_symfony_commons' => [
+                'response_schema_validation' => [
+                    'enabled' => true,
+                    'failed_schema_check_listener_service_id' => null,
+                ],
+            ],
+        ];
+
+        $this->extension->load($config, $this->container);
+
+        $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.failed_schema_check_listener');
+        self::assertFalse($listenerDefinition->isPublic());
+        self::assertEmpty($listenerDefinition->getTags());
+    }
+
     /**
      * {@inheritdoc}
      */

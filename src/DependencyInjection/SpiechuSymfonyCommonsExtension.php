@@ -59,10 +59,12 @@ class SpiechuSymfonyCommonsExtension extends Extension
             $options['throw_exception_when_format_not_found']
         );
 
+        if ('spiechu_symfony_commons.event_listener.failed_schema_check_listener' !== $options['failed_schema_check_listener_service_id']) {
+            $this->clearListenerTags($container->getDefinition('spiechu_symfony_commons.event_listener.failed_schema_check_listener'));
+        }
+
         if ('spiechu_symfony_commons.event_listener.json_check_schema_subscriber' !== $options['json_check_schema_subscriber_service_id']) {
-            $listenerDefinition = $container->getDefinition('spiechu_symfony_commons.event_listener.json_check_schema_subscriber');
-            $listenerDefinition->clearTag('kernel.event_subscriber');
-            $listenerDefinition->setPublic(false);
+            $this->clearListenerTags($container->getDefinition('spiechu_symfony_commons.event_listener.json_check_schema_subscriber'));
         }
     }
 
@@ -73,5 +75,13 @@ class SpiechuSymfonyCommonsExtension extends Extension
         } else {
             $definition->setArgument($index, $value);
         }
+    }
+
+    protected function clearListenerTags(Definition $definition): void
+    {
+        $definition->clearTag('kernel.event_subscriber');
+        $definition->clearTag('kernel.event_listener');
+
+        $definition->setPublic(false);
     }
 }
