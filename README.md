@@ -1,7 +1,5 @@
 # Symfony Commons Bundle
 
-Consider this bundle as part of my preparations for Symfony Certification.
-
 | Travis |
 |:------:|
 | [![Build Status](https://travis-ci.org/spiechu/symfony-commons-bundle.svg?branch=master)](https://travis-ci.org/spiechu/symfony-commons-bundle) |
@@ -10,7 +8,13 @@ Consider this bundle as part of my preparations for Symfony Certification.
 
 Main purpose of this bundle is to introduce some "missing" functionalities to Symfony Framework.
 
-It plays well with [FOSRestBundle](https://github.com/FriendsOfSymfony/FOSRestBundle).
+Consider this bundle as part of my preparations for Symfony Certification.
+I can only learn by doing instead of passive DOC reading.
+
+Bundle plays well with [FOSRestBundle](https://github.com/FriendsOfSymfony/FOSRestBundle).
+
+Bundle has high version requirements (Symfony 3.3, PHP 7.1).
+I wanted to play with new stuff instead of more day-to-day work with legacy sh!t.
 
 ## Bundle rules
 
@@ -18,6 +22,7 @@ It plays well with [FOSRestBundle](https://github.com/FriendsOfSymfony/FOSRestBu
 2. You only enable what you need.
 3. No event listeners hanging around when unneeded.
 4. Provide sane defaults and extensive customisation possibilities.
+5. Every file runs on `declare(strict_types=1);`.
 
 ## Installation
 
