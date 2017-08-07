@@ -2,8 +2,9 @@
 
 Consider this bundle as part of my preparations for Symfony Certification.
 
-Travis build status:
-[![Build Status](https://travis-ci.org/spiechu/symfony-commons-bundle.svg?branch=master)](https://travis-ci.org/spiechu/symfony-commons-bundle)
+| Travis |
+|:------:|
+| [![Build Status](https://travis-ci.org/spiechu/symfony-commons-bundle.svg?branch=master)](https://travis-ci.org/spiechu/symfony-commons-bundle) |
 
 ## Intro
 
@@ -16,21 +17,21 @@ It plays well with [FOSRestBundle](https://github.com/FriendsOfSymfony/FOSRestBu
 1. Every feature is disabled by default.
 2. You only enable what you need.
 3. No event listeners hanging around when unneeded.
-4. Provides sane defaults and extensive customisation possibilities.
+4. Provide sane defaults and extensive customisation possibilities.
 
 ## Installation
 
-1. Download the Bundle
+### Download the Bundle
 
-Assuming you have Composer installed globally, you just need to run console command in project directory.
+Assuming you have Composer installed globally, you just need to run console command in project directory:
  
 ```bash
 composer require spiechu/symfony-commons-bundle
 ```
 
-2. Enable the Bundle
+### Enable the Bundle
 
-Eenable the bundle by adding the following line in the `app/AppKernel.php` file of your project:
+Enable the bundle by adding the following line in the `app/AppKernel.php` file of your project:
 
 ```php
 // app/AppKernel.php
@@ -49,7 +50,7 @@ class AppKernel extends Kernel
 }
 ```
 
-3. Enable Bundle features
+### Enable Bundle features
 
 Preferred way of configuring Bundle is via YAML config:
 
