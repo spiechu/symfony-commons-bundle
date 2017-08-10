@@ -86,4 +86,33 @@ This way you can have clean `GET` / `POST` / `PUT` / `DELETE` endpoint actions i
 
 ### Response schema validation
 
-... boring ...
+When exposing API to external services, sticking to agreed schema is crucial.
+Decent API consumers will most probably validate incoming data.
+How will your API look like when you won't give data in proper form as promised?
+
+Response schema validation allows you to validate endpoint responses on-the-fly.
+You just need to annotate controller action with `@ResponseSchemaValidator`. Typical use case is:
+
+```php
+// src/AppBundle/Controller/MyController.php
+
+use Spiechu\SymfonyCommonsBundle\Annotation\Controller\ResponseSchemaValidator;
+
+class AdminController extends Controller
+{
+    /**
+     * @Route("/", name="my_route")
+     *
+     * @ResponseSchemaValidator(
+     *  json={
+     *   200="@AppBundle/Resources/response_schema/my_route_200.json",
+     *   500="@AppBundle/Resources/response_schema/my_route_500.json"
+     *  }
+     * )
+     */
+    public function indexAction(): Response
+    {
+        // ...
+    }
+}
+```
