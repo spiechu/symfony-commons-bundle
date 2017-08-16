@@ -32,6 +32,8 @@ class DataCollector implements DataCollectorInterface, EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return [];
+        return [
+
+        ];
     }
 }
