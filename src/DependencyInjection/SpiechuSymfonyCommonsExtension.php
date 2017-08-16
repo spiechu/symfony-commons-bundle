@@ -5,6 +5,7 @@ namespace Spiechu\SymfonyCommonsBundle\DependencyInjection;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\OutOfBoundsException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -18,6 +19,7 @@ class SpiechuSymfonyCommonsExtension extends Extension
      * @throws OutOfBoundsException
      * @throws ServiceNotFoundException
      * @throws \Exception
+     * @throws InvalidArgumentException
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
@@ -27,6 +29,10 @@ class SpiechuSymfonyCommonsExtension extends Extension
 
         $this->processGetMethodOverride($loader, $container, $processedConfig['get_method_override']);
         $this->processResponseSchemaValidation($loader, $container, $processedConfig['response_schema_validation']);
+
+        if ($container->getParameter('kernel.debug')) {
+            $loader->load('debug_services.xml');
+        }
     }
 
     protected function processGetMethodOverride(XmlFileLoader $loader, ContainerBuilder $container, array $options): void

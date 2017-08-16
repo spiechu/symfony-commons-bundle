@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+
+    <services>
+
+        <service id="spiechu_symfony_commons.service.data_collector"
+                 class="Spiechu\SymfonyCommonsBundle\Service\DataCollector"
+                 public="false"
+        >
+            <tag name="kernel.event_subscriber"/>
+            <tag name="data_collector" id="spiechu_symfony_commons.data_collector"/>
+        </service>
+
+    </services>
+
+</container>
