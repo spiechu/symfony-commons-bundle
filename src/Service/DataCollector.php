@@ -38,7 +38,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
     public static function getSubscribedEvents()
     {
         return [
-            Events::CHECK_RESULT => 'onCheckResult',
+            Events::CHECK_RESULT => ['onCheckResult', 100],
         ];
     }
 
