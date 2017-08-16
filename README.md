@@ -59,7 +59,7 @@ class AppKernel extends Kernel
 
 Preferred way of configuring Bundle is via YAML config:
 
-```yml
+```yaml
 # app/config/config.yml
 
 spiechu_symfony_commons:
@@ -69,11 +69,13 @@ spiechu_symfony_commons:
         enabled: true
 ```
 
+Configuration reference [can be found here](src/Resources/doc/configuration_reference.md).
+
 ## Features
 
 ### GET method override
 
-Full [documentation here](src/Resources/doc/get_method_override.md)
+Full [documentation here](src/Resources/doc/get_method_override.md).
 
 Symfony allows you to change HTTP method in forms via hidden `_method` form field ([described here](https://symfony.com/doc/current/form/action_method.html)).
 This kind of override is not possible when using GET method.
@@ -87,6 +89,8 @@ By definition GET requests should not modify state of the system, so consider th
 This way you can have clean `GET` / `POST` / `PUT` / `DELETE` endpoint actions in controller.
 
 ### Response schema validation
+
+Full [documentation here](src/Resources/doc/response_schema_validation.md).
 
 When exposing API to external services, sticking to agreed schema is crucial.
 Decent API consumers will most probably validate incoming data.
