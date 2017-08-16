@@ -73,6 +73,8 @@ spiechu_symfony_commons:
 
 ### GET method override
 
+Full [documentation here](doc/get_method_override.md)
+
 Symfony allows you to change HTTP method in forms via hidden `_method` form field ([described here](https://symfony.com/doc/current/form/action_method.html)).
 This kind of override is not possible when using GET method.
 
