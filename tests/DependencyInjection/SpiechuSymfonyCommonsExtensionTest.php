@@ -153,6 +153,9 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
 
         $this->container = new ContainerBuilder();
+
+        $this->container->setParameter('kernel.debug', false);
+
         $this->extension = new SpiechuSymfonyCommonsExtension();
     }
 }
