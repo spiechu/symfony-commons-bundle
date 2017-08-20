@@ -12,7 +12,7 @@
                  public="false"
         >
             <tag name="kernel.event_subscriber"/>
-            <tag name="data_collector" id="spiechu_symfony_commons.data_collector" template="data_collector/template.html.twig"/>
+            <tag name="data_collector" id="spiechu_symfony_commons.data_collector" template="@SpiechuSymfonyCommons/Collector/template.html.twig"/>
         </service>
 
     </services>
