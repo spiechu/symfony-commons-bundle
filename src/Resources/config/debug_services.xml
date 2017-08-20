@@ -11,6 +11,10 @@
                  class="Spiechu\SymfonyCommonsBundle\Service\DataCollector"
                  public="false"
         >
+            <argument type="service" id="router"/>
+            <argument type="service" id="annotations.cached_reader"/>
+            <argument type="service" id="service_container"/>
+
             <tag name="kernel.event_subscriber"/>
             <tag name="data_collector" id="spiechu_symfony_commons.data_collector" template="@SpiechuSymfonyCommons/Collector/template.html.twig"/>
         </service>
