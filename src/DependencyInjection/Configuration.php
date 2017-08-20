@@ -64,7 +64,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                             ->beforeNormalization()
                                 ->ifArray()
-                                ->then(function(array $methods): array {
+                                ->then(function (array $methods): array {
                                     return array_unique(array_map('strtoupper', $methods));
                                 })
                             ->end()

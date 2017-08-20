@@ -19,7 +19,7 @@ class GetMethodOverrideListener
     protected $methodsToOverride;
 
     /**
-     * @param string $queryParamName
+     * @param string   $queryParamName
      * @param string[] $methodsToOverride
      */
     public function __construct(string $queryParamName, array $methodsToOverride)
