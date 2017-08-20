@@ -1,2 +1,164 @@
 {% extends '@WebProfiler/Profiler/layout.html.twig' %}
 
+{% block toolbar %}
+    {% set icon %}
+        <svg
+                xmlns:dc="http://purl.org/dc/elements/1.1/"
+                xmlns:cc="http://creativecommons.org/ns#"
+                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:svg="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg"
+                id="svg8"
+                version="1.1"
+                viewBox="0 0 70 70"
+                height="24"
+                width="24"
+        >
+            {% include('@SpiechuSymfonyCommons/Collector/_icon_definition.html.twig') %}
+        </svg>
+        {% if collector.responseWasChecked %}
+            <span class="sf-toolbar-status sf-toolbar-status-green">checked</span>
+        {% else %}
+            <span class="sf-toolbar-status">not checked</span>
+        {% endif %}
+    {% endset %}
+
+    {% set text %}
+        <div class="sf-toolbar-info-piece">
+            <b>Known response schemas</b>
+            <span class="sf-toolbar-status">{{ collector.knownResponseSchemaNumber }}</span>
+        </div>
+        {% for format, schemas in collector.knownResponseSchemas %}
+            <div class="sf-toolbar-info-piece">
+                <b>Format</b>
+                <span class="sf-toolbar-status">{{ format }}</span>
+            </div>
+            {% for statusCode, value in schemas %}
+                <div class="sf-toolbar-info-piece">
+                    <b>{{ statusCode }}</b>
+                    <span class="sf-toolbar-status">{{ value }}</span>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endset %}
+
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig') }}
+{% endblock %}
+
+{% block menu %}
+    <span class="label">
+    <span class="icon">
+        <svg
+                xmlns:dc="http://purl.org/dc/elements/1.1/"
+                xmlns:cc="http://creativecommons.org/ns#"
+                xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                xmlns:svg="http://www.w3.org/2000/svg"
+                xmlns="http://www.w3.org/2000/svg"
+                id="svg8"
+                version="1.1"
+                viewBox="0 0 70 70"
+                height="24"
+                width="24"
+        >
+            {% include('@SpiechuSymfonyCommons/Collector/_icon_definition.html.twig') %}
+        </svg>
+    </span>
+    <strong>Sf Commons</strong>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    {% if collector.responseWasChecked %}
+        <table>
+            <thead>
+            <tr>
+                <th>Property</th>
+                <th>Message</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for validationError in collector.validationErrors %}
+                {% if loop.first %}
+                    <h2>Response validation errors</h2>
+                {% endif %}
+
+                <tr>
+                    <td>{{ validationError.property }}</td>
+                    <td>{{ validationError.message }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <h2>Known response schemas for current endpoint</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Format</th>
+            <th>Status Code</th>
+            <th>Schema Location</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for format, schemas in collector.knownResponseSchemas %}
+            {% for statusCode, value in schemas %}
+                <tr>
+                    {% if loop.first %}
+                        <td rowspan="{{ schemas|length }}" style="vertical-align: middle">{{ format }}</td>
+                    {% endif %}
+
+                    <td>{{ statusCode }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Global endpoints</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Path</th>
+            <th>Name</th>
+            <th>Format</th>
+            <th>Status Code</th>
+            <th>Schema Location</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for endpoint in collector.globalResponseSchemas %}
+            {% set endpointLoop = loop %}
+            {% set allResponseSchemas = 0 %}
+            {% for format, schemas in endpoint.response_schemas %}
+                {% set allResponseSchemas = allResponseSchemas + schemas|length %}
+            {% endfor %}
+            {% for format, schemas in endpoint.response_schemas %}
+                {% set schemasLoop = loop %}
+                {% for statusCode, value in schemas %}
+                    <tr>
+                        {% if loop.first %}
+                            {% if schemasLoop.first %}
+                                <td rowspan="{{ allResponseSchemas }}"
+                                    style="vertical-align: middle">{{ endpoint.path }}</td>
+                                <td rowspan="{{ allResponseSchemas }}"
+                                    style="vertical-align: middle">{{ endpoint.name }}</td>
+                            {% endif %}
+
+                            <td rowspan="{{ schemas|length }}" style="vertical-align: middle">{{ format }}</td>
+                        {% endif %}
+
+                        <td>{{ statusCode }}</td>
+                        <td>{{ value }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
