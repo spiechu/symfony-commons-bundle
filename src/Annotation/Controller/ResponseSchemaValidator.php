@@ -30,11 +30,11 @@ class ResponseSchemaValidator
 
         foreach ($data as $format => $schemas) {
             if (!is_string($format)) {
-                throw new \InvalidArgumentException($format . ' is not a string');
+                throw new \InvalidArgumentException($format.' is not a string');
             }
 
             if (!is_array($schemas)) {
-                throw new \InvalidArgumentException($schemas . ' is not an array');
+                throw new \InvalidArgumentException($schemas.' is not an array');
             }
 
             $format = strtolower($format);
@@ -42,11 +42,11 @@ class ResponseSchemaValidator
 
             foreach ($schemas as $responseCode => $schema) {
                 if (!is_int($responseCode)) {
-                    throw new \InvalidArgumentException($responseCode . ' is not an integer');
+                    throw new \InvalidArgumentException($responseCode.' is not an integer');
                 }
 
                 if (!is_string($schema)) {
-                    throw new \InvalidArgumentException($schema . ' is not a string');
+                    throw new \InvalidArgumentException($schema.' is not a string');
                 }
 
                 $this->schemas[$format][$responseCode] = $schema;
