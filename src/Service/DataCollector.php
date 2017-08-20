@@ -101,6 +101,9 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
         return array_key_exists('validation_result', $this->data);
     }
 
+    /**
+     * @return ValidationViolation[]
+     */
     public function getValidationErrors(): array
     {
         if (!$this->responseWasChecked()) {

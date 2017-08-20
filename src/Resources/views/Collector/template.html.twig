@@ -17,7 +17,7 @@
             {% include('@SpiechuSymfonyCommons/Collector/_icon_definition.html.twig') %}
         </svg>
         {% if collector.responseWasChecked %}
-            <span class="sf-toolbar-status sf-toolbar-status-green">checked</span>
+            <span class="sf-toolbar-status{% if collector.validationErrors is empty %} sf-toolbar-status-green{% else %} sf-toolbar-status-red{% endif %}">checked</span>
         {% else %}
             <span class="sf-toolbar-status">not checked</span>
         {% endif %}
@@ -46,7 +46,7 @@
 {% endblock %}
 
 {% block menu %}
-    <span class="label{% if collector.validationErrors %} label-status-error{% endif %}">
+    <span class="label{% if collector.validationErrors %} label-status-error{% endif %}{% if collector.knownResponseSchemas is empty %} disabled{% endif %}">
     <span class="icon">
         <svg
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -119,12 +119,15 @@
                     <td>{{ value }}</td>
                 </tr>
             {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="3" style="text-align: center;font-style: italic">none</td>
+            </tr>
         {% endfor %}
         </tbody>
     </table>
 
     <h2>Global endpoints</h2>
-
     <table>
         <thead>
         <tr>
@@ -163,6 +166,10 @@
                     </tr>
                 {% endfor %}
             {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center;font-style: italic">none</td>
+            </tr>
         {% endfor %}
         </tbody>
     </table>
