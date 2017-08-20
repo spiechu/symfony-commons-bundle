@@ -1,8 +1,8 @@
 # Symfony Commons Bundle
 
-| Travis |
-|:------:|
-| [![Build Status](https://travis-ci.org/spiechu/symfony-commons-bundle.svg?branch=master)](https://travis-ci.org/spiechu/symfony-commons-bundle) |
+| Travis | StyleCI |
+|:------:|:-------:|
+| [![Build Status](https://travis-ci.org/spiechu/symfony-commons-bundle.svg?branch=master)](https://travis-ci.org/spiechu/symfony-commons-bundle) | [![StyleCI](https://styleci.io/repos/99513444/shield?style=flat)](https://styleci.io/repos/99513444)
 
 ## Intro
 

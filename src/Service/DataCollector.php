@@ -129,14 +129,14 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
             $controllerObject = $this->container->get($controllerService);
             $reflectedMethod = new \ReflectionMethod($controllerObject, ltrim($controllerMethod, ':'));
 
-            $annotation = $this->reader->getMethodAnnotation($reflectedMethod, ResponseSchemaValidator::class);
+            $methodAnnotation = $this->reader->getMethodAnnotation($reflectedMethod, ResponseSchemaValidator::class);
 
-            if ($annotation) {
+            if ($methodAnnotation instanceof ResponseSchemaValidator) {
                 $this->data['global_response_schemas'][] = [
                     'path' => $route->getPath(),
                     'name' => $name,
                     'controller' => $defaults['_controller'],
-                    'response_schemas' => $annotation->getSchemas(),
+                    'response_schemas' => $methodAnnotation->getSchemas(),
                 ];
             }
         }
