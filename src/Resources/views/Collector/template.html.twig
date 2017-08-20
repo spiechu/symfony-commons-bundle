@@ -46,7 +46,7 @@
 {% endblock %}
 
 {% block menu %}
-    <span class="label">
+    <span class="label{% if collector.validationErrors %} label-status-error{% endif %}">
     <span class="icon">
         <svg
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -64,6 +64,11 @@
         </svg>
     </span>
     <strong>Sf Commons</strong>
+        {% if collector.validationErrors %}
+            <span class="count">
+                <span>{{ collector.validationErrors|length }}</span>
+            </span>
+        {% endif %}
     </span>
 {% endblock %}
 
