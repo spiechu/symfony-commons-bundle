@@ -74,6 +74,7 @@
 
 {% block panel %}
     {% if collector.responseWasChecked %}
+        <h2>Schema violations</h2>
         <table>
             <thead>
             <tr>
@@ -92,12 +93,16 @@
                     <td>{{ validationError.property }}</td>
                     <td>{{ validationError.message }}</td>
                 </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2" style="text-align: center;font-style: italic">none</td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>
     {% endif %}
 
-    <h2>Known response schemas for current endpoint</h2>
+    <h2>Response schemas for current endpoint</h2>
     <table>
         <thead>
         <tr>
@@ -127,7 +132,8 @@
         </tbody>
     </table>
 
-    <h2>Global endpoints</h2>
+    <h2>Global response schemas</h2>
+
     <table>
         <thead>
         <tr>
