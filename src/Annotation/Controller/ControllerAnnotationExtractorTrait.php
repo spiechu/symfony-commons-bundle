@@ -12,7 +12,7 @@ trait ControllerAnnotationExtractorTrait
 
     /**
      * @param callable|null $controller
-     * @param string $annotationClass
+     * @param string        $annotationClass
      *
      * @return null|object
      */
@@ -30,7 +30,7 @@ trait ControllerAnnotationExtractorTrait
 
     /**
      * @param callable|null $controller
-     * @param string $annotationClass
+     * @param string        $annotationClass
      *
      * @return object|null
      */
