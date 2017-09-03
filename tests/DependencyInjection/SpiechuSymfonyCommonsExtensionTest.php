@@ -24,6 +24,20 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
      */
     protected $extension;
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->container = new ContainerBuilder();
+
+        $this->container->setParameter('kernel.debug', false);
+
+        $this->extension = new SpiechuSymfonyCommonsExtension();
+    }
+
     public function testNoListenersSetUpOnDefaultConfiguration()
     {
         $config = [
@@ -143,19 +157,5 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.failed_schema_check_listener');
         self::assertFalse($listenerDefinition->isPublic());
         self::assertEmpty($listenerDefinition->getTags());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->container = new ContainerBuilder();
-
-        $this->container->setParameter('kernel.debug', false);
-
-        $this->extension = new SpiechuSymfonyCommonsExtension();
     }
 }

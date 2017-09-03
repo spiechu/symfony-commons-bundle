@@ -11,7 +11,7 @@ trait ControllerAnnotationExtractorTrait
     abstract protected function getAnnotationReader(): Reader;
 
     /**
-     * @param callable|null $controller
+     * @param null|callable $controller
      * @param string        $annotationClass
      *
      * @return null|object
@@ -29,10 +29,10 @@ trait ControllerAnnotationExtractorTrait
     }
 
     /**
-     * @param callable|null $controller
+     * @param null|callable $controller
      * @param string        $annotationClass
      *
-     * @return object|null
+     * @return null|object
      */
     protected function getMethodAnnotationFromController(callable $controller = null, string $annotationClass)
     {
@@ -48,9 +48,9 @@ trait ControllerAnnotationExtractorTrait
     }
 
     /**
-     * @param callable|null $controller
+     * @param null|callable $controller
      *
-     * @return object|null
+     * @return null|object
      */
     protected function getObjectToReflect(callable $controller = null)
     {

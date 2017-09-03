@@ -12,19 +12,24 @@ class ValidationViolation
     protected $message;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     protected $property;
-
-    public static function create(string $message, ?string $property = null): self
-    {
-        return new static($message, $property);
-    }
 
     protected function __construct(string $message, ?string $property = null)
     {
         $this->message = $message;
         $this->property = $property;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s %s', $this->property ? ($this->property.': ') : '', $this->message);
+    }
+
+    public static function create(string $message, ?string $property = null): self
+    {
+        return new static($message, $property);
     }
 
     public function getMessage(): string
@@ -35,10 +40,5 @@ class ValidationViolation
     public function getProperty(): ?string
     {
         return $this->property;
-    }
-
-    public function __toString(): string
-    {
-        return sprintf('%s %s', $this->property ? ($this->property.': ') : '', $this->message);
     }
 }

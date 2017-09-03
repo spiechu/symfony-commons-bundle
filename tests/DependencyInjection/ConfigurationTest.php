@@ -19,17 +19,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     protected $processor;
 
-    public function testConfigurationLoadsProperlyOnEmptyConfig(): void
-    {
-        $config = $this->processor->processConfiguration(
-            $this->configuration,
-            []
-        );
-
-        self::assertNotEmpty($config['get_method_override']);
-        self::assertNotEmpty($config['response_schema_validation']);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -39,5 +28,16 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
         $this->configuration = new Configuration();
         $this->processor = new Processor();
+    }
+
+    public function testConfigurationLoadsProperlyOnEmptyConfig(): void
+    {
+        $config = $this->processor->processConfiguration(
+            $this->configuration,
+            []
+        );
+
+        self::assertNotEmpty($config['get_method_override']);
+        self::assertNotEmpty($config['response_schema_validation']);
     }
 }

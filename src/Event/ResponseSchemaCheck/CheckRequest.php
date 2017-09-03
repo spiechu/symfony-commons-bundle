@@ -25,7 +25,7 @@ class CheckRequest extends Event
     protected $responseSchemaLocation;
 
     /**
-     * @var ValidationResult|null
+     * @var null|ValidationResult
      */
     protected $validationResult;
 
