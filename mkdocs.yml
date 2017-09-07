@@ -6,4 +6,4 @@ repo_name: 'GitHub'
 docs_dir: ''
 theme: readthedocs
 pages:
-  - Home: README.md
+  - Index: README.md
