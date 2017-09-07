@@ -1,1 +1,6 @@
+site_name: 'Symfony Commons Bundle'
+site_description: 'Symfony Commons Bundle.'
+site_author: 'Dawid Spiechowicz'
+repo_url: 'https://github.com/spiechu/symfony-commons-bundle'
+repo_name: 'GitHub'
 docs_dir: 'src/Resources/doc'
