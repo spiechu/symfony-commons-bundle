@@ -3,5 +3,7 @@ site_description: 'Symfony Commons Bundle.'
 site_author: 'Dawid Spiechowicz'
 repo_url: 'https://github.com/spiechu/symfony-commons-bundle'
 repo_name: 'GitHub'
-docs_dir: '/src/Resources/doc'
+docs_dir: ''
 theme: readthedocs
+pages:
+  - Home: README.md
