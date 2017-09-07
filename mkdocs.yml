@@ -4,3 +4,6 @@ site_author: 'Dawid Spiechowicz'
 repo_url: 'https://github.com/spiechu/symfony-commons-bundle'
 repo_name: 'GitHub'
 docs_dir: 'src/Resources/doc'
+theme: readthedocs
+pages:
+  - Configuration reference: configuration_reference.md
