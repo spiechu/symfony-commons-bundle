@@ -10,6 +10,7 @@ use Spiechu\SymfonyCommonsBundle\EventListener\GetMethodOverrideListener;
 use Spiechu\SymfonyCommonsBundle\EventListener\JsonCheckSchemaSubscriber;
 use Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener;
 use Spiechu\SymfonyCommonsBundle\EventListener\ResponseSchemaValidatorListener;
+use Spiechu\SymfonyCommonsBundle\Service\DataCollector;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
@@ -25,6 +26,11 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
     protected $extension;
 
     /**
+     * @var bool
+     */
+    protected $kernelDebug = false;
+
+    /**
      * {@inheritdoc}
      */
     protected function setUp()
@@ -33,7 +39,7 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $this->container = new ContainerBuilder();
 
-        $this->container->setParameter('kernel.debug', false);
+        $this->container->setParameter('kernel.debug', $this->kernelDebug);
 
         $this->extension = new SpiechuSymfonyCommonsExtension();
     }
@@ -157,5 +163,26 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.failed_schema_check_listener');
         self::assertFalse($listenerDefinition->isPublic());
         self::assertEmpty($listenerDefinition->getTags());
+    }
+
+    public function testDataCollectorWillBePresentWhenDebug()
+    {
+        $config = [
+            'spiechu_symfony_commons' => [],
+        ];
+
+        $this->extension->load($config, $this->container);
+        self::assertFalse($this->container->hasDefinition('spiechu_symfony_commons.service.data_collector'));
+
+        $this->kernelDebug = true;
+        $this->setUp();
+        $this->extension->load($config, $this->container);
+
+        $definition = $this->container->getDefinition('spiechu_symfony_commons.service.data_collector');
+        self::assertSame(DataCollector::class, $definition->getClass());
+
+        $tags = $definition->getTags();
+        self::assertArrayHasKey('kernel.event_subscriber', $tags);
+        self::assertArrayHasKey('data_collector', $tags);
     }
 }
