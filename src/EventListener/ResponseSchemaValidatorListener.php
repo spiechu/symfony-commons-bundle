@@ -10,6 +10,8 @@ use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Events;
 use Spiechu\SymfonyCommonsBundle\Service\ValidationResult;
 use Spiechu\SymfonyCommonsBundle\Utils\ArrayUtils;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 class ResponseSchemaValidatorListener
@@ -37,41 +39,64 @@ class ResponseSchemaValidatorListener
         }
 
         $request = $filterResponseEvent->getRequest();
+        $responseSchemas = $this->getResponseSchemas($request);
+
+        if (empty($responseSchemas)) {
+            return;
+        }
+
+        $response = $filterResponseEvent->getResponse();
+        $format = $this->getFormat($request, $response);
+
+        if (null === $format || empty($responseSchemas[$format])) {
+            return;
+        }
+
+        $responseStatusCode = $response->getStatusCode();
+
+        if (!array_key_exists($responseStatusCode, $responseSchemas[$format])) {
+            return;
+        }
+
+        $content = $response->getContent();
+        $validationResult = $this->dispatchCheckSchemaRequest($format, $content, $responseSchemas[$format][$responseStatusCode]);
+
+        $this->eventDispatcher->dispatch(
+            Events::CHECK_RESULT,
+            new CheckResult($format, $content, $validationResult)
+        );
+    }
+
+    protected function getResponseSchemas(Request $request): array
+    {
         $responseSchemas = $request->attributes->get(
             RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS,
             []
         );
 
         if (empty($responseSchemas) || empty(ArrayUtils::flatArrayRecursive($responseSchemas))) {
-            return;
+            return [];
         }
 
-        $response = $filterResponseEvent->getResponse();
+        return $responseSchemas;
+    }
+
+    /**
+     * @throws \RuntimeException When not able to determine response format on $this->throwExceptionWhenFormatNotFound flag true
+     */
+    protected function getFormat(Request $request, Response $response): ?string
+    {
         $format = $request->getFormat($response->headers->get('content_type'));
 
-        if (null === $format) {
-            if ($this->throwExceptionWhenFormatNotFound) {
-                throw new \RuntimeException('Not able to determine response format');
-            }
-
-            return;
+        if (null !== $format) {
+            return strtolower($format);
         }
 
-        $format = strtolower($format);
-
-        if (empty($responseSchemas[$format])) {
-            return;
+        if ($this->throwExceptionWhenFormatNotFound) {
+            throw new \RuntimeException('Not able to determine response format');
         }
 
-        if (array_key_exists($responseStatusCode = $response->getStatusCode(), $responseSchemas[$format])) {
-            $content = $response->getContent();
-            $validationResult = $this->dispatchCheckSchemaRequest($format, $content, $responseSchemas[$format][$responseStatusCode]);
-
-            $this->eventDispatcher->dispatch(
-                Events::CHECK_RESULT,
-                new CheckResult($format, $content, $validationResult)
-            );
-        }
+        return null;
     }
 
     /**
