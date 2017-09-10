@@ -37,25 +37,30 @@ class ResponseSchemaValidator
                 throw new \InvalidArgumentException($schemas.' is not an array');
             }
 
-            $format = strtolower($format);
-            $this->schemas[$format] = [];
-
-            foreach ($schemas as $responseCode => $schema) {
-                if (!is_int($responseCode)) {
-                    throw new \InvalidArgumentException($responseCode.' is not an integer');
-                }
-
-                if (!is_string($schema)) {
-                    throw new \InvalidArgumentException($schema.' is not a string');
-                }
-
-                $this->schemas[$format][$responseCode] = $schema;
-            }
+            $this->loadFormatSchemas($format, $schemas);
         }
     }
 
     public function getSchemas(): array
     {
         return $this->schemas;
+    }
+
+    protected function loadFormatSchemas(string $format, array $schemas): void
+    {
+        $format = strtolower($format);
+        $this->schemas[$format] = [];
+
+        foreach ($schemas as $responseCode => $schema) {
+            if (!is_int($responseCode)) {
+                throw new \InvalidArgumentException($responseCode.' is not an integer');
+            }
+
+            if (!is_string($schema)) {
+                throw new \InvalidArgumentException($schema.' is not a string');
+            }
+
+            $this->schemas[$format][$responseCode] = $schema;
+        }
     }
 }
