@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Spiechu\SymfonyCommonsBundle\EventListener;
 
+use Spiechu\SymfonyCommonsBundle\Utils\AssertUtils;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class GetMethodOverrideListener
@@ -25,6 +26,12 @@ class GetMethodOverrideListener
     public function __construct(string $queryParamName, array $methodsToOverride)
     {
         $this->queryParamName = $queryParamName;
+
+        assert(
+            empty(AssertUtils::getNonStrings($methodsToOverride)),
+            'contains non string elements'
+        );
+
         $this->methodsToOverride = $methodsToOverride;
     }
 
