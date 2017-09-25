@@ -41,24 +41,8 @@ class ResponseSchemaValidatorListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testHappyFlow()
     {
-        $request = Request::create('/');
-        $response = Response::create('fancy content');
+        $filterResponseEvent = $this->createCorrectFilterResponseEvent();
         $validationResult = new ValidationResult();
-
-        $filterResponseEvent = new FilterResponseEvent(
-            $this->getMockBuilder(HttpKernelInterface::class)->getMock(),
-            $request,
-            HttpKernelInterface::MASTER_REQUEST,
-            $response
-        );
-
-        $request->attributes->set(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS, [
-            'json' => [
-                200 => 'my-fancy-validator',
-            ],
-        ]);
-
-        $response->headers->set('content_type', 'application/json');
 
         $this->eventDispatcherMock
             ->expects($this->once())
@@ -205,6 +189,38 @@ class ResponseSchemaValidatorListenerTest extends \PHPUnit_Framework_TestCase
         $this->testedListener->onKernelResponse($filterResponseEvent);
     }
 
+    public function testListenerWillThrowExceptionWhenNoSchemaListenerPresent()
+    {
+        $filterResponseEvent = $this->createCorrectFilterResponseEvent();
+
+        $this->eventDispatcherMock
+            ->expects($this->once())
+            ->method('hasListeners')
+            ->with('spiechu_symfony_commons.event.response_schema_check.check_schema_json')
+            ->willReturn(false);
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageRegExp('/no listener.{1,}spiechu_symfony_commons.event.response_schema_check.check_schema_json/i');
+
+        $this->testedListener->onKernelResponse($filterResponseEvent);
+    }
+
+    public function testListenerWillThrowExceptionWhenNoListenerCheckedRequest()
+    {
+        $filterResponseEvent = $this->createCorrectFilterResponseEvent();
+
+        $this->eventDispatcherMock
+            ->expects($this->once())
+            ->method('hasListeners')
+            ->with('spiechu_symfony_commons.event.response_schema_check.check_schema_json')
+            ->willReturn(true);
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageRegExp('/no listener.{1,}format.{1,}json/i');
+
+        $this->testedListener->onKernelResponse($filterResponseEvent);
+    }
+
     public function responseSchemasProvider(): array
     {
         return [
@@ -258,5 +274,28 @@ class ResponseSchemaValidatorListenerTest extends \PHPUnit_Framework_TestCase
                 'unknown/format',
             ],
         ];
+    }
+
+    protected function createCorrectFilterResponseEvent(): FilterResponseEvent
+    {
+        $request = Request::create('/');
+        $response = Response::create('fancy content');
+
+        $filterResponseEvent = new FilterResponseEvent(
+            $this->getMockBuilder(HttpKernelInterface::class)->getMock(),
+            $request,
+            HttpKernelInterface::MASTER_REQUEST,
+            $response
+        );
+
+        $request->attributes->set(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS, [
+            'json' => [
+                200 => 'my-fancy-validator',
+            ],
+        ]);
+
+        $response->headers->set('content_type', 'application/json');
+
+        return $filterResponseEvent;
     }
 }
