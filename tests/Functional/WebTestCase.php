@@ -10,12 +10,22 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class WebTestCase extends BaseWebTestCase
 {
+    public static function setUpBeforeClass()
+    {
+        static::deleteTmpDir();
+    }
+
+    public static function tearDownAfterClass()
+    {
+        static::deleteTmpDir();
+    }
+
     /**
      * {@inheritdoc}
      */
     protected static function getKernelClass(): string
     {
-        require_once __DIR__ . '/app/AppKernel.php';
+        require_once __DIR__.'/app/AppKernel.php';
 
         return AppKernel::class;
     }
@@ -23,7 +33,7 @@ class WebTestCase extends BaseWebTestCase
     /**
      * {@inheritdoc}
      */
-    protected static function createKernel(array $options = array()): AppKernel
+    protected static function createKernel(array $options = []): AppKernel
     {
         $class = self::getKernelClass();
 
@@ -35,24 +45,14 @@ class WebTestCase extends BaseWebTestCase
             static::getVarDir(),
             $options['test_case'],
             $options['root_config'] ?? 'config.yml',
-            $options['environment'] ?? strtolower(static::getVarDir() . $options['test_case']),
+            $options['environment'] ?? strtolower(static::getVarDir().$options['test_case']),
             $options['debug'] ?? true
         );
     }
 
-    public static function setUpBeforeClass()
-    {
-        static::deleteTmpDir();
-    }
-
-    public static function tearDownAfterClass()
-    {
-        static::deleteTmpDir();
-    }
-
     protected static function deleteTmpDir()
     {
-        if (!file_exists($dir = sys_get_temp_dir() . '/' . static::getVarDir())) {
+        if (!file_exists($dir = sys_get_temp_dir().'/'.static::getVarDir())) {
             return;
         }
 
@@ -62,6 +62,6 @@ class WebTestCase extends BaseWebTestCase
 
     protected static function getVarDir(): string
     {
-        return 'SC' . substr(strrchr(static::class, '\\'), 1);
+        return 'SC'.substr(strrchr(static::class, '\\'), 1);
     }
 }
