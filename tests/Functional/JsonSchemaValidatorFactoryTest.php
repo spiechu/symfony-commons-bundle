@@ -27,8 +27,25 @@ class JsonSchemaValidatorFactoryTest extends WebTestCase
         $this->jsonSchemaValidatorFactory = $kernel->getContainer()->get('spiechu_symfony_commons.service.public_json_schema_validator_factory');
     }
 
-    public function testMe()
+    public function testValidationResult()
     {
-        $this->jsonSchemaValidatorFactory->registerSchema('test1', '3');
+        $this->jsonSchemaValidatorFactory->registerSchema(
+            'json-simple',
+            __DIR__ . '/app/PublicJsonSchemaValidatorFactory/json_schema/simple.json'
+        );
+
+        $validator = $this->jsonSchemaValidatorFactory->getValidator('json-simple');
+
+        $validationResult = $validator->validate(json_encode([
+            'id' => 'abc',
+        ]));
+
+        self::assertTrue($validationResult->isValid());
+
+        $validationResult = $validator->validate(json_encode([
+            'unknown' => 'abc',
+        ]));
+
+        self::assertFalse($validationResult->isValid());
     }
 }

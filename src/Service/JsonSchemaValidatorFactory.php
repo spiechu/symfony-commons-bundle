@@ -7,23 +7,24 @@ namespace Spiechu\SymfonyCommonsBundle\Service;
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
-use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
+use Symfony\Component\Config\FileLocatorInterface;
 
 class JsonSchemaValidatorFactory
 {
     /**
-     * @var KernelInterface
+     * @var FileLocatorInterface
      */
-    protected $kernel;
+    protected $fileLocator;
 
     /**
      * @var array
      */
     protected $registeredSchemas;
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct(FileLocatorInterface $fileLocator)
     {
-        $this->kernel = $kernel;
+        $this->fileLocator = $fileLocator;
         $this->registeredSchemas = [];
     }
 
@@ -47,6 +48,7 @@ class JsonSchemaValidatorFactory
     }
 
     /**
+     * @throws FileLocatorFileNotFoundException
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
@@ -64,12 +66,12 @@ class JsonSchemaValidatorFactory
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws FileLocatorFileNotFoundException
      * @throws \InvalidArgumentException
      */
     protected function createSchema(string $id): \stdClass
     {
-        $mainSchemaFilePath = $this->kernel->locateResource($this->registeredSchemas[$id]);
+        $mainSchemaFilePath = $this->fileLocator->locate($this->registeredSchemas[$id]);
         $schemaUri = basename($mainSchemaFilePath);
         $schemaBaseUri = sprintf('file://%s/%s', dirname($mainSchemaFilePath), $schemaUri);
 

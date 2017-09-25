@@ -46,7 +46,7 @@
                  public="false"
                  lazy="true"
         >
-            <argument type="service" id="kernel"/>
+            <argument type="service" id="file_locator"/>
         </service>
 
     </services>
