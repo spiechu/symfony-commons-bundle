@@ -6,6 +6,7 @@ namespace Spiechu\SymfonyCommonsBundle\Test\Functional;
 
 use Spiechu\SymfonyCommonsBundle\Test\Functional\app\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
+use Symfony\Component\Filesystem\Filesystem;
 
 class WebTestCase extends BaseWebTestCase
 {
@@ -39,6 +40,25 @@ class WebTestCase extends BaseWebTestCase
         );
     }
 
+    public static function setUpBeforeClass()
+    {
+        static::deleteTmpDir();
+    }
+
+    public static function tearDownAfterClass()
+    {
+        static::deleteTmpDir();
+    }
+
+    protected static function deleteTmpDir()
+    {
+        if (!file_exists($dir = sys_get_temp_dir() . '/' . static::getVarDir())) {
+            return;
+        }
+
+        $fs = new Filesystem();
+        $fs->remove($dir);
+    }
 
     protected static function getVarDir(): string
     {
