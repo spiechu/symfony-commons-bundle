@@ -31,7 +31,7 @@ class JsonSchemaValidatorFactoryTest extends WebTestCase
     {
         $this->jsonSchemaValidatorFactory->registerSchema(
             'json-simple',
-            __DIR__ . '/app/PublicJsonSchemaValidatorFactory/json_schema/simple.json'
+            __DIR__.'/app/PublicJsonSchemaValidatorFactory/json_schema/simple.json'
         );
 
         $validator = $this->jsonSchemaValidatorFactory->getValidator('json-simple');
