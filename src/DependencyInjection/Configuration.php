@@ -5,6 +5,7 @@ namespace Spiechu\SymfonyCommonsBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class Configuration implements ConfigurationInterface
 {
@@ -26,7 +27,12 @@ class Configuration implements ConfigurationInterface
 
     protected function addGetMethodOverride(ArrayNodeDefinition $rootNode): void
     {
-        $overridableHttpMethods = ['PUT', 'DELETE'];
+        $overridableHttpMethods = $this->getOverridableHttpMethods();
+        $defaultOverridedHttpMethods = [
+            Request::METHOD_DELETE,
+            Request::METHOD_POST,
+            Request::METHOD_PUT,
+        ];
 
         $rootNode
             ->children()
@@ -52,7 +58,7 @@ class Configuration implements ConfigurationInterface
                             ->beforeNormalization()
                                 ->ifString()->castToArray()
                             ->end()
-                            ->defaultValue($overridableHttpMethods)
+                            ->defaultValue($defaultOverridedHttpMethods)
                             ->prototype('scalar')
                                 ->validate()
                                     ->ifNotInArray($overridableHttpMethods)
@@ -92,5 +98,23 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
         ->end();
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getOverridableHttpMethods(): array
+    {
+        return [
+            Request::METHOD_CONNECT,
+            Request::METHOD_DELETE,
+            Request::METHOD_HEAD,
+            Request::METHOD_OPTIONS,
+            Request::METHOD_PATCH,
+            Request::METHOD_POST,
+            Request::METHOD_PURGE,
+            Request::METHOD_TRACE,
+            Request::METHOD_PUT,
+        ];
     }
 }
