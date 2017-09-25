@@ -1,0 +1,11 @@
+imports:
+    - { resource: ../default/config.yml }
+
+framework:
+    profiler:
+        enabled: true
+        collect: true
+
+spiechu_symfony_commons:
+    response_schema_validation:
+        enabled: true

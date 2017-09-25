@@ -18,7 +18,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 class DataCollector extends BaseDataCollector implements EventSubscriberInterface
 {
-    protected const DATA_COLLECTOR_NAME = 'spiechu_symfony_commons.data_collector';
+    const COLLECTOR_NAME = 'spiechu_symfony_commons.data_collector';
 
     /**
      * @var RouterInterface
@@ -59,7 +59,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function getName(): string
     {
-        return static::DATA_COLLECTOR_NAME;
+        return static::COLLECTOR_NAME;
     }
 
     public function getGlobalResponseSchemas(): array
@@ -143,9 +143,13 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
 
     protected function extractControllerResponseValidator(string $controllerDefinition): ?ResponseSchemaValidator
     {
-        [$controllerService, $controllerMethod] = explode(':', $controllerDefinition, 2);
+        [$controllerDefinition, $controllerMethod] = explode(':', $controllerDefinition, 2);
 
-        $reflectedMethod = new \ReflectionMethod($this->container->get($controllerService), ltrim($controllerMethod, ':'));
+        $controllerClass = $this->container->has($controllerDefinition)
+            ? $this->container->get($controllerDefinition)
+            : $controllerDefinition;
+
+        $reflectedMethod = new \ReflectionMethod($controllerClass, ltrim($controllerMethod, ':'));
 
         return $this->reader->getMethodAnnotation($reflectedMethod, ResponseSchemaValidator::class);
     }
