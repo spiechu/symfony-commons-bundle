@@ -41,7 +41,7 @@ class ResponseSchemaValidatorListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testHappyFlow()
     {
-        $request = Request::create('/?testparam=a');
+        $request = Request::create('/');
         $response = Response::create('fancy content');
         $validationResult = new ValidationResult();
 
@@ -85,5 +85,178 @@ class ResponseSchemaValidatorListenerTest extends \PHPUnit_Framework_TestCase
             }));
 
         $this->testedListener->onKernelResponse($filterResponseEvent);
+    }
+
+    public function testListenerWontTriggerOnNonMasterRequest()
+    {
+        $request = Request::create('/');
+        $response = Response::create('fancy content');
+
+        $filterResponseEvent = new FilterResponseEvent(
+            $this->getMockBuilder(HttpKernelInterface::class)->getMock(),
+            $request,
+            HttpKernelInterface::SUB_REQUEST,
+            $response
+        );
+
+        $request->attributes->set(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS, [
+            'json' => [
+                200 => 'my-fancy-validator',
+            ],
+        ]);
+
+        $response->headers->set('content_type', 'application/json');
+
+        $this->eventDispatcherMock
+            ->expects($this->never())
+            ->method('dispatch');
+
+        $this->testedListener->onKernelResponse($filterResponseEvent);
+    }
+
+    /**
+     * @dataProvider responseSchemasProvider
+     */
+    public function testListenerWontTriggerWhenSchemaNotFound(array $responseSchemas)
+    {
+        $request = Request::create('/');
+        $response = Response::create('fancy content');
+
+        $filterResponseEvent = new FilterResponseEvent(
+            $this->getMockBuilder(HttpKernelInterface::class)->getMock(),
+            $request,
+            HttpKernelInterface::MASTER_REQUEST,
+            $response
+        );
+
+        $request->attributes->set(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS, $responseSchemas);
+
+        $response->headers->set('content_type', 'application/json');
+
+        $this->eventDispatcherMock
+            ->expects($this->never())
+            ->method('dispatch');
+
+        $this->testedListener->onKernelResponse($filterResponseEvent);
+    }
+
+    /**
+     * @dataProvider badContentTypeHeaderValueProvider
+     *
+     * @param mixed $contentTypeHeaderValue
+     */
+    public function testListenerWillThrowExceptionWhenUndeterminedFormat($contentTypeHeaderValue)
+    {
+        $request = Request::create('/');
+        $response = Response::create('fancy content');
+
+        $filterResponseEvent = new FilterResponseEvent(
+            $this->getMockBuilder(HttpKernelInterface::class)->getMock(),
+            $request,
+            HttpKernelInterface::MASTER_REQUEST,
+            $response
+        );
+
+        $request->attributes->set(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS, [
+            'json' => [
+                200 => 'my-fancy-validator',
+            ],
+        ]);
+
+        $response->headers->set('content_type', $contentTypeHeaderValue);
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessageRegExp('/response format/i');
+
+        $this->testedListener->onKernelResponse($filterResponseEvent);
+    }
+
+    /**
+     * @dataProvider badContentTypeHeaderValueProvider
+     *
+     * @param mixed $contentTypeHeaderValue
+     */
+    public function testListenerWillSilentlyIgnoreWhenUndeterminedFormatOnFlag($contentTypeHeaderValue)
+    {
+        $this->testedListener = new ResponseSchemaValidatorListener($this->eventDispatcherMock, false);
+
+        $request = Request::create('/');
+        $response = Response::create('fancy content');
+
+        $filterResponseEvent = new FilterResponseEvent(
+            $this->getMockBuilder(HttpKernelInterface::class)->getMock(),
+            $request,
+            HttpKernelInterface::MASTER_REQUEST,
+            $response
+        );
+
+        $request->attributes->set(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS, [
+            'json' => [
+                200 => 'my-fancy-validator',
+            ],
+        ]);
+
+        $response->headers->set('content_type', $contentTypeHeaderValue);
+
+        $this->eventDispatcherMock
+            ->expects($this->never())
+            ->method('dispatch');
+
+        $this->testedListener->onKernelResponse($filterResponseEvent);
+    }
+
+    public function responseSchemasProvider(): array
+    {
+        return [
+            [
+                [],
+            ],
+            [
+                [
+                    [],
+                ],
+            ],
+            [
+                [
+                    'xml' => [
+                        200 => 'my-fancy-validator',
+                    ],
+                ],
+            ],
+            [
+                [
+                    'json' => [
+                        400 => 'my-fancy-validator',
+                    ],
+                ],
+            ],
+            [
+                [
+                    'xml' => [
+                        201 => 'my-fancy-xml-validator',
+                        202 => 'my-fancy-xml-validator',
+                    ],
+                    'json' => [
+                        401 => 'my-fancy-json-validator',
+                        402 => 'my-fancy-json-validator',
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    public function badContentTypeHeaderValueProvider(): array
+    {
+        return [
+            [
+                null,
+            ],
+            [
+                '',
+            ],
+            [
+                'unknown/format',
+            ],
+        ];
     }
 }
