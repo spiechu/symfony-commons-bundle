@@ -6,8 +6,9 @@ spiechu_symfony_commons:
     listener_service_id: spiechu_symfony_commons.event_listener.get_method_override_listener
     query_param_name: _method
     allow_methods_override:
-      - PUT
       - DELETE
+      - POST
+      - PUT
   response_schema_validation:
     enabled: false
     throw_exception_when_format_not_found: true
