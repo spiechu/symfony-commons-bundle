@@ -14,7 +14,7 @@ class SchemaValidationTest extends WebTestCase
             'test_case' => 'TestBundleIncluded',
         ]);
 
-        $client->request('GET', '/annotated/simple-json?id=123');
+        $client->request('GET', '/schema-annotated/simple-json?id=123');
 
         self::assertSame(['id' => '123'], json_decode($client->getResponse()->getContent(), true));
 

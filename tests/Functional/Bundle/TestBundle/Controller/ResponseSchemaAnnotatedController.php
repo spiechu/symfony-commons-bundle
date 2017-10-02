@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class AnnotatedController extends Controller
+class ResponseSchemaAnnotatedController extends Controller
 {
     /**
      * @Route("/simple-json", name="simple_json")

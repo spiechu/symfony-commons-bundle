@@ -1,4 +1,9 @@
-annotated_controller:
-    prefix:   /annotated
-    resource: "@TestBundle/Controller/AnnotatedController.php"
+schema_annotated_controller:
+    prefix:   /schema-annotated
+    resource: "@TestBundle/Controller/ResponseSchemaAnnotatedController.php"
+    type:     annotation
+
+api_version_annotated_controller:
+    prefix:   /api-version-annotated
+    resource: "@TestBundle/Controller/ApiVersionAnnotatedController.php"
     type:     annotation
