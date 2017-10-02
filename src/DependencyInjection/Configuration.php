@@ -22,6 +22,7 @@ class Configuration implements ConfigurationInterface
 
         $this->addGetMethodOverride($rootNode);
         $this->addResponseSchemaValidation($rootNode);
+        $this->addApiVersionSupport($rootNode);
 
         return $treeBuilder;
     }
@@ -104,6 +105,24 @@ class Configuration implements ConfigurationInterface
                             ->defaultValue('spiechu_symfony_commons.event_listener.failed_schema_check_listener')
                         ->end()
                         ->booleanNode('disable_json_check_schema_subscriber')->defaultFalse()->end()
+                    ->end()
+                ->end()
+            ->end()
+        ->end();
+    }
+
+    /**
+     * @param ArrayNodeDefinition $rootNode
+     */
+    protected function addApiVersionSupport(ArrayNodeDefinition $rootNode): void
+    {
+        $rootNode
+            ->children()
+                ->arrayNode('api_versioning')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('enabled')->defaultFalse()->end()
+                        ->booleanNode('versioned_view_listener')->defaultFalse()->end()
                     ->end()
                 ->end()
             ->end()
