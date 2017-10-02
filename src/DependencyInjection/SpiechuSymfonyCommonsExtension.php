@@ -35,6 +35,13 @@ class SpiechuSymfonyCommonsExtension extends Extension
         }
     }
 
+    /**
+     * @param XmlFileLoader    $loader
+     * @param ContainerBuilder $container
+     * @param array            $options
+     *
+     * @throws \Exception
+     */
     protected function processGetMethodOverride(XmlFileLoader $loader, ContainerBuilder $container, array $options): void
     {
         if (!$options['enabled']) {
@@ -51,6 +58,13 @@ class SpiechuSymfonyCommonsExtension extends Extension
         $this->addOrReplaceDefinitionArgument($getMethodOverrideListenerDefinition, 1, $options['allow_methods_override']);
     }
 
+    /**
+     * @param XmlFileLoader    $loader
+     * @param ContainerBuilder $container
+     * @param array            $options
+     *
+     * @throws \Exception
+     */
     protected function processResponseSchemaValidation(XmlFileLoader $loader, ContainerBuilder $container, array $options): void
     {
         if (!$options['enabled']) {
@@ -74,6 +88,13 @@ class SpiechuSymfonyCommonsExtension extends Extension
         }
     }
 
+    /**
+     * @param Definition $definition
+     * @param int        $index
+     * @param $value
+     *
+     * @throws OutOfBoundsException
+     */
     protected function addOrReplaceDefinitionArgument(Definition $definition, int $index, $value): void
     {
         if (array_key_exists($index, $definition->getArguments())) {
@@ -83,6 +104,9 @@ class SpiechuSymfonyCommonsExtension extends Extension
         }
     }
 
+    /**
+     * @param Definition $definition
+     */
     protected function clearListenerTags(Definition $definition): void
     {
         $definition->clearTag('kernel.event_subscriber');

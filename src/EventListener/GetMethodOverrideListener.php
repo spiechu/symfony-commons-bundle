@@ -35,6 +35,9 @@ class GetMethodOverrideListener
         $this->methodsToOverride = $methodsToOverride;
     }
 
+    /**
+     * @param GetResponseEvent $getResponseEvent
+     */
     public function onKernelRequest(GetResponseEvent $getResponseEvent): void
     {
         if (!$getResponseEvent->isMasterRequest()) {

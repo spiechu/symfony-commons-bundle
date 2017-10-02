@@ -13,6 +13,7 @@ class Configuration implements ConfigurationInterface
      * {@inheritdoc}
      *
      * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
@@ -25,6 +26,12 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
+    /**
+     * @param ArrayNodeDefinition $rootNode
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     protected function addGetMethodOverride(ArrayNodeDefinition $rootNode): void
     {
         $overridableHttpMethods = $this->getOverridableHttpMethods();
@@ -81,6 +88,9 @@ class Configuration implements ConfigurationInterface
         ->end();
     }
 
+    /**
+     * @param ArrayNodeDefinition $rootNode
+     */
     protected function addResponseSchemaValidation(ArrayNodeDefinition $rootNode): void
     {
         $rootNode

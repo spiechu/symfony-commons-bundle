@@ -9,6 +9,8 @@ use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckResult;
 class FailedSchemaCheckListener
 {
     /**
+     * @param CheckResult $checkResult
+     *
      * @throws \RuntimeException
      */
     public function onCheckResult(CheckResult $checkResult): void

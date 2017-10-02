@@ -29,6 +29,11 @@ class CheckRequest extends Event
      */
     protected $validationResult;
 
+    /**
+     * @param string $format
+     * @param string $content
+     * @param string $responseSchemaLocation
+     */
     public function __construct(string $format, string $content, string $responseSchemaLocation)
     {
         $this->format = $format;
@@ -36,21 +41,35 @@ class CheckRequest extends Event
         $this->responseSchemaLocation = $responseSchemaLocation;
     }
 
+    /**
+     * @return string
+     */
     public function getFormat(): string
     {
         return $this->format;
     }
 
+    /**
+     * @return string
+     */
     public function getContent(): string
     {
         return $this->content;
     }
 
+    /**
+     * @return string
+     */
     public function getResponseSchemaLocation(): string
     {
         return $this->responseSchemaLocation;
     }
 
+    /**
+     * @param ValidationResult $validationResult
+     *
+     * @return CheckRequest
+     */
     public function setValidationResult(ValidationResult $validationResult): self
     {
         $this->validationResult = $validationResult;
@@ -58,6 +77,9 @@ class CheckRequest extends Event
         return $this;
     }
 
+    /**
+     * @return null|ValidationResult
+     */
     public function getValidationResult(): ?ValidationResult
     {
         return $this->validationResult;

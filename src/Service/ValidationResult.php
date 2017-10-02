@@ -11,6 +11,11 @@ class ValidationResult
      */
     protected $errors = [];
 
+    /**
+     * @param ValidationViolation $validationViolation
+     *
+     * @return ValidationResult
+     */
     public function addViolation(ValidationViolation $validationViolation): self
     {
         $this->errors[] = $validationViolation;
@@ -18,6 +23,9 @@ class ValidationResult
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function isValid(): bool
     {
         return !count($this->errors);

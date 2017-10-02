@@ -35,6 +35,11 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     protected $container;
 
+    /**
+     * @param RouterInterface $router
+     * @param Reader          $reader
+     * @param Container       $container
+     */
     public function __construct(RouterInterface $router, Reader $reader, Container $container)
     {
         $this->router = $router;
@@ -62,6 +67,9 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
         return static::COLLECTOR_NAME;
     }
 
+    /**
+     * @return array
+     */
     public function getGlobalResponseSchemas(): array
     {
         return $this->data['global_response_schemas'];
@@ -77,16 +85,25 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
         ];
     }
 
+    /**
+     * @param CheckResult $checkResult
+     */
     public function onCheckResult(CheckResult $checkResult): void
     {
         $this->data['validation_result'] = $checkResult->getValidationResult();
     }
 
+    /**
+     * @return array
+     */
     public function getKnownResponseSchemas(): array
     {
         return empty($this->data['known_response_schemas']) ? [] : $this->data['known_response_schemas'];
     }
 
+    /**
+     * @return int
+     */
     public function getKnownResponseSchemaNumber(): int
     {
         $counter = 0;
@@ -98,6 +115,9 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
         return $counter;
     }
 
+    /**
+     * @return bool
+     */
     public function responseWasChecked(): bool
     {
         return array_key_exists('validation_result', $this->data);
@@ -141,6 +161,13 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
         }
     }
 
+    /**
+     * @param string $controllerDefinition
+     *
+     * @throws \Exception
+     *
+     * @return null|ResponseSchemaValidator
+     */
     protected function extractControllerResponseValidator(string $controllerDefinition): ?ResponseSchemaValidator
     {
         [$controllerDefinition, $controllerMethod] = explode(':', $controllerDefinition, 2);

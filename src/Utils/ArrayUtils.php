@@ -6,6 +6,11 @@ namespace Spiechu\SymfonyCommonsBundle\Utils;
 
 class ArrayUtils
 {
+    /**
+     * @param null|array $array
+     *
+     * @return array
+     */
     public static function flatArrayRecursive(?array $array): array
     {
         if (empty($array)) {

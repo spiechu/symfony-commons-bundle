@@ -16,27 +16,46 @@ class ValidationViolation
      */
     protected $property;
 
+    /**
+     * @param string      $message
+     * @param null|string $property
+     */
     protected function __construct(string $message, ?string $property = null)
     {
         $this->message = $message;
         $this->property = $property;
     }
 
+    /**
+     * @return string
+     */
     public function __toString(): string
     {
         return sprintf('%s %s', $this->property ? ($this->property.': ') : '', $this->message);
     }
 
+    /**
+     * @param string      $message
+     * @param null|string $property
+     *
+     * @return ValidationViolation
+     */
     public static function create(string $message, ?string $property = null): self
     {
         return new static($message, $property);
     }
 
+    /**
+     * @return string
+     */
     public function getMessage(): string
     {
         return $this->message;
     }
 
+    /**
+     * @return null|string
+     */
     public function getProperty(): ?string
     {
         return $this->property;

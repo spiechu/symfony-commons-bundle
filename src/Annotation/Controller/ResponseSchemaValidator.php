@@ -41,11 +41,20 @@ class ResponseSchemaValidator
         }
     }
 
+    /**
+     * @return array
+     */
     public function getSchemas(): array
     {
         return $this->schemas;
     }
 
+    /**
+     * @param string $format
+     * @param array  $schemas
+     *
+     * @throws \InvalidArgumentException
+     */
     protected function loadFormatSchemas(string $format, array $schemas): void
     {
         $format = strtolower($format);

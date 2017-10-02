@@ -20,11 +20,17 @@ class RequestSchemaValidatorListener
      */
     protected $annotationReader;
 
+    /**
+     * @param Reader $annotationReader
+     */
     public function __construct(Reader $annotationReader)
     {
         $this->annotationReader = $annotationReader;
     }
 
+    /**
+     * @param FilterControllerEvent $event
+     */
     public function onKernelController(FilterControllerEvent $event): void
     {
         $responseSchemaValidator = $this->getResponseSchemaValidator($event->getController());
@@ -36,7 +42,12 @@ class RequestSchemaValidatorListener
         $event->getRequest()->attributes->set(self::ATTRIBUTE_RESPONSE_SCHEMAS, $responseSchemaValidator->getSchemas());
     }
 
-    protected function getResponseSchemaValidator(callable $controller = null): ?ResponseSchemaValidator
+    /**
+     * @param null|callable $controller
+     *
+     * @return null|ResponseSchemaValidator
+     */
+    protected function getResponseSchemaValidator(?callable $controller): ?ResponseSchemaValidator
     {
         return $this->getMethodAnnotationFromController($controller, ResponseSchemaValidator::class);
     }

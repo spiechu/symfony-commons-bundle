@@ -15,6 +15,11 @@ final class Events
 
     private const CHECK_SCHEMA_EVENT_NAME_PATTERN = 'spiechu_symfony_commons.event.response_schema_check.check_schema_%s';
 
+    /**
+     * @param string $format
+     *
+     * @return string
+     */
     public static function getCheckSchemaEventNameFor(string $format): string
     {
         StringUtils::assertNotEmpty($format);

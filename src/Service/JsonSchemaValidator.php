@@ -18,12 +18,21 @@ class JsonSchemaValidator
      */
     protected $validator;
 
+    /**
+     * @param \stdClass $schema
+     * @param Validator $validator
+     */
     public function __construct(\stdClass $schema, Validator $validator)
     {
         $this->schema = $schema;
         $this->validator = $validator;
     }
 
+    /**
+     * @param string $jsonString
+     *
+     * @return ValidationResult
+     */
     public function validate(string $jsonString): ValidationResult
     {
         $this->validator->reset();
@@ -48,6 +57,10 @@ class JsonSchemaValidator
         return $validationResult;
     }
 
+    /**
+     * @param Validator        $validator
+     * @param ValidationResult $validationResult
+     */
     protected function mapErrorsToResultViolations(Validator $validator, ValidationResult $validationResult): void
     {
         foreach ($validator->getErrors() as $error) {

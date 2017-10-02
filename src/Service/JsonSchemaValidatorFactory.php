@@ -22,6 +22,9 @@ class JsonSchemaValidatorFactory
      */
     protected $registeredSchemas;
 
+    /**
+     * @param FileLocatorInterface $fileLocator
+     */
     public function __construct(FileLocatorInterface $fileLocator)
     {
         $this->fileLocator = $fileLocator;
@@ -29,7 +32,12 @@ class JsonSchemaValidatorFactory
     }
 
     /**
+     * @param string $id
+     * @param string $schemaResourceLocation
+     *
      * @throws \RuntimeException When schema with provided $id is already registered
+     *
+     * @return JsonSchemaValidatorFactory
      */
     public function registerSchema(string $id, string $schemaResourceLocation): self
     {
@@ -42,15 +50,24 @@ class JsonSchemaValidatorFactory
         return $this;
     }
 
+    /**
+     * @param string $id
+     *
+     * @return bool
+     */
     public function hasSchema(string $id): bool
     {
         return array_key_exists($id, $this->registeredSchemas);
     }
 
     /**
+     * @param string $id
+     *
      * @throws FileLocatorFileNotFoundException
-     * @throws \RuntimeException
      * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     *
+     * @return JsonSchemaValidator
      */
     public function getValidator(string $id): JsonSchemaValidator
     {
@@ -66,8 +83,12 @@ class JsonSchemaValidatorFactory
     }
 
     /**
-     * @throws FileLocatorFileNotFoundException
+     * @param string $id
+     *
      * @throws \InvalidArgumentException
+     * @throws FileLocatorFileNotFoundException
+     *
+     * @return \stdClass
      */
     protected function createSchema(string $id): \stdClass
     {

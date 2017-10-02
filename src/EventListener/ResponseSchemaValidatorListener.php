@@ -26,12 +26,21 @@ class ResponseSchemaValidatorListener
      */
     protected $throwExceptionWhenFormatNotFound;
 
+    /**
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param bool                     $throwExceptionWhenFormatNotFound
+     */
     public function __construct(EventDispatcherInterface $eventDispatcher, bool $throwExceptionWhenFormatNotFound)
     {
         $this->eventDispatcher = $eventDispatcher;
         $this->throwExceptionWhenFormatNotFound = $throwExceptionWhenFormatNotFound;
     }
 
+    /**
+     * @param FilterResponseEvent $filterResponseEvent
+     *
+     * @throws \RuntimeException
+     */
     public function onKernelResponse(FilterResponseEvent $filterResponseEvent): void
     {
         if (!$filterResponseEvent->isMasterRequest()) {
@@ -67,6 +76,11 @@ class ResponseSchemaValidatorListener
         );
     }
 
+    /**
+     * @param Request $request
+     *
+     * @return array
+     */
     protected function getResponseSchemas(Request $request): array
     {
         $responseSchemas = $request->attributes->get(
@@ -82,7 +96,12 @@ class ResponseSchemaValidatorListener
     }
 
     /**
-     * @throws \RuntimeException When not able to determine response format on $this->throwExceptionWhenFormatNotFound flag true
+     * @param Request  $request
+     * @param Response $response
+     *
+     * @throws \RuntimeException
+     *
+     * @return null|string When not able to determine response format on $this->throwExceptionWhenFormatNotFound flag true
      */
     protected function getFormat(Request $request, Response $response): ?string
     {
@@ -100,9 +119,13 @@ class ResponseSchemaValidatorListener
     }
 
     /**
-     * @throws \RuntimeException When no listener listens on check schema event
-     * @throws \RuntimeException When no listener was able to check request
-     * @throws \RuntimeException When schema violations
+     * @param string $format
+     * @param string $content
+     * @param string $responseSchemaLocation
+     *
+     * @throws \RuntimeException
+     *
+     * @return ValidationResult
      */
     protected function dispatchCheckSchemaRequest(string $format, string $content, string $responseSchemaLocation): ValidationResult
     {

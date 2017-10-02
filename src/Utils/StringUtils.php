@@ -7,6 +7,8 @@ namespace Spiechu\SymfonyCommonsBundle\Utils;
 class StringUtils
 {
     /**
+     * @param string $string
+     *
      * @throws \InvalidArgumentException
      */
     public static function assertNotEmpty(string $string): void

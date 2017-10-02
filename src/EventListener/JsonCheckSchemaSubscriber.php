@@ -7,6 +7,7 @@ namespace Spiechu\SymfonyCommonsBundle\EventListener;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckRequest;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Events;
 use Spiechu\SymfonyCommonsBundle\Service\JsonSchemaValidatorFactory;
+use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class JsonCheckSchemaSubscriber implements EventSubscriberInterface
@@ -16,6 +17,9 @@ class JsonCheckSchemaSubscriber implements EventSubscriberInterface
      */
     protected $jsonSchemaValidatorFactory;
 
+    /**
+     * @param JsonSchemaValidatorFactory $jsonSchemaValidatorFactory
+     */
     public function __construct(JsonSchemaValidatorFactory $jsonSchemaValidatorFactory)
     {
         $this->jsonSchemaValidatorFactory = $jsonSchemaValidatorFactory;
@@ -31,6 +35,13 @@ class JsonCheckSchemaSubscriber implements EventSubscriberInterface
         ];
     }
 
+    /**
+     * @param CheckRequest $checkRequest
+     *
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     * @throws FileLocatorFileNotFoundException
+     */
     public function validateSchema(CheckRequest $checkRequest): void
     {
         $schemaLocation = $checkRequest->getResponseSchemaLocation();
