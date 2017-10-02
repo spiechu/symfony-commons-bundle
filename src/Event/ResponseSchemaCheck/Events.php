@@ -18,6 +18,8 @@ final class Events
     /**
      * @param string $format
      *
+     * @throws \InvalidArgumentException
+     *
      * @return string
      */
     public static function getCheckSchemaEventNameFor(string $format): string
