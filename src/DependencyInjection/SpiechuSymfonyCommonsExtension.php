@@ -25,7 +25,7 @@ class SpiechuSymfonyCommonsExtension extends Extension
     {
         $processedConfig = $this->processConfiguration(new Configuration(), $configs);
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         $this->processGetMethodOverride($loader, $container, $processedConfig['get_method_override']);
         $this->processResponseSchemaValidation($loader, $container, $processedConfig['response_schema_validation']);
@@ -37,9 +37,9 @@ class SpiechuSymfonyCommonsExtension extends Extension
     }
 
     /**
-     * @param XmlFileLoader $loader
+     * @param XmlFileLoader    $loader
      * @param ContainerBuilder $container
-     * @param array $options
+     * @param array            $options
      *
      * @throws \Exception
      */
@@ -60,9 +60,9 @@ class SpiechuSymfonyCommonsExtension extends Extension
     }
 
     /**
-     * @param XmlFileLoader $loader
+     * @param XmlFileLoader    $loader
      * @param ContainerBuilder $container
-     * @param array $options
+     * @param array            $options
      *
      * @throws \Exception
      */
@@ -90,9 +90,9 @@ class SpiechuSymfonyCommonsExtension extends Extension
     }
 
     /**
-     * @param XmlFileLoader $loader
+     * @param XmlFileLoader    $loader
      * @param ContainerBuilder $container
-     * @param array $options
+     * @param array            $options
      *
      * @throws \Exception
      */
@@ -111,8 +111,8 @@ class SpiechuSymfonyCommonsExtension extends Extension
 
     /**
      * @param Definition $definition
-     * @param int $index
-     * @param $value
+     * @param int        $index
+     * @param mixed      $value
      *
      * @throws OutOfBoundsException
      */

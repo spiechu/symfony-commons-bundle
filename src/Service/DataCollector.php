@@ -7,9 +7,9 @@ namespace Spiechu\SymfonyCommonsBundle\Service;
 use Doctrine\Common\Annotations\Reader;
 use Spiechu\SymfonyCommonsBundle\Annotation\Controller\ResponseSchemaValidator;
 use Spiechu\SymfonyCommonsBundle\Event\ApiVersion\ApiVersionSetEvent;
+use Spiechu\SymfonyCommonsBundle\Event\ApiVersion\Events as ApiVersionEvents;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckResult;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Events as ResponseSchemaCheckEvents;
-use Spiechu\SymfonyCommonsBundle\Event\ApiVersion\Events as ApiVersionEvents;
 use Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -39,8 +39,8 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
 
     /**
      * @param RouterInterface $router
-     * @param Reader $reader
-     * @param Container $container
+     * @param Reader          $reader
+     * @param Container       $container
      */
     public function __construct(RouterInterface $router, Reader $reader, Container $container)
     {
@@ -143,7 +143,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getApiVersion(): ?string
     {
