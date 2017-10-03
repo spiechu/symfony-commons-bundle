@@ -43,7 +43,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         self::assertNotEmpty($config['api_versioning']);
     }
 
-    public function testConfigurationNormalizesHttpMethodsToUppercase()
+    public function testConfigurationNormalizesHttpMethodsToUppercase(): void
     {
         $config = $this->processor->processConfiguration(
             $this->configuration,
@@ -61,7 +61,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         self::assertSame(['PUT', 'DELETE'], $config['get_method_override']['allow_methods_override']);
     }
 
-    public function testConfigurationWillRejectUnknownHttpMethod()
+    public function testConfigurationWillRejectUnknownHttpMethod(): void
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessageRegExp('/invalid methods/i');

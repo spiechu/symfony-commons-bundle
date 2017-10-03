@@ -6,8 +6,10 @@ namespace Spiechu\SymfonyCommonsBundle\Service;
 
 use Doctrine\Common\Annotations\Reader;
 use Spiechu\SymfonyCommonsBundle\Annotation\Controller\ResponseSchemaValidator;
+use Spiechu\SymfonyCommonsBundle\Event\ApiVersion\ApiVersionSetEvent;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckResult;
-use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Events;
+use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Events as ResponseSchemaCheckEvents;
+use Spiechu\SymfonyCommonsBundle\Event\ApiVersion\Events as ApiVersionEvents;
 use Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -37,8 +39,8 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
 
     /**
      * @param RouterInterface $router
-     * @param Reader          $reader
-     * @param Container       $container
+     * @param Reader $reader
+     * @param Container $container
      */
     public function __construct(RouterInterface $router, Reader $reader, Container $container)
     {
@@ -81,7 +83,8 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
     public static function getSubscribedEvents(): array
     {
         return [
-            Events::CHECK_RESULT => ['onCheckResult', 100],
+            ResponseSchemaCheckEvents::CHECK_RESULT => ['onCheckResult', 100],
+            ApiVersionEvents::API_VERSION_SET => ['onApiVersionSet', 100],
         ];
     }
 
@@ -91,6 +94,14 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
     public function onCheckResult(CheckResult $checkResult): void
     {
         $this->data['validation_result'] = $checkResult->getValidationResult();
+    }
+
+    /**
+     * @param ApiVersionSetEvent $apiVersionSetEvent
+     */
+    public function onApiVersionSet(ApiVersionSetEvent $apiVersionSetEvent): void
+    {
+        $this->data['api_version_set'] = $apiVersionSetEvent->getApiVersion();
     }
 
     /**
@@ -121,6 +132,22 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
     public function responseWasChecked(): bool
     {
         return array_key_exists('validation_result', $this->data);
+    }
+
+    /**
+     * @return bool
+     */
+    public function apiVersionWasSet(): bool
+    {
+        return array_key_exists('api_version_set', $this->data);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getApiVersion(): ?string
+    {
+        return $this->apiVersionWasSet() ? $this->data['api_version_set'] : null;
     }
 
     /**

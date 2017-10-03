@@ -25,10 +25,11 @@ class SpiechuSymfonyCommonsExtension extends Extension
     {
         $processedConfig = $this->processConfiguration(new Configuration(), $configs);
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
         $this->processGetMethodOverride($loader, $container, $processedConfig['get_method_override']);
         $this->processResponseSchemaValidation($loader, $container, $processedConfig['response_schema_validation']);
+        $this->processApiVersioning($loader, $container, $processedConfig['api_versioning']);
 
         if ($container->getParameter('kernel.debug')) {
             $loader->load('debug_services.xml');
@@ -36,9 +37,9 @@ class SpiechuSymfonyCommonsExtension extends Extension
     }
 
     /**
-     * @param XmlFileLoader    $loader
+     * @param XmlFileLoader $loader
      * @param ContainerBuilder $container
-     * @param array            $options
+     * @param array $options
      *
      * @throws \Exception
      */
@@ -59,9 +60,9 @@ class SpiechuSymfonyCommonsExtension extends Extension
     }
 
     /**
-     * @param XmlFileLoader    $loader
+     * @param XmlFileLoader $loader
      * @param ContainerBuilder $container
-     * @param array            $options
+     * @param array $options
      *
      * @throws \Exception
      */
@@ -89,8 +90,28 @@ class SpiechuSymfonyCommonsExtension extends Extension
     }
 
     /**
+     * @param XmlFileLoader $loader
+     * @param ContainerBuilder $container
+     * @param array $options
+     *
+     * @throws \Exception
+     */
+    protected function processApiVersioning(XmlFileLoader $loader, ContainerBuilder $container, array $options): void
+    {
+        if (!$options['enabled']) {
+            return;
+        }
+
+        $loader->load('api_versioning_listeners.xml');
+
+        if (!$options['versioned_view_listener']) {
+            $this->clearListenerTags($container->getDefinition('spiechu_symfony_commons.event_listener.versioned_view_listener'));
+        }
+    }
+
+    /**
      * @param Definition $definition
-     * @param int        $index
+     * @param int $index
      * @param $value
      *
      * @throws OutOfBoundsException

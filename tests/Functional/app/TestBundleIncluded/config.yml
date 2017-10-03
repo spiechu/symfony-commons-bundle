@@ -9,3 +9,5 @@ framework:
 spiechu_symfony_commons:
     response_schema_validation:
         enabled: true
+    api_versioning:
+        enabled: true

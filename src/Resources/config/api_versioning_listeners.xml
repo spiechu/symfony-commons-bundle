@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+
+    <services>
+
+        <service id="spiechu_symfony_commons.event_listener.api_version_listener"
+                 class="Spiechu\SymfonyCommonsBundle\EventListener\ApiVersionListener"
+        >
+            <argument type="service" id="annotations.cached_reader"/>
+            <argument type="service" id="event_dispatcher"/>
+
+            <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController"/>
+        </service>
+
+        <service id="spiechu_symfony_commons.event_listener.api_version_provider_listener"
+                 class="Spiechu\SymfonyCommonsBundle\EventListener\ApiVersionProviderListener"
+        >
+            <argument type="service" id="spiechu_symfony_commons.service.api_version_provider"/>
+
+            <tag name="kernel.event_listener"
+                 event="spiechu_symfony_commons.event.api_version.api_version_set"
+                 method="onApiVersionSet"
+            />
+        </service>
+
+        <service id="spiechu_symfony_commons.event_listener.versioned_view_listener"
+                 class="Spiechu\SymfonyCommonsBundle\EventListener\VersionedViewListener"
+        >
+            <argument type="service" id="spiechu_symfony_commons.service.api_version_provider"/>
+
+            <!-- priority 110 for FOSRestBundle compatibility -->
+            <tag name="kernel.event_listener" event="kernel.view" method="onKernelView" priority="110"/>
+        </service>
+
+        <service id="spiechu_symfony_commons.service.api_version_provider"
+                 class="Spiechu\SymfonyCommonsBundle\Service\ApiVersionProvider"
+        />
+
+    </services>
+
+</container>

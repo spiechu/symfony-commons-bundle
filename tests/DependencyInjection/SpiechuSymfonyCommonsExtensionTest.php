@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Spiechu\SymfonyCommonsBundle\Test\DependencyInjection;
 
 use Spiechu\SymfonyCommonsBundle\DependencyInjection\SpiechuSymfonyCommonsExtension;
+use Spiechu\SymfonyCommonsBundle\EventListener\ApiVersionListener;
+use Spiechu\SymfonyCommonsBundle\EventListener\ApiVersionProviderListener;
 use Spiechu\SymfonyCommonsBundle\EventListener\FailedSchemaCheckListener;
 use Spiechu\SymfonyCommonsBundle\EventListener\GetMethodOverrideListener;
 use Spiechu\SymfonyCommonsBundle\EventListener\JsonCheckSchemaSubscriber;
 use Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener;
 use Spiechu\SymfonyCommonsBundle\EventListener\ResponseSchemaValidatorListener;
+use Spiechu\SymfonyCommonsBundle\EventListener\VersionedViewListener;
 use Spiechu\SymfonyCommonsBundle\Service\DataCollector;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -45,7 +48,7 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         $this->extension = new SpiechuSymfonyCommonsExtension();
     }
 
-    public function testNoListenersSetUpOnDefaultConfiguration()
+    public function testNoListenersSetUpOnDefaultConfiguration(): void
     {
         $config = [
             'spiechu_symfony_commons' => [],
@@ -58,7 +61,7 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testGetMethodOverrideListenerPresentWhenEnabled()
+    public function testGetMethodOverrideListenerPresentWhenEnabled(): void
     {
         $config = [
             'spiechu_symfony_commons' => [
@@ -73,9 +76,10 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.get_method_override_listener');
         self::assertSame(GetMethodOverrideListener::class, $listenerDefinition->getClass());
         self::assertArrayHasKey('kernel.event_listener', $listenerDefinition->getTags());
+        self::assertSame('kernel.request', $listenerDefinition->getTags()['kernel.event_listener'][0]['event']);
     }
 
-    public function testResponseSchemaListenersPresentWhenEnabled()
+    public function testResponseSchemaListenersPresentWhenEnabled(): void
     {
         $config = [
             'spiechu_symfony_commons' => [
@@ -90,21 +94,24 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.request_schema_validator_listener');
         self::assertSame(RequestSchemaValidatorListener::class, $listenerDefinition->getClass());
         self::assertArrayHasKey('kernel.event_listener', $listenerDefinition->getTags());
+        self::assertSame('kernel.controller', $listenerDefinition->getTags()['kernel.event_listener'][0]['event']);
 
         $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.response_schema_validator_listener');
         self::assertSame(ResponseSchemaValidatorListener::class, $listenerDefinition->getClass());
         self::assertArrayHasKey('kernel.event_listener', $listenerDefinition->getTags());
+        self::assertSame('kernel.response', $listenerDefinition->getTags()['kernel.event_listener'][0]['event']);
 
         $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.failed_schema_check_listener');
         self::assertSame(FailedSchemaCheckListener::class, $listenerDefinition->getClass());
         self::assertArrayHasKey('kernel.event_listener', $listenerDefinition->getTags());
+        self::assertSame('spiechu_symfony_commons.event.response_schema_check.check_result', $listenerDefinition->getTags()['kernel.event_listener'][0]['event']);
 
         $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.json_check_schema_subscriber');
         self::assertSame(JsonCheckSchemaSubscriber::class, $listenerDefinition->getClass());
         self::assertArrayHasKey('kernel.event_subscriber', $listenerDefinition->getTags());
     }
 
-    public function testJsonCheckSchemaSubscriberWontListenWhenDisabled()
+    public function testJsonCheckSchemaSubscriberWontListenWhenDisabled(): void
     {
         $config = [
             'spiechu_symfony_commons' => [
@@ -122,7 +129,7 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         self::assertEmpty($listenerDefinition->getTags());
     }
 
-    public function testModifiableListenerArguments()
+    public function testModifiableListenerArguments(): void
     {
         $config = [
             'spiechu_symfony_commons' => [
@@ -148,7 +155,7 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         self::assertFalse($listenerDefinition->getArgument(1));
     }
 
-    public function testEmptyFailedSchemaCheckListener()
+    public function testEmptyFailedSchemaCheckListener(): void
     {
         $config = [
             'spiechu_symfony_commons' => [
@@ -166,7 +173,7 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         self::assertEmpty($listenerDefinition->getTags());
     }
 
-    public function testDataCollectorWillBePresentWhenDebug()
+    public function testDataCollectorWillBePresentWhenDebug(): void
     {
         $config = [
             'spiechu_symfony_commons' => [],
@@ -187,7 +194,7 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         self::assertArrayHasKey('data_collector', $tags);
     }
 
-    public function testExtensionWillReplaceExistingServiceArguments()
+    public function testExtensionWillReplaceExistingServiceArguments(): void
     {
         $fakeTestDefinition = new Definition(\stdClass::class, ['abc']);
 
@@ -207,5 +214,64 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         $this->extension->load($config, $this->container);
 
         self::assertSame('_method', $fakeTestDefinition->getArgument(0));
+    }
+
+    public function testApiVersionListenersPresentWhenEnabled(): void
+    {
+        $config = [
+            'spiechu_symfony_commons' => [
+                'api_versioning' => [
+                    'enabled' => true,
+                ],
+            ],
+        ];
+
+        $this->extension->load($config, $this->container);
+
+        $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.api_version_listener');
+        self::assertSame(ApiVersionListener::class, $listenerDefinition->getClass());
+        self::assertArrayHasKey('kernel.event_listener', $listenerDefinition->getTags());
+        self::assertSame('kernel.controller', $listenerDefinition->getTags()['kernel.event_listener'][0]['event']);
+
+        $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.api_version_provider_listener');
+        self::assertSame(ApiVersionProviderListener::class, $listenerDefinition->getClass());
+        self::assertArrayHasKey('kernel.event_listener', $listenerDefinition->getTags());
+        self::assertSame('spiechu_symfony_commons.event.api_version.api_version_set', $listenerDefinition->getTags()['kernel.event_listener'][0]['event']);
+    }
+
+    public function testVersionedViewListenerNotPresentByDefault(): void
+    {
+        $config = [
+            'spiechu_symfony_commons' => [
+                'api_versioning' => [
+                    'enabled' => true,
+                ],
+            ],
+        ];
+
+        $this->extension->load($config, $this->container);
+
+        $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.versioned_view_listener');
+        self::assertFalse($listenerDefinition->isPublic());
+        self::assertEmpty($listenerDefinition->getTags());
+    }
+
+    public function testVersionedViewListenerEvent(): void
+    {
+        $config = [
+            'spiechu_symfony_commons' => [
+                'api_versioning' => [
+                    'enabled' => true,
+                    'versioned_view_listener' => true,
+                ],
+            ],
+        ];
+
+        $this->extension->load($config, $this->container);
+
+        $listenerDefinition = $this->container->getDefinition('spiechu_symfony_commons.event_listener.versioned_view_listener');
+        self::assertSame(VersionedViewListener::class, $listenerDefinition->getClass());
+        self::assertArrayHasKey('kernel.event_listener', $listenerDefinition->getTags());
+        self::assertSame('kernel.view', $listenerDefinition->getTags()['kernel.event_listener'][0]['event']);
     }
 }
