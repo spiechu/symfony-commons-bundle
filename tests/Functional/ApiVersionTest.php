@@ -14,7 +14,7 @@ class ApiVersionTest extends WebTestCase
             'test_case' => 'TestBundleIncluded',
         ]);
 
-        $client->request('GET', '/api-version-annotated/fancy-route');
+        $client->request('GET', '/api-version-annotated/1.0/fancy-route');
 
         self::assertSame('response from fancy route', $client->getResponse()->getContent());
 
