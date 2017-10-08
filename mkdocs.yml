@@ -12,3 +12,4 @@ pages:
   - Features:
       - GET method override: src/Resources/doc/get_method_override.md
       - Response schema validation: src/Resources/doc/response_schema_validation.md
+      - API versioning: src/Resources/doc/api_versioning.md

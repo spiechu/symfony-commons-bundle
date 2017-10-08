@@ -14,4 +14,7 @@ spiechu_symfony_commons:
     throw_exception_when_format_not_found: true
     failed_schema_check_listener_service_id: spiechu_symfony_commons.event_listener.failed_schema_check_listener
     disable_json_check_schema_subscriber: false
+  api_versioning:
+    enabled: false
+    versioned_view_listener: false
 ```
