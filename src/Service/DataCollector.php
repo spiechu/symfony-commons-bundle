@@ -39,8 +39,8 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
 
     /**
      * @param RouterInterface $router
-     * @param Reader          $reader
-     * @param Container       $container
+     * @param Reader $reader
+     * @param Container $container
      */
     public function __construct(RouterInterface $router, Reader $reader, Container $container)
     {
@@ -67,6 +67,14 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
     public function getName(): string
     {
         return static::COLLECTOR_NAME;
+    }
+
+    /**
+     * Forward compatibility with Symfony 3.4
+     */
+    public function reset(): void
+    {
+        $this->data = [];
     }
 
     /**
