@@ -122,3 +122,11 @@ class AdminController extends Controller
     }
 }
 ```
+
+### API versioning
+
+Full [documentation here](src/Resources/doc/api_versioning.md).
+
+When you need to set API versions there is handy `@Spiechu\SymfonyCommonsBundle\Annotation\Controller\ApiVersion` annotation.
+You need to annotate your controller classes with this custom annotation and set version.
+Then you can inject `Spiechu\SymfonyCommonsBundle\Service\ApiVersionProvider` service and check what is the current API version.

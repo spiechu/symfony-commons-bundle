@@ -11,12 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @ApiVersion("1.0")
- * @Route("/1.0")
  */
 class ApiVersionAnnotatedController extends Controller
 {
     /**
-     * @Route("/fancy-route", name="fancy_route")
+     * @Route("/fancy-route")
      */
     public function fancyRouteAction()
     {
