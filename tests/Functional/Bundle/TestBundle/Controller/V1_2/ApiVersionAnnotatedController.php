@@ -17,6 +17,8 @@ class ApiVersionAnnotatedController extends BaseApiVersionAnnotatedController
 {
     /**
      * @Route("/fancy-route")
+     *
+     * @return Response
      */
     public function fancyRouteAction()
     {
@@ -25,11 +27,14 @@ class ApiVersionAnnotatedController extends BaseApiVersionAnnotatedController
 
     /**
      * @Route("/features-route")
+     *
+     * @return JsonResponse
      */
     public function featuresRouteAction()
     {
-        $featuresProvider = $this->container->get('spiechu_symfony_commons.service.api_version_features_provider');
-
-        return new JsonResponse(array_values(array_map('strval', $featuresProvider->getAvailableFeatures())));
+        return new JsonResponse(array_values(array_map(
+            'strval',
+            $this->apiVersionFeaturesProvider->getAvailableFeatures()
+        )));
     }
 }

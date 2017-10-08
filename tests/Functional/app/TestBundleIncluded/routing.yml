@@ -3,6 +3,11 @@ schema_annotated_controller:
     resource: "@TestBundle/Controller/ResponseSchemaAnnotatedController.php"
     type:     annotation
 
+get_override_controller:
+    prefix:   /get-override
+    resource: "@TestBundle/Controller/GetAndDeleteRouteController.php"
+    type:     annotation
+
 api_version_annotated_controller_v1.0:
     prefix:   /api-version-annotated/1.0
     resource: "@TestBundle/Controller/V1_0/ApiVersionAnnotatedController.php"

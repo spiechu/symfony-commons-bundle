@@ -7,15 +7,23 @@ framework:
         collect: true
 
 spiechu_symfony_commons:
+    get_method_override:
+        enabled: true
     response_schema_validation:
         enabled: true
     api_versioning:
         enabled: true
         features:
-          feature_without_until:
-            since: 1.0
-          feature_without_since:
-            until: 1.2
-          feature_both:
-            since: 1.0
-            until: 1.2
+            feature_without_until:
+                since: 1.0
+            feature_without_since:
+                until: 1.2
+            feature_both:
+                since: 1.0
+                until: 1.2
+
+services:
+  Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Controller\:
+    resource: '../../Bundle/TestBundle/Controller/'
+    public: true
+    autowire: true
