@@ -20,7 +20,7 @@
     "php": ">=7.1",
     "symfony/framework-bundle": "~3.3",
     "sensio/framework-extra-bundle": "~3.0",
-    "justinrainbow/json-schema": "~5.0"
+    "justinrainbow/json-schema": "~5.0,<5.2.2"
   },
   "require-dev": {
     "symfony/phpunit-bridge": "~3.3",
