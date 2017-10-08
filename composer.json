@@ -37,5 +37,10 @@
     "psr-4": {
       "Spiechu\\SymfonyCommonsBundle\\Test\\": "tests"
     }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.x-dev"
+    }
   }
 }
