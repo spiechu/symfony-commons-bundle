@@ -67,6 +67,8 @@ spiechu_symfony_commons:
         enabled: true
     response_schema_validation:
         enabled: true
+    api_versioning:
+        enabled: true
 ```
 
 Configuration reference [can be found here](src/Resources/doc/configuration_reference.md).
@@ -100,7 +102,7 @@ Response schema validation allows you to validate endpoint responses on-the-fly.
 You just need to annotate controller action with `@ResponseSchemaValidator`. Typical use case is:
 
 ```php
-// src/AppBundle/Controller/MyController.php
+// src/AppBundle/Controller/AdminController.php
 
 use Spiechu\SymfonyCommonsBundle\Annotation\Controller\ResponseSchemaValidator;
 
@@ -127,6 +129,51 @@ class AdminController extends Controller
 
 Full [documentation here](src/Resources/doc/api_versioning.md).
 
-When you need to set API versions there is handy `@Spiechu\SymfonyCommonsBundle\Annotation\Controller\ApiVersion` annotation.
-You need to annotate your controller classes with this custom annotation and set version.
-Then you can inject `Spiechu\SymfonyCommonsBundle\Service\ApiVersionProvider` service and check what is the current API version.
+When you have multiple API versions it's usually done by extending Controllers.
+This bundle introduces handy `@ApiVersion` annotation.
+You need to annotate your controller classes with this custom annotation and set version like:
+
+```php
+// src/AppBundle/Controller/V1_0/UserController.php
+
+use Spiechu\SymfonyCommonsBundle\Annotation\Controller\ApiVersion;
+
+/**
+ * @ApiVersion("1.0")
+ */
+class UserController extends Controller
+{
+    /**
+     * @Route("/", name="my_route")
+     */
+    public function indexAction(): Response
+    {
+        // ...
+    }
+}
+```
+
+Then in extending class:
+
+```php
+// src/AppBundle/Controller/V1_1/UserController.php
+
+use Spiechu\SymfonyCommonsBundle\Annotation\Controller\ApiVersion;
+use Spiechu\SymfonyCommonsBundle\Controller\V1_0\UserController as BaseUserController;
+
+/**
+ * @ApiVersion("1.1")
+ */
+class UserController extends BaseUserController
+{
+    /**
+     * @Route("/", name="my_route")
+     */
+    public function indexAction(): Response
+    {
+        // ...
+    }
+}
+```
+
+From now on you can inject `Spiechu\SymfonyCommonsBundle\Service\ApiVersionProvider` service to your services and check what is the current request API version.
