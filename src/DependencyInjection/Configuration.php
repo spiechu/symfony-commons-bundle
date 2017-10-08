@@ -145,17 +145,24 @@ class Configuration implements ConfigurationInterface
                                     ->scalarNode('since')
                                         ->defaultNull()
                                         ->beforeNormalization()
-                                            ->always()
-                                            ->then($versionNormalizer)
+                                            ->always($versionNormalizer)
                                         ->end()
                                     ->end()
                                     ->scalarNode('until')
                                         ->defaultNull()
                                         ->beforeNormalization()
-                                            ->always()
-                                            ->then($versionNormalizer)
+                                            ->always($versionNormalizer)
                                         ->end()
                                     ->end()
+                                ->end()
+                                ->beforeNormalization()
+                                    ->always(function ($prototypeValue): array {
+                                        if (empty($prototypeValue)) {
+                                            throw new \InvalidArgumentException('No version constraints provided');
+                                        }
+
+                                        return $prototypeValue;
+                                    })
                                 ->end()
                             ->end()
                         ->end()
