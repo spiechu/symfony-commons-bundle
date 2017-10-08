@@ -6,6 +6,7 @@ namespace Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Control
 
 use Spiechu\SymfonyCommonsBundle\Annotation\Controller\ApiVersion;
 use Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Controller\V1_1\ApiVersionAnnotatedController as BaseApiVersionAnnotatedController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,5 +21,15 @@ class ApiVersionAnnotatedController extends BaseApiVersionAnnotatedController
     public function fancyRouteAction()
     {
         return new Response('response from fancy route');
+    }
+
+    /**
+     * @Route("/features-route")
+     */
+    public function featuresRouteAction()
+    {
+        $featuresProvider = $this->container->get('spiechu_symfony_commons.service.api_version_features_provider');
+
+        return new JsonResponse(array_values(array_map('strval', $featuresProvider->getAvailableFeatures())));
     }
 }

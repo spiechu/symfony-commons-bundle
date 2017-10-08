@@ -2,6 +2,7 @@
 
 namespace Spiechu\SymfonyCommonsBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -103,6 +104,11 @@ class SpiechuSymfonyCommonsExtension extends Extension
         }
 
         $loader->load('api_versioning_listeners.xml');
+
+        if (!empty($options['features'])) {
+            $featuresProviderDefinition = $container->getDefinition('spiechu_symfony_commons.service.api_version_features_provider');
+            $featuresProviderDefinition->addMethodCall('addFeatures', [$options['features']]);
+        }
 
         if (!$options['versioned_view_listener']) {
             $this->clearListenerTags($container->getDefinition('spiechu_symfony_commons.event_listener.versioned_view_listener'));

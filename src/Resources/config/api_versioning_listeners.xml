@@ -40,6 +40,12 @@
                  class="Spiechu\SymfonyCommonsBundle\Service\ApiVersionProvider"
         />
 
+        <service id="spiechu_symfony_commons.service.api_version_features_provider"
+                 class="Spiechu\SymfonyCommonsBundle\Service\ApiVersionFeaturesProvider"
+        >
+            <argument type="service" id="spiechu_symfony_commons.service.api_version_provider"/>
+        </service>
+
     </services>
 
 </container>
