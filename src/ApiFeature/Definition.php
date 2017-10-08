@@ -12,17 +12,17 @@ class Definition
     protected $name;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     protected $since;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     protected $until;
 
     /**
-     * @param string $name
+     * @param string      $name
      * @param null|string $since
      * @param null|string $until
      *
@@ -44,6 +44,11 @@ class Definition
         $this->name = $name;
         $this->since = $since;
         $this->until = $until;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
     /**
@@ -72,6 +77,7 @@ class Definition
 
     /**
      * @param string $version
+     *
      * @return bool
      */
     public function isAvailableForVersion(string $version): bool
@@ -80,13 +86,5 @@ class Definition
         $untilVersionMatch = $this->until === null || version_compare($version, $this->until, '<=');
 
         return $sinceVersionMatch && $untilVersionMatch;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __toString()
-    {
-        return $this->name;
     }
 }

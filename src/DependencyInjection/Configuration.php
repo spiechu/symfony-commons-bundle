@@ -2,7 +2,6 @@
 
 namespace Spiechu\SymfonyCommonsBundle\DependencyInjection;
 
-use function foo\func;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -120,7 +119,7 @@ class Configuration implements ConfigurationInterface
      */
     protected function addApiVersionSupport(ArrayNodeDefinition $rootNode): void
     {
-        $versionNormalizer = static function($version): string {
+        $versionNormalizer = static function ($version): string {
             if (is_string($version)) {
                 return $version;
             }

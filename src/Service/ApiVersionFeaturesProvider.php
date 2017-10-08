@@ -45,9 +45,9 @@ class ApiVersionFeaturesProvider
     }
 
     /**
-     * @return Definition[]
-     *
      * @throws \RuntimeException
+     *
+     * @return Definition[]
      */
     public function getAvailableFeatures(): array
     {
