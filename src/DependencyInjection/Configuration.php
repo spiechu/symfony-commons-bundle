@@ -2,6 +2,7 @@
 
 namespace Spiechu\SymfonyCommonsBundle\DependencyInjection;
 
+use function foo\func;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -113,9 +114,24 @@ class Configuration implements ConfigurationInterface
 
     /**
      * @param ArrayNodeDefinition $rootNode
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      */
     protected function addApiVersionSupport(ArrayNodeDefinition $rootNode): void
     {
+        $versionNormalizer = static function($version): string {
+            if (is_string($version)) {
+                return $version;
+            }
+
+            if (!is_numeric($version)) {
+                throw new \InvalidArgumentException(sprintf('"%s" is not numeric', $version));
+            }
+
+            return number_format($version, 1, '.', '');
+        };
+
         $rootNode
             ->children()
                 ->arrayNode('api_versioning')
@@ -123,6 +139,25 @@ class Configuration implements ConfigurationInterface
                     ->canBeEnabled()
                     ->children()
                         ->booleanNode('versioned_view_listener')->defaultFalse()->end()
+                        ->arrayNode('features')
+                            ->useAttributeAsKey('name')
+                            ->prototype('array')
+                                ->children()
+                                    ->scalarNode('since')
+                                        ->beforeNormalization()
+                                            ->always()
+                                            ->then($versionNormalizer)
+                                        ->end()
+                                    ->end()
+                                    ->scalarNode('until')
+                                        ->beforeNormalization()
+                                            ->always()
+                                            ->then($versionNormalizer)
+                                        ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
                     ->end()
                 ->end()
             ->end()

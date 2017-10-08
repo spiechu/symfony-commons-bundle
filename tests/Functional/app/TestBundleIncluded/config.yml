@@ -11,3 +11,7 @@ spiechu_symfony_commons:
         enabled: true
     api_versioning:
         enabled: true
+        features:
+          feature_a:
+            since: 1.0
+            until: 1.2
