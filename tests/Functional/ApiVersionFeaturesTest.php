@@ -49,4 +49,58 @@ class ApiVersionFeaturesTest extends WebTestCase
             json_decode($client->getResponse()->getContent(), true)
         );
     }
+
+    public function testAddFeature()
+    {
+        $client = static::createClient([
+            'test_case' => 'TestBundleIncluded',
+        ]);
+
+        $client->request('POST', '/api-version-annotated/1.3/add-feature/test-feature/since/1.1/until');
+
+        self::assertSame(
+            [
+                'added-feature' => [
+                    'name' => 'test-feature',
+                    'since' => '1.1',
+                    'until' => null,
+                ],
+                'all-known-features' => [
+                    [
+                        'name' => 'feature_without_until',
+                        'since' => '1.0',
+                        'until' => null,
+                    ],
+                    [
+                        'name' => 'feature_without_since',
+                        'since' => null,
+                        'until' => '1.2',
+                    ],
+                    [
+                        'name' => 'feature_both',
+                        'since' => '1.0',
+                        'until' => '1.2',
+                    ],
+                    [
+                        'name' => 'test-feature',
+                        'since' => '1.1',
+                        'until' => null,
+                    ],
+                ],
+                'available-features' => [
+                    [
+                        'name' => 'feature_without_until',
+                        'since' => '1.0',
+                        'until' => null,
+                    ],
+                    [
+                        'name' => 'test-feature',
+                        'since' => '1.1',
+                        'until' => null,
+                    ],
+                ],
+            ],
+            json_decode($client->getResponse()->getContent(), true)
+        );
+    }
 }

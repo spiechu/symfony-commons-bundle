@@ -27,3 +27,5 @@ services:
     resource: '../../Bundle/TestBundle/Controller/'
     public: true
     autowire: true
+    tags:
+      - name: controller.service_arguments

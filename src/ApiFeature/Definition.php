@@ -22,7 +22,7 @@ class Definition implements \JsonSerializable
     protected $until;
 
     /**
-     * @param string $name
+     * @param string      $name
      * @param null|string $since
      * @param null|string $until
      *

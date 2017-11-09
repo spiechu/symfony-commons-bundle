@@ -20,6 +20,7 @@ class ResponseSchemaAnnotatedController extends Controller
      * )
      *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function simpleJsonAction(Request $request): JsonResponse

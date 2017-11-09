@@ -29,7 +29,7 @@ class ApiVersionFeaturesProvider
     }
 
     /**
-     * @param string $name
+     * @param string      $name
      * @param null|string $since
      * @param null|string $until
      *
@@ -72,6 +72,7 @@ class ApiVersionFeaturesProvider
 
     /**
      * @param string $name
+     *
      * @return null|Definition
      */
     public function getFeature(string $name): ?Definition
@@ -90,9 +91,9 @@ class ApiVersionFeaturesProvider
     /**
      * @param Definition $definition
      *
-     * @return bool
-     *
      * @throws \RuntimeException When API version is not set
+     *
+     * @return bool
      */
     public function isFeatureAvailable(Definition $definition): bool
     {
@@ -100,9 +101,9 @@ class ApiVersionFeaturesProvider
     }
 
     /**
-     * @return Definition[]
-     *
      * @throws \RuntimeException When API version is not set
+     *
+     * @return Definition[]
      */
     public function getAvailableFeatures(): array
     {
@@ -124,7 +125,7 @@ class ApiVersionFeaturesProvider
     }
 
     /**
-     * @param string|null $string
+     * @param null|string $string
      *
      * @throws \InvalidArgumentException When $string is not version compatible
      */
