@@ -30,14 +30,14 @@ class Definition implements \JsonSerializable
      */
     public function __construct(string $name, ?string $since, ?string $until)
     {
-        if ($since !== null && !is_numeric($since)) {
+        if (null !== $since && !is_numeric($since)) {
             throw new \InvalidArgumentException('Since parameter is not numeric');
         }
-        if ($until !== null && !is_numeric($until)) {
+        if (null !== $until && !is_numeric($until)) {
             throw new \InvalidArgumentException('Since parameter is not numeric');
         }
 
-        if ($since === null && $until === null) {
+        if (null === $since && null === $until) {
             throw new \InvalidArgumentException('No version constraints provided');
         }
 
@@ -82,8 +82,8 @@ class Definition implements \JsonSerializable
      */
     public function isAvailableForVersion(string $version): bool
     {
-        $sinceVersionMatch = $this->since === null || version_compare($version, $this->since, '>=');
-        $untilVersionMatch = $this->until === null || version_compare($version, $this->until, '<=');
+        $sinceVersionMatch = null === $this->since || version_compare($version, $this->since, '>=');
+        $untilVersionMatch = null === $this->until || version_compare($version, $this->until, '<=');
 
         return $sinceVersionMatch && $untilVersionMatch;
     }
