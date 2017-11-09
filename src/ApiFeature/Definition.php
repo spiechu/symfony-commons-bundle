@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Spiechu\SymfonyCommonsBundle\ApiFeature;
 
-class Definition
+class Definition implements \JsonSerializable
 {
     /**
      * @var string
@@ -22,7 +22,7 @@ class Definition
     protected $until;
 
     /**
-     * @param string      $name
+     * @param string $name
      * @param null|string $since
      * @param null|string $until
      *
@@ -46,7 +46,7 @@ class Definition
         $this->until = $until;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->name;
     }
@@ -86,5 +86,17 @@ class Definition
         $untilVersionMatch = $this->until === null || version_compare($version, $this->until, '<=');
 
         return $sinceVersionMatch && $untilVersionMatch;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'name' => $this->name,
+            'since' => $this->since,
+            'until' => $this->until,
+        ];
     }
 }

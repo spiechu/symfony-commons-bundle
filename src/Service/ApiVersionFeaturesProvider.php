@@ -29,9 +29,29 @@ class ApiVersionFeaturesProvider
     }
 
     /**
-     * @param iterable $features
+     * @param string $name
+     * @param null|string $since
+     * @param null|string $until
      *
-     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException When feature with given name already exists
+     */
+    public function addFeature(string $name, ?string $since, ?string $until): void
+    {
+        $this->assertVersionCompatibleString($since);
+        $this->assertVersionCompatibleString($until);
+
+        $this->addFeatures([
+            $name => [
+                'since' => $since,
+                'until' => $until,
+            ],
+        ]);
+    }
+
+    /**
+     * @param iterable $features [string featureName => array featureRange ['since' => numeric|nll, 'until' => numeric|null] ]
+     *
+     * @throws \InvalidArgumentException When feature with given name already exists
      */
     public function addFeatures(iterable $features): void
     {
@@ -40,14 +60,49 @@ class ApiVersionFeaturesProvider
                 throw new \InvalidArgumentException(sprintf('Feature with given name "%s" already exists', $name));
             }
 
-            $this->features[$name] = new Definition($name, $options['since'] ?? null, $options['until'] ?? null);
+            $since = $options['since'] ?? null;
+            $this->assertVersionCompatibleString($since);
+
+            $until = $options['until'] ?? null;
+            $this->assertVersionCompatibleString($until);
+
+            $this->features[$name] = new Definition($name, $since, $until);
         }
     }
 
     /**
-     * @throws \RuntimeException
-     *
+     * @param string $name
+     * @return null|Definition
+     */
+    public function getFeature(string $name): ?Definition
+    {
+        return $this->getAllKnownFeatures()[$name] ?? null;
+    }
+
+    /**
      * @return Definition[]
+     */
+    public function getAllKnownFeatures(): array
+    {
+        return $this->features;
+    }
+
+    /**
+     * @param Definition $definition
+     *
+     * @return bool
+     *
+     * @throws \RuntimeException When API version is not set
+     */
+    public function isFeatureAvailable(Definition $definition): bool
+    {
+        return isset($this->getAvailableFeatures()[$definition->getName()]) ? true : false;
+    }
+
+    /**
+     * @return Definition[]
+     *
+     * @throws \RuntimeException When API version is not set
      */
     public function getAvailableFeatures(): array
     {
@@ -66,5 +121,19 @@ class ApiVersionFeaturesProvider
         }
 
         return $matchingFeatures;
+    }
+
+    /**
+     * @param string|null $string
+     *
+     * @throws \InvalidArgumentException When $string is not version compatible
+     */
+    protected function assertVersionCompatibleString(?string $string): void
+    {
+        if ($string === null || is_numeric($string)) {
+            return;
+        }
+
+        throw new \InvalidArgumentException(sprintf('"%s" is not version compatible string', $string));
     }
 }

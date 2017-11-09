@@ -12,13 +12,17 @@ class ResponseSchemaAnnotatedController extends Controller
 {
     /**
      * @Route("/simple-json", name="simple_json")
+     *
      * @ResponseSchemaValidator(
      *   json={
      *     200="@TestBundle/Resources/response_schema/200-simple.json",
      *  }
      * )
+     *
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function simpleJsonAction(Request $request)
+    public function simpleJsonAction(Request $request): JsonResponse
     {
         return new JsonResponse([
             'id' => $request->query->get('id'),

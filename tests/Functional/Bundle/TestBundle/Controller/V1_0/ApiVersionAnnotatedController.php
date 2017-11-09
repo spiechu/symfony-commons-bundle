@@ -31,7 +31,7 @@ class ApiVersionAnnotatedController extends Controller
     /**
      * @Route("/fancy-route")
      */
-    public function fancyRouteAction()
+    public function fancyRouteAction(): Response
     {
         return new Response('response from fancy route');
     }
