@@ -42,12 +42,12 @@ class VersionedViewListener
             return;
         }
 
-        if (class_exists('FOS\RestBundle\View\View') && $controllerResult instanceof FOS\RestBundle\View\View) {
-            $serializationContext = $controllerResult->getSerializationContext();
+        if (class_exists('FOS\RestBundle\View\View') && is_a($controllerResult, 'FOS\RestBundle\View\View')) {
+            $context = $controllerResult->getContext();
 
-            $serializationContext->setVersion($apiVersion);
+            $context->setVersion($apiVersion);
 
-            $controllerResult->setSerializationContext($serializationContext);
+            $controllerResult->setContext($context);
         }
     }
 }

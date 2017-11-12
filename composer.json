@@ -26,7 +26,9 @@
     "symfony/phpunit-bridge": "~3.3",
     "symfony/yaml": "~3.3",
     "symfony/browser-kit": "~3.3",
-    "symfony/var-dumper": "~3.3"
+    "symfony/var-dumper": "~3.3",
+    "friendsofsymfony/rest-bundle": "~2.2",
+    "jms/serializer-bundle": "~2.2"
   },
   "autoload": {
     "psr-4": {

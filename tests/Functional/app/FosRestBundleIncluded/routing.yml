@@ -1,0 +1,9 @@
+fos_rest_bundle_controller_v1.0:
+    prefix:   /fos-rest-bundle/1.0
+    resource: "@TestBundle/Controller/V1_0/FosRestBundleController.php"
+    type:     annotation
+
+fos_rest_bundle_controller_v1.1:
+    prefix:   /fos-rest-bundle/1.1
+    resource: "@TestBundle/Controller/V1_1/FosRestBundleController.php"
+    type:     annotation

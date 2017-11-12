@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+
+    <class name="Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Model\TestJsonObject"
+           exclusion-policy="all"
+           read-only="true"
+    >
+
+        <virtual-property method="getProperty1" serialized-name="property_1"/>
+        <virtual-property method="getProperty2" since-version="1.1" serialized-name="property_2"/>
+
+    </class>
+
+</serializer>
