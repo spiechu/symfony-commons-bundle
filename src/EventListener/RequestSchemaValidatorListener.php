@@ -13,7 +13,7 @@ class RequestSchemaValidatorListener
 {
     use ControllerAnnotationExtractorTrait;
 
-    const ATTRIBUTE_RESPONSE_SCHEMAS = 'spiechu_symfony_commons.event_listener.response_schemas';
+    public const ATTRIBUTE_RESPONSE_SCHEMAS = 'spiechu_symfony_commons.event_listener.response_schemas';
 
     /**
      * @var Reader

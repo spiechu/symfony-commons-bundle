@@ -20,7 +20,7 @@ use Symfony\Component\Routing\RouterInterface;
 
 class DataCollector extends BaseDataCollector implements EventSubscriberInterface
 {
-    const COLLECTOR_NAME = 'spiechu_symfony_commons.data_collector';
+    public const COLLECTOR_NAME = 'spiechu_symfony_commons.data_collector';
 
     /**
      * @var RouterInterface

@@ -16,7 +16,7 @@ class ApiVersionListener
 {
     use ControllerAnnotationExtractorTrait;
 
-    const ATTRIBUTE_API_VERSION = 'spiechu_symfony_commons.event_listener.api_version';
+    protected const ATTRIBUTE_API_VERSION = 'spiechu_symfony_commons.event_listener.api_version';
 
     /** @var Reader */
     protected $annotationReader;
@@ -47,7 +47,7 @@ class ApiVersionListener
             return;
         }
 
-        $event->getRequest()->attributes->set(self::ATTRIBUTE_API_VERSION, $apiVersion->getApiVersion());
+        $event->getRequest()->attributes->set(static::ATTRIBUTE_API_VERSION, $apiVersion->getApiVersion());
 
         $this->eventDispatcher->dispatch(Events::API_VERSION_SET, new ApiVersionSetEvent($apiVersion));
     }

@@ -6,14 +6,14 @@ namespace Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck;
 
 use Spiechu\SymfonyCommonsBundle\Utils\StringUtils;
 
-final class Events
+class Events
 {
     /**
      * @Event("Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckResult")
      */
     public const CHECK_RESULT = 'spiechu_symfony_commons.event.response_schema_check.check_result';
 
-    private const CHECK_SCHEMA_EVENT_NAME_PATTERN = 'spiechu_symfony_commons.event.response_schema_check.check_schema_%s';
+    protected const CHECK_SCHEMA_EVENT_NAME_PATTERN = 'spiechu_symfony_commons.event.response_schema_check.check_schema_%s';
 
     /**
      * @param string $format
@@ -26,6 +26,6 @@ final class Events
     {
         StringUtils::assertNotEmpty($format);
 
-        return sprintf(self::CHECK_SCHEMA_EVENT_NAME_PATTERN, strtolower($format));
+        return sprintf(static::CHECK_SCHEMA_EVENT_NAME_PATTERN, strtolower($format));
     }
 }

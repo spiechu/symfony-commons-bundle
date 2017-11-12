@@ -46,7 +46,7 @@ class ResponseSchemaAnnotatedController extends Controller
      */
     public function simpleXmlAction(Request $request): Response
     {
-        $response = new Response(
+        return new Response(
             <<<EOT
 <?xml version="1.0" encoding="UTF-8"?>
 <testObjects>
@@ -59,10 +59,8 @@ EOT
             ,
             200,
             [
-            'Content-Type' => 'text/xml',
-        ]
+                'Content-Type' => 'text/xml',
+            ]
         );
-
-        return $response;
     }
 }

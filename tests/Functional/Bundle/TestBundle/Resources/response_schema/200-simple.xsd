@@ -5,7 +5,7 @@
 
     <xs:complexType name="testObjects">
         <xs:sequence>
-            <xs:element maxOccurs="unbounded" minOccurs="0" name="testObject" type="object"/>
+            <xs:element maxOccurs="unbounded" minOccurs="1" name="testObject" type="object"/>
         </xs:sequence>
     </xs:complexType>
 
