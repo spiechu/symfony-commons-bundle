@@ -109,7 +109,7 @@ class ApiVersionFeaturesProvider
     {
         $currentVersion = $this->apiVersionProvider->getApiVersion();
 
-        if ($currentVersion === null) {
+        if (null === $currentVersion) {
             throw new \RuntimeException('API version is not set');
         }
 
@@ -131,7 +131,7 @@ class ApiVersionFeaturesProvider
      */
     protected function assertVersionCompatibleString(?string $string): void
     {
-        if ($string === null || is_numeric($string)) {
+        if (null === $string || is_numeric($string)) {
             return;
         }
 
