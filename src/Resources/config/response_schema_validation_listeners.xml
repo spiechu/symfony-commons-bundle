@@ -42,8 +42,24 @@
             <tag name="kernel.event_subscriber"/>
         </service>
 
+        <service id="spiechu_symfony_commons.event_listener.xml_check_schema_subscriber"
+                 class="Spiechu\SymfonyCommonsBundle\EventListener\XmlCheckSchemaSubscriber"
+        >
+            <argument type="service" id="spiechu_symfony_commons.service.xml_schema_validator_factory"/>
+
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
         <service id="spiechu_symfony_commons.service.json_schema_validator_factory"
                  class="Spiechu\SymfonyCommonsBundle\Service\JsonSchemaValidatorFactory"
+                 public="false"
+                 lazy="true"
+        >
+            <argument type="service" id="file_locator"/>
+        </service>
+
+        <service id="spiechu_symfony_commons.service.xml_schema_validator_factory"
+                 class="Spiechu\SymfonyCommonsBundle\Service\XmlSchemaValidatorFactory"
                  public="false"
                  lazy="true"
         >

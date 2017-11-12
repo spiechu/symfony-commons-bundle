@@ -105,6 +105,7 @@ class Configuration implements ConfigurationInterface
                             ->defaultValue('spiechu_symfony_commons.event_listener.failed_schema_check_listener')
                         ->end()
                         ->booleanNode('disable_json_check_schema_subscriber')->defaultFalse()->end()
+                        ->booleanNode('disable_xml_check_schema_subscriber')->defaultFalse()->end()
                     ->end()
                 ->end()
             ->end()

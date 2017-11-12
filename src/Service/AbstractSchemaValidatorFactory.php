@@ -59,6 +59,7 @@ abstract class AbstractSchemaValidatorFactory
 
     /**
      * @param string $id
+     *
      * @throws \RuntimeException When schema with id "%s" is not registered
      */
     protected function assertHasSchema(string $id): void
