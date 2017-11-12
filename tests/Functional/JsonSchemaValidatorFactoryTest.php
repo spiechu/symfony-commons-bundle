@@ -24,7 +24,7 @@ class JsonSchemaValidatorFactoryTest extends WebTestCase
             'test_case' => 'PublicJsonSchemaValidatorFactory',
         ]);
 
-        $this->jsonSchemaValidatorFactory = $kernel->getContainer()->get('spiechu_symfony_commons.service.public_json_schema_validator_factory');
+        $this->jsonSchemaValidatorFactory = $kernel->getContainer()->get('spiechu_symfony_commons.service_schema_validator.public_json_schema_validator_factory');
     }
 
     public function testValidationResult()

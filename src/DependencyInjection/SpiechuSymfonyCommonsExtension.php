@@ -27,6 +27,8 @@ class SpiechuSymfonyCommonsExtension extends Extension
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
+        $loader->load('services.xml');
+
         $this->processGetMethodOverride($loader, $container, $processedConfig['get_method_override']);
         $this->processResponseSchemaValidation($loader, $container, $processedConfig['response_schema_validation']);
         $this->processApiVersioning($loader, $container, $processedConfig['api_versioning']);

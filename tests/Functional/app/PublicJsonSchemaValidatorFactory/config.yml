@@ -2,8 +2,8 @@ imports:
     - { resource: ../default/config.yml }
 
 services:
-    spiechu_symfony_commons.service.public_json_schema_validator_factory:
-        parent: spiechu_symfony_commons.service.json_schema_validator_factory
+    spiechu_symfony_commons.service_schema_validator.public_json_schema_validator_factory:
+        parent: spiechu_symfony_commons.service_schema_validator.json_schema_validator_factory
         public: true
 
 spiechu_symfony_commons:

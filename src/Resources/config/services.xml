@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"
+>
+
+    <services>
+
+        <service id="spiechu_symfony_commons.service.api_version_provider"
+                 class="Spiechu\SymfonyCommonsBundle\Service\ApiVersionProvider"
+                 public="false"
+        />
+
+        <service id="spiechu_symfony_commons.service.api_version_features_provider"
+                 class="Spiechu\SymfonyCommonsBundle\Service\ApiVersionFeaturesProvider"
+                 public="false"
+        >
+            <argument type="service" id="spiechu_symfony_commons.service.api_version_provider"/>
+        </service>
+
+        <service id="spiechu_symfony_commons.service_schema_validator.json_schema_validator_factory"
+                 class="Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\JsonSchemaValidatorFactory"
+                 public="false"
+                 lazy="true"
+        >
+            <argument type="service" id="file_locator"/>
+        </service>
+
+        <service id="spiechu_symfony_commons.service_schema_validator.xml_schema_validator_factory"
+                 class="Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\XmlSchemaValidatorFactory"
+                 public="false"
+                 lazy="true"
+        >
+            <argument type="service" id="file_locator"/>
+        </service>
+
+    </services>
+
+</container>
