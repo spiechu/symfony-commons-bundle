@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Spiechu\SymfonyCommonsBundle\Service;
+namespace Spiechu\SymfonyCommonsBundle\Service\SchemaValidator;
 
 use JsonSchema\Validator;
 
-class JsonSchemaValidator
+class JsonSchemaValidator implements SchemaValidatorInterface
 {
     /**
      * @var \stdClass
@@ -29,9 +29,7 @@ class JsonSchemaValidator
     }
 
     /**
-     * @param string $jsonString
-     *
-     * @return ValidationResult
+     * {@inheritdoc}
      */
     public function validate(string $jsonString): ValidationResult
     {

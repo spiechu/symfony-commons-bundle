@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Spiechu\SymfonyCommonsBundle\EventListener;
 
-use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckRequest;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Events;
-use Spiechu\SymfonyCommonsBundle\Service\XmlSchemaValidatorFactory;
-use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
+use Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\SchemaValidatorFactoryInterface;
+use Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\XmlSchemaValidatorFactory;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class XmlCheckSchemaSubscriber implements EventSubscriberInterface
+class XmlCheckSchemaSubscriber extends AbstractCheckSchemaSubscriber implements EventSubscriberInterface
 {
     /**
      * @var XmlSchemaValidatorFactory
@@ -36,22 +35,10 @@ class XmlCheckSchemaSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param CheckRequest $checkRequest
-     *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     * @throws FileLocatorFileNotFoundException
+     * {@inheritdoc}
      */
-    public function validateSchema(CheckRequest $checkRequest): void
+    protected function getSchemaValidatorFactory(): SchemaValidatorFactoryInterface
     {
-        $schemaLocation = $checkRequest->getResponseSchemaLocation();
-
-        if (!$this->xmlSchemaValidatorFactory->hasSchema($schemaLocation)) {
-            $this->xmlSchemaValidatorFactory->registerSchema($schemaLocation, $schemaLocation);
-        }
-
-        $schemaValidator = $this->xmlSchemaValidatorFactory->getValidator($schemaLocation);
-
-        $checkRequest->setValidationResult($schemaValidator->validate($checkRequest->getContent()));
+        return $this->xmlSchemaValidatorFactory;
     }
 }

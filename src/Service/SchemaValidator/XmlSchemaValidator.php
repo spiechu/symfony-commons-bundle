@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Spiechu\SymfonyCommonsBundle\Service;
+namespace Spiechu\SymfonyCommonsBundle\Service\SchemaValidator;
 
-class XmlSchemaValidator
+class XmlSchemaValidator implements SchemaValidatorInterface
 {
     /**
      * @var string
@@ -17,9 +17,7 @@ class XmlSchemaValidator
     }
 
     /**
-     * @param string $xmlString
-     *
-     * @return ValidationResult
+     * {@inheritdoc}
      */
     public function validate(string $xmlString): ValidationResult
     {

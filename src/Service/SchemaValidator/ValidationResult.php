@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiechu\SymfonyCommonsBundle\Service;
+namespace Spiechu\SymfonyCommonsBundle\Service\SchemaValidator;
 
 class ValidationResult
 {

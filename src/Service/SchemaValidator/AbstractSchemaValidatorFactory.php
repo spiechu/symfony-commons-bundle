@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Spiechu\SymfonyCommonsBundle\Service;
+namespace Spiechu\SymfonyCommonsBundle\Service\SchemaValidator;
 
 use Symfony\Component\Config\FileLocatorInterface;
 
@@ -33,18 +33,14 @@ abstract class AbstractSchemaValidatorFactory
      * @param string $schemaResourceLocation
      *
      * @throws \RuntimeException When schema with provided $id is already registered
-     *
-     * @return self
      */
-    public function registerSchema(string $id, string $schemaResourceLocation): self
+    public function registerSchema(string $id, string $schemaResourceLocation): void
     {
         if ($this->hasSchema($id)) {
             throw new \RuntimeException(sprintf('Schema with id "%s" already registered.', $id));
         }
 
         $this->registeredSchemas[$id] = $schemaResourceLocation;
-
-        return $this;
     }
 
     /**

@@ -8,7 +8,7 @@ use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckRequest;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckResult;
 use Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener;
 use Spiechu\SymfonyCommonsBundle\EventListener\ResponseSchemaValidatorListener;
-use Spiechu\SymfonyCommonsBundle\Service\ValidationResult;
+use Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\ValidationResult;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

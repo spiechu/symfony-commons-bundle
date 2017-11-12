@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Spiechu\SymfonyCommonsBundle\EventListener;
 
-use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckRequest;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Events;
-use Spiechu\SymfonyCommonsBundle\Service\JsonSchemaValidatorFactory;
-use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
+use Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\JsonSchemaValidatorFactory;
+use Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\SchemaValidatorFactoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class JsonCheckSchemaSubscriber implements EventSubscriberInterface
+class JsonCheckSchemaSubscriber extends AbstractCheckSchemaSubscriber implements EventSubscriberInterface
 {
     /**
      * @var JsonSchemaValidatorFactory
@@ -36,22 +35,10 @@ class JsonCheckSchemaSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param CheckRequest $checkRequest
-     *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     * @throws FileLocatorFileNotFoundException
+     * {@inheritdoc}
      */
-    public function validateSchema(CheckRequest $checkRequest): void
+    protected function getSchemaValidatorFactory(): SchemaValidatorFactoryInterface
     {
-        $schemaLocation = $checkRequest->getResponseSchemaLocation();
-
-        if (!$this->jsonSchemaValidatorFactory->hasSchema($schemaLocation)) {
-            $this->jsonSchemaValidatorFactory->registerSchema($schemaLocation, $schemaLocation);
-        }
-
-        $schemaValidator = $this->jsonSchemaValidatorFactory->getValidator($schemaLocation);
-
-        $checkRequest->setValidationResult($schemaValidator->validate($checkRequest->getContent()));
+        return $this->jsonSchemaValidatorFactory;
     }
 }

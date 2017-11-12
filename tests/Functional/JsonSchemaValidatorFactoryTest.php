@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Spiechu\SymfonyCommonsBundle\Test\Functional;
 
-use Spiechu\SymfonyCommonsBundle\Service\JsonSchemaValidatorFactory;
+use Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\JsonSchemaValidatorFactory;
 
 class JsonSchemaValidatorFactoryTest extends WebTestCase
 {

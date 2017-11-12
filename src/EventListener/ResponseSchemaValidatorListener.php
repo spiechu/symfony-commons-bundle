@@ -7,7 +7,7 @@ namespace Spiechu\SymfonyCommonsBundle\EventListener;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckRequest;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckResult;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Events;
-use Spiechu\SymfonyCommonsBundle\Service\ValidationResult;
+use Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\ValidationResult;
 use Spiechu\SymfonyCommonsBundle\Utils\ArrayUtils;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;

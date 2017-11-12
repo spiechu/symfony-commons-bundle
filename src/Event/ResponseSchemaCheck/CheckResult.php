@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck;
 
-use Spiechu\SymfonyCommonsBundle\Service\ValidationResult;
+use Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\ValidationResult;
 use Symfony\Component\EventDispatcher\Event;
 
 class CheckResult extends Event

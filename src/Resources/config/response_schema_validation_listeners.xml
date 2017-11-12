@@ -51,7 +51,7 @@
         </service>
 
         <service id="spiechu_symfony_commons.service.json_schema_validator_factory"
-                 class="Spiechu\SymfonyCommonsBundle\Service\JsonSchemaValidatorFactory"
+                 class="Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\JsonSchemaValidatorFactory"
                  public="false"
                  lazy="true"
         >
@@ -59,7 +59,7 @@
         </service>
 
         <service id="spiechu_symfony_commons.service.xml_schema_validator_factory"
-                 class="Spiechu\SymfonyCommonsBundle\Service\XmlSchemaValidatorFactory"
+                 class="Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\XmlSchemaValidatorFactory"
                  public="false"
                  lazy="true"
         >

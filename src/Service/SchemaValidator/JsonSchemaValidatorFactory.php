@@ -2,25 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Spiechu\SymfonyCommonsBundle\Service;
+namespace Spiechu\SymfonyCommonsBundle\Service\SchemaValidator;
 
 use JsonSchema\SchemaStorage;
 use JsonSchema\Uri\UriRetriever;
 use JsonSchema\Validator;
 use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 
-class JsonSchemaValidatorFactory extends AbstractSchemaValidatorFactory
+class JsonSchemaValidatorFactory extends AbstractSchemaValidatorFactory implements SchemaValidatorFactoryInterface
 {
     /**
-     * @param string $id
-     *
-     * @throws FileLocatorFileNotFoundException
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
-     *
-     * @return JsonSchemaValidator
+     * {@inheritdoc}
      */
-    public function getValidator(string $id): JsonSchemaValidator
+    public function getValidator(string $id): SchemaValidatorInterface
     {
         $this->assertHasSchema($id);
 
