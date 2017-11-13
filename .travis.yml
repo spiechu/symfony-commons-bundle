@@ -32,7 +32,7 @@ install:
   - if [ "$DEPENDENCIES" == "low" ]; then composer update --prefer-lowest; fi;
 
 script:
-  - './vendor/bin/simple-phpunit'
+  - if [ "$DEPENDENCIES" == "dev" || "$DEPENDENCIES" == "low" ]; then './vendor/bin/simple-phpunit' else './vendor/bin/simple-phpunit --testdox --coverage-text'; fi;
 
 notifications:
   email: false
