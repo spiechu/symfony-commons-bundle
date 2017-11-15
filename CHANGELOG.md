@@ -1,4 +1,4 @@
-v0.0.3 (2017-11-15)
+0.1 (2017-11-15)
 
 [Diff between v0.0.3 - 0.1](https://github.com/spiechu/symfony-commons-bundle/compare/v0.0.3...0.1)
 
