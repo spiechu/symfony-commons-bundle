@@ -6,7 +6,6 @@ namespace Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Control
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Spiechu\SymfonyCommonsBundle\Annotation\Controller\ApiVersion;
-use Spiechu\SymfonyCommonsBundle\Service\ApiVersionFeaturesProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,20 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 class ApiVersionAnnotatedController extends Controller
 {
     /**
-     * @var ApiVersionFeaturesProvider
-     */
-    protected $apiVersionFeaturesProvider;
-
-    /**
-     * @param ApiVersionFeaturesProvider $apiVersionFeaturesProvider
-     */
-    public function __construct(ApiVersionFeaturesProvider $apiVersionFeaturesProvider)
-    {
-        $this->apiVersionFeaturesProvider = $apiVersionFeaturesProvider;
-    }
-
-    /**
      * @Route("/fancy-route")
+     *
+     * @return Response
      */
     public function fancyRouteAction(): Response
     {
