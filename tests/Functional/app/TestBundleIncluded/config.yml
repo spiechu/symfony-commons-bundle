@@ -23,9 +23,11 @@ spiechu_symfony_commons:
                 until: 1.2
 
 services:
-  Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Controller\:
-    resource: '../../Bundle/TestBundle/Controller/'
-    public: true
-    autowire: true
-    tags:
-      - name: controller.service_arguments
+    Spiechu\SymfonyCommonsBundle\Service\ApiVersionFeaturesProvider:
+        alias: spiechu_symfony_commons.service.api_version_features_provider
+    Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Controller\:
+        resource: '../../Bundle/TestBundle/Controller/'
+        public: true
+        autowire: true
+        tags:
+          - name: controller.service_arguments
