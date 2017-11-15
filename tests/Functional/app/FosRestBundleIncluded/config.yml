@@ -23,8 +23,6 @@ spiechu_symfony_commons:
         versioned_view_listener: true
 
 services:
-    sensio_framework_extra.view.listener:
-        alias: Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener
     Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Controller\:
         resource: '../../Bundle/TestBundle/Controller/'
         public: true
