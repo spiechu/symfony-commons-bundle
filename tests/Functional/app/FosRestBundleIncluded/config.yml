@@ -8,19 +8,12 @@ framework:
 
 fos_rest:
     view:
-        default_engine: null
         view_response_listener:
             enabled: true
             force: true
         formats:
             xml:  true
             json: true
-
-jms_serializer:
-#    metadata:
-#        directories:
-#            FOSUB:
-#                namespace_prefix: "FOS\\UserBundle"
 
 spiechu_symfony_commons:
     response_schema_validation:
@@ -30,9 +23,11 @@ spiechu_symfony_commons:
         versioned_view_listener: true
 
 services:
-  Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Controller\:
-    resource: '../../Bundle/TestBundle/Controller/'
-    public: true
-    autowire: true
-    tags:
-      - name: controller.service_arguments
+    sensio_framework_extra.view.listener:
+        alias: Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener
+    Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Controller\:
+        resource: '../../Bundle/TestBundle/Controller/'
+        public: true
+        autowire: true
+        tags:
+            - name: controller.service_arguments
