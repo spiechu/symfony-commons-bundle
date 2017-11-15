@@ -1,5 +1,6 @@
 imports:
     - { resource: ../default/config.yml }
+    - { resource: ../default/jms_serializer_sf4_compatibility.yml }
 
 framework:
     profiler:
@@ -24,6 +25,7 @@ spiechu_symfony_commons:
 
 services:
     Spiechu\SymfonyCommonsBundle\Service\ApiVersionFeaturesProvider: '@spiechu_symfony_commons.service.api_version_features_provider'
+
     Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Controller\:
         resource: '../../Bundle/TestBundle/Controller/'
         public: true

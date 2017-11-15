@@ -1,0 +1,31 @@
+services:
+    jms_serializer.doctrine_proxy_subscriber:
+        class: JMS\Serializer\EventDispatcher\Subscriber\DoctrineProxySubscriber
+        public: true
+        tags:
+            - { name: jms_serializer.event_subscriber }
+        arguments:
+            - true
+            - false
+
+    jms_serializer.stopwatch_subscriber:
+        class: JMS\SerializerBundle\Serializer\StopwatchEventSubscriber
+        public: true
+        arguments:
+            - "?debug.stopwatch"
+
+    jms_serializer.datetime_handler:
+        class: JMS\Serializer\Handler\DateHandler
+        public: true
+        tags:
+            - { name: jms_serializer.subscribing_handler }
+
+    jms_serializer.array_collection_handler:
+        class: JMS\Serializer\Handler\ArrayCollectionHandler
+        public: true
+        tags:
+            - { name: jms_serializer.subscribing_handler }
+
+    jms_serializer.metadata_driver:
+        alias: 'jms_serializer.metadata.chain_driver'
+        public: true
