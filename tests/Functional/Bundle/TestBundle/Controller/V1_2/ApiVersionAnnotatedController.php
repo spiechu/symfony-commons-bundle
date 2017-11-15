@@ -19,6 +19,7 @@ class ApiVersionAnnotatedController extends BaseApiVersionAnnotatedController
      * @Route("/features-route")
      *
      * @param ApiVersionFeaturesProvider $apiVersionFeaturesProvider
+     *
      * @return JsonResponse
      */
     public function featuresRouteAction(ApiVersionFeaturesProvider $apiVersionFeaturesProvider): JsonResponse
@@ -33,6 +34,7 @@ class ApiVersionAnnotatedController extends BaseApiVersionAnnotatedController
      * @Route("/json-serialization-features-route")
      *
      * @param ApiVersionFeaturesProvider $apiVersionFeaturesProvider
+     *
      * @return JsonResponse
      */
     public function jsonSerializationFeaturesRouteAction(ApiVersionFeaturesProvider $apiVersionFeaturesProvider): JsonResponse
