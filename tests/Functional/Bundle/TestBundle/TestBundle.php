@@ -2,6 +2,7 @@
 
 namespace Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle;
 
+use Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\DependencyInjection\Compiler\JmsSerializerCompatibilityPass;
 use Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\DependencyInjection\Compiler\ViewListenerAliasProviderPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -14,5 +15,6 @@ class TestBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         $container->addCompilerPass(new ViewListenerAliasProviderPass());
+        $container->addCompilerPass(new JmsSerializerCompatibilityPass());
     }
 }
