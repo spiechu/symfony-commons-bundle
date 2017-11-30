@@ -37,6 +37,7 @@ script:
     else
       ./vendor/bin/simple-phpunit --testdox --coverage-text;
     fi;'
+  - './vendor/bin/phpstan analyse --level 1 src;'
 
 notifications:
   email: false
