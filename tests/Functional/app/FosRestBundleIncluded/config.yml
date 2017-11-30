@@ -7,6 +7,9 @@ framework:
         enabled: true
         collect: true
 
+sensio_framework_extra:
+    view: { annotations: true }
+
 fos_rest:
     view:
         view_response_listener:
