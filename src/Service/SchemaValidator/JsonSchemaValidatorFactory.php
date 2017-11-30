@@ -37,7 +37,7 @@ class JsonSchemaValidatorFactory extends AbstractSchemaValidatorFactory implemen
     {
         $mainSchemaFilePath = $this->fileLocator->locate($this->registeredSchemas[$id]);
         $schemaUri = basename($mainSchemaFilePath);
-        $schemaBaseUri = sprintf('file://%s/%s', dirname($mainSchemaFilePath), $schemaUri);
+        $schemaBaseUri = sprintf('file://%s/%s', \dirname($mainSchemaFilePath), $schemaUri);
 
         $retriever = new UriRetriever();
         $schema = $retriever->retrieve($schemaUri, $schemaBaseUri);

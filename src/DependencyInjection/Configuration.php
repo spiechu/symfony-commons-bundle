@@ -57,7 +57,7 @@ class Configuration implements ConfigurationInterface
                             ->defaultValue('_method')
                             ->validate()
                                 ->ifTrue(function ($methodName): bool {
-                                    return !is_string($methodName);
+                                    return !\is_string($methodName);
                                 })
                                 ->thenInvalid('Not a string provided')
                             ->end()
@@ -121,7 +121,7 @@ class Configuration implements ConfigurationInterface
     protected function addApiVersionSupport(ArrayNodeDefinition $rootNode): void
     {
         $versionNormalizer = static function ($version): string {
-            if (is_string($version)) {
+            if (\is_string($version)) {
                 return $version;
             }
 

@@ -11,6 +11,7 @@ use Spiechu\SymfonyCommonsBundle\Event\ApiVersion\Events as ApiVersionEvents;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckResult;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Events as ResponseSchemaCheckEvents;
 use Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener;
+use Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\ValidationViolation;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -128,7 +129,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
         $counter = 0;
 
         foreach ($this->getKnownResponseSchemas() as $format) {
-            $counter += count($format);
+            $counter += \count($format);
         }
 
         return $counter;
