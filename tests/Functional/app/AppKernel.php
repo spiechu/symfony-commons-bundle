@@ -15,7 +15,9 @@ use Symfony\Component\HttpKernel\Kernel;
 class AppKernel extends Kernel
 {
     private $varDir;
+
     private $testCase;
+
     private $rootConfig;
 
     public function __construct($varDir, $testCase, $rootConfig, $environment, $debug)
