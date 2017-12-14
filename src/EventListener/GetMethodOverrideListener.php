@@ -27,7 +27,7 @@ class GetMethodOverrideListener
     {
         $this->queryParamName = $queryParamName;
 
-        assert(
+        \assert(
             empty(AssertUtils::getNonStrings($methodsToOverride)),
             'contains non string elements'
         );
@@ -56,7 +56,7 @@ class GetMethodOverrideListener
 
         $normalizedQueryParam = strtoupper($request->query->get($this->queryParamName));
 
-        if (in_array($normalizedQueryParam, $this->methodsToOverride, true)) {
+        if (\in_array($normalizedQueryParam, $this->methodsToOverride, true)) {
             $request->setMethod($normalizedQueryParam);
         }
     }

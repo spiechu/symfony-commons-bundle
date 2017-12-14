@@ -20,7 +20,7 @@ class ArrayUtils
         $resultArray = [];
 
         foreach ($array as $key => $value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $resultArray = array_merge($resultArray, static::flatArrayRecursive($value));
             } else {
                 $resultArray[] = $value;

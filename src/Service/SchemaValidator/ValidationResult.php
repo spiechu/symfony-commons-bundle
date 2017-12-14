@@ -28,7 +28,7 @@ class ValidationResult
      */
     public function isValid(): bool
     {
-        return !count($this->errors);
+        return !\count($this->errors);
     }
 
     /**

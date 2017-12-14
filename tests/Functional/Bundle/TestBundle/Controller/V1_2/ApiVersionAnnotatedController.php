@@ -25,7 +25,7 @@ class ApiVersionAnnotatedController extends BaseApiVersionAnnotatedController
     public function featuresRouteAction(ApiVersionFeaturesProvider $apiVersionFeaturesProvider): JsonResponse
     {
         return new JsonResponse(array_values(array_map(
-            'strval',
+            '\strval',
             $apiVersionFeaturesProvider->getAvailableFeatures()
         )));
     }

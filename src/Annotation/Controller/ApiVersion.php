@@ -28,7 +28,7 @@ class ApiVersion
             throw new \InvalidArgumentException('No API version provided');
         }
 
-        if (!preg_match('/^[0-9]{1}\.[0-9]{1}$/', $values['value'])) {
+        if (!preg_match('/^\d{1}\.\d{1}$/', $values['value'])) {
             throw new \InvalidArgumentException('API version must have X.X format');
         }
 
