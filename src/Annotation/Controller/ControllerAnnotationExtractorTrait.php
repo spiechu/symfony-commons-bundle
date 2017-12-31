@@ -8,6 +8,9 @@ use Doctrine\Common\Annotations\Reader;
 
 trait ControllerAnnotationExtractorTrait
 {
+    /**
+     * @return Reader
+     */
     abstract protected function getAnnotationReader(): Reader;
 
     /**

@@ -50,6 +50,15 @@
             <tag name="kernel.event_subscriber"/>
         </service>
 
+        <service id="spiechu_symfony_commons.event_listener.controller_schema_validation_check_subscriber"
+                 class="Spiechu\SymfonyCommonsBundle\EventListener\ControllerSchemaValidationCheckSubscriber"
+        >
+            <argument type="service" id="spiechu_symfony_commons.service_schema_validator.schema_files_existence_checker"/>
+            <argument>%kernel.debug%</argument>
+
+            <tag name="kernel.cache_warmer" priority="-100"/>
+        </service>
+
     </services>
 
 </container>
