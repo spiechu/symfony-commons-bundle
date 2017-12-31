@@ -11,10 +11,10 @@ Main purpose of this bundle is to introduce some "missing" functionalities to Sy
 Consider this bundle as part of my preparations for Symfony Certification.
 I can only learn by doing instead of passive DOC reading.
 
-Bundle plays well with [FOSRestBundle](https://github.com/FriendsOfSymfony/FOSRestBundle).
-
-Bundle has high version requirements (Symfony 3.3, PHP 7.1).
-I wanted to play with new stuff instead of more day-to-day work with legacy sh!t.
+Bundle characteristics:
+- plays well with [FOSRestBundle](https://github.com/FriendsOfSymfony/FOSRestBundle)
+- [Symfony Flex ready](https://github.com/symfony/recipes-contrib/tree/master/spiechu/symfony-commons-bundle)
+- has high version requirements (Symfony 3.3, PHP 7.1).
 
 ## Bundle rules
 
@@ -26,15 +26,43 @@ I wanted to play with new stuff instead of more day-to-day work with legacy sh!t
 
 ## Installation
 
-### Download the Bundle
+I'm assuming you have Composer installed globally.
 
-Assuming you have Composer installed globally, you just need to run console command in project directory:
- 
+### Flex based installation (Symfony 3.4 and 4)
+
+#### Download & enable the Bundle
+
+Run console command in Symfony project directory:
+
+```bash
+composer req spiechu/symfony-commons-bundle
+```
+
+#### Enable Bundle features
+
+```yaml
+# config/packages/spiechu_symfony_commons.yml
+
+spiechu_symfony_commons:
+    get_method_override:
+        enabled: true
+    response_schema_validation:
+        enabled: true
+    api_versioning:
+        enabled: true
+```
+
+### Composer based installation (Symfony 3.3)
+
+#### Download the Bundle
+
+Run console command in Symfony project directory:
+
 ```bash
 composer require spiechu/symfony-commons-bundle
 ```
 
-### Enable the Bundle
+#### Enable the Bundle
 
 Enable the bundle by adding the following line in the `app/AppKernel.php` file of your project:
 
@@ -55,7 +83,7 @@ class AppKernel extends Kernel
 }
 ```
 
-### Enable Bundle features
+#### Enable Bundle features
 
 Preferred way of configuring Bundle is via YAML config:
 
