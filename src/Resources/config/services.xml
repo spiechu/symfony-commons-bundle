@@ -35,6 +35,16 @@
             <argument type="service" id="file_locator"/>
         </service>
 
+        <service id="Spiechu\SymfonyCommonsBundle\Service\ApiVersionProvider"
+                 alias="spiechu_symfony_commons.service.api_version_provider"
+                 public="false"
+        />
+
+        <service id="Spiechu\SymfonyCommonsBundle\Service\ApiVersionFeaturesProvider"
+                 alias="spiechu_symfony_commons.service.api_version_features_provider"
+                 public="false"
+        />
+
     </services>
 
 </container>
