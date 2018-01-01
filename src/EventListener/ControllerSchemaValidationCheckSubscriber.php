@@ -21,7 +21,7 @@ class ControllerSchemaValidationCheckSubscriber implements CacheWarmerInterface
 
     /**
      * @param SchemaFilesExistenceChecker $schemaFilesExistenceChecker
-     * @param bool $isDebugMode
+     * @param bool                        $isDebugMode
      */
     public function __construct(SchemaFilesExistenceChecker $schemaFilesExistenceChecker, bool $isDebugMode)
     {
