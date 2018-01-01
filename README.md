@@ -135,7 +135,7 @@ Run console command in Symfony project directory:
 composer req spiechu/symfony-commons-bundle
 ```
 
-#### Enable Bundle features
+#### Enable some/all Bundle features
 
 ```yaml
 # config/packages/spiechu_symfony_commons.yml
@@ -149,7 +149,7 @@ spiechu_symfony_commons:
         enabled: true
 ```
 
-### Composer based installation (Symfony 3.3)
+### Composer based installation (Symfony 3.3 and 3.4)
 
 #### Download the Bundle
 
@@ -180,7 +180,7 @@ class AppKernel extends Kernel
 }
 ```
 
-#### Enable Bundle features
+#### Enable some/all Bundle features
 
 Preferred way of configuring Bundle is via YAML config:
 
