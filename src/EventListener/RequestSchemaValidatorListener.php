@@ -39,7 +39,7 @@ class RequestSchemaValidatorListener
             return;
         }
 
-        $event->getRequest()->attributes->set(self::ATTRIBUTE_RESPONSE_SCHEMAS, $responseSchemaValidator->getSchemas());
+        $event->getRequest()->attributes->set(static::ATTRIBUTE_RESPONSE_SCHEMAS, $responseSchemaValidator->getSchemas());
     }
 
     /**

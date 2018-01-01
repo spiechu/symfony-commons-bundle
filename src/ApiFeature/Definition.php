@@ -34,7 +34,7 @@ class Definition implements \JsonSerializable
             throw new \InvalidArgumentException('Since parameter is not numeric');
         }
         if (null !== $until && !is_numeric($until)) {
-            throw new \InvalidArgumentException('Since parameter is not numeric');
+            throw new \InvalidArgumentException('Until parameter is not numeric');
         }
 
         if (null === $since && null === $until) {

@@ -18,8 +18,9 @@
         </svg>
         {% if collector.responseWasChecked %}
             <span class="sf-toolbar-status{% if collector.validationErrors is empty %} sf-toolbar-status-green{% else %} sf-toolbar-status-red{% endif %}">schema checked</span>
-        {% else %}
-            <span class="sf-toolbar-status">schema not checked</span>
+        {% endif %}
+        {% if collector.getMethodWasOverridden %}
+            <span class="sf-toolbar-status sf-toolbar-status-green">GET overridden to {{ collector.getMethodOverriddenTo }}</span>
         {% endif %}
     {% endset %}
 
@@ -74,8 +75,12 @@
 {% endblock %}
 
 {% block panel %}
+    {% if collector.getMethodWasOverridden %}
+        <h2>GET request method overridden to {{ collector.getMethodOverriddenTo }}</h2>
+    {% endif %}
+
     {% if collector.responseWasChecked %}
-        <h2>Schema violations</h2>
+        <h2>Schema check results</h2>
         <table>
             <thead>
             <tr>
@@ -87,7 +92,7 @@
             <tbody>
             {% for validationError in collector.validationErrors %}
                 {% if loop.first %}
-                    <h2>Response validation errors</h2>
+                    <h3>Response validation errors</h3>
                 {% endif %}
 
                 <tr>
@@ -103,7 +108,7 @@
         </table>
     {% endif %}
 
-    <h2>Response schemas for current endpoint</h2>
+    <h3>Response schemas for current endpoint</h3>
     <table>
         <thead>
         <tr>
@@ -133,7 +138,7 @@
         </tbody>
     </table>
 
-    <h2>All known response schemas</h2>
+    <h3>All known response schemas</h3>
 
     <table>
         <thead>

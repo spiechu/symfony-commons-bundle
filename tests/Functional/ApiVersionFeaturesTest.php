@@ -18,6 +18,8 @@ class ApiVersionFeaturesTest extends WebTestCase
             ['feature_without_until', 'feature_without_since', 'feature_both'],
             json_decode($client->getResponse()->getContent(), true)
         );
+
+        self::assertDataCollectorContainsProperData($client, '1.2', 0, 0);
     }
 
     public function testJsonSerializationFeatures()
@@ -48,6 +50,8 @@ class ApiVersionFeaturesTest extends WebTestCase
             ],
             json_decode($client->getResponse()->getContent(), true)
         );
+
+        self::assertDataCollectorContainsProperData($client, '1.2', 0, 0);
     }
 
     public function testAddFeature()
@@ -102,5 +106,7 @@ class ApiVersionFeaturesTest extends WebTestCase
             ],
             json_decode($client->getResponse()->getContent(), true)
         );
+
+        self::assertDataCollectorContainsProperData($client, '1.3', 0, 0);
     }
 }

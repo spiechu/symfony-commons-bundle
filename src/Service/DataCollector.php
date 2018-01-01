@@ -11,6 +11,7 @@ use Spiechu\SymfonyCommonsBundle\Event\ApiVersion\ApiVersionSetEvent;
 use Spiechu\SymfonyCommonsBundle\Event\ApiVersion\Events as ApiVersionEvents;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckResult;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Events as ResponseSchemaCheckEvents;
+use Spiechu\SymfonyCommonsBundle\EventListener\GetMethodOverrideListener;
 use Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener;
 use Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\ValidationViolation;
 use Spiechu\SymfonyCommonsBundle\Twig\DataCollectorExtension;
@@ -72,6 +73,10 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
     {
         $this->data['known_route_response_schemas'] = $request->attributes->has(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS)
             ? $request->attributes->get(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS)
+            : null;
+
+        $this->data['get_method_override'] = $request->attributes->has(GetMethodOverrideListener::ATTRIBUTE_REQUEST_GET_METHOD_OVERRIDE)
+            ? $request->attributes->get(GetMethodOverrideListener::ATTRIBUTE_REQUEST_GET_METHOD_OVERRIDE)
             : null;
 
         $this->extractRoutesData();
@@ -192,6 +197,22 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
         }
 
         return $this->data['validation_result']->getViolations();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGetMethodWasOverridden(): bool
+    {
+        return empty($this->data['get_method_override']) ? false : true;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getGetMethodOverriddenTo(): ?string
+    {
+        return $this->isGetMethodWasOverridden() ? $this->data['get_method_override'] : null;
     }
 
     protected function extractRoutesData(): void

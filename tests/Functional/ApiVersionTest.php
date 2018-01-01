@@ -23,6 +23,8 @@ class ApiVersionTest extends WebTestCase
 
         self::assertTrue($dataCollector->apiVersionWasSet());
         self::assertSame('1.0', $dataCollector->getApiVersion());
+
+        self::assertDataCollectorContainsProperData($client, '1.0', 0, 0);
     }
 
     /**
@@ -44,6 +46,8 @@ class ApiVersionTest extends WebTestCase
 
         self::assertTrue($dataCollector->apiVersionWasSet());
         self::assertSame($expectedApiVersion, $dataCollector->getApiVersion());
+
+        self::assertDataCollectorContainsProperData($client, $expectedApiVersion, 0, 0);
     }
 
     /**

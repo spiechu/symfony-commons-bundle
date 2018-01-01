@@ -9,6 +9,8 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class GetMethodOverrideListener
 {
+    public const ATTRIBUTE_REQUEST_GET_METHOD_OVERRIDE = 'spiechu_symfony_commons.event_listener.get_method_override';
+
     /**
      * @var string
      */
@@ -58,6 +60,8 @@ class GetMethodOverrideListener
 
         if (\in_array($normalizedQueryParam, $this->methodsToOverride, true)) {
             $request->setMethod($normalizedQueryParam);
+
+            $request->attributes->set(static::ATTRIBUTE_REQUEST_GET_METHOD_OVERRIDE, $normalizedQueryParam);
         }
     }
 }
