@@ -5,7 +5,10 @@
   "license": "MIT",
   "keywords": [
     "symfony",
-    "bundle"
+    "bundle",
+    "schema validation",
+    "api versioning",
+    "request overriding"
   ],
   "homepage": "https://github.com/spiechu/symfony-commons-bundle",
   "authors": [
