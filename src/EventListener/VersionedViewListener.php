@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Spiechu\SymfonyCommonsBundle\EventListener;
 
+use FOS\RestBundle\View\View;
 use Spiechu\SymfonyCommonsBundle\Service\ApiVersionProvider;
 use Spiechu\SymfonyCommonsBundle\Service\VersionedViewInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
@@ -42,7 +43,7 @@ class VersionedViewListener
             return;
         }
 
-        if (class_exists('FOS\RestBundle\View\View') && is_a($controllerResult, 'FOS\RestBundle\View\View')) {
+        if (class_exists(View::class) && is_a($controllerResult, View::class)) {
             $context = $controllerResult->getContext();
 
             $context->setVersion($apiVersion);
