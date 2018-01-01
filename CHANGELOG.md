@@ -1,3 +1,13 @@
+0.1.1 (2017-12-31)
+
+[Diff between 0.1 - 0.1.1](https://github.com/spiechu/symfony-commons-bundle/compare/0.1...0.1.1)
+
+  * Add service aliases to use service autowiring
+  * Add Bundle install instructions using Flex
+  * Enable Travis CI build against PHP 7.2
+  * Enable PHP Stan level 1 check during CI build
+  * Remove BitBucket pipelines support
+
 0.1 (2017-11-15)
 
 [Diff between v0.0.3 - 0.1](https://github.com/spiechu/symfony-commons-bundle/compare/v0.0.3...0.1)
