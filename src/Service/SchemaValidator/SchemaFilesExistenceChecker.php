@@ -61,7 +61,7 @@ class SchemaFilesExistenceChecker
      */
     public function checkControllerResponseSchemaValidatorFiles(): void
     {
-        $corruptedFiles = [];
+        $nonExistingFiles = [];
 
         foreach ($this->router->getRouteCollection()->all() as $route) {
             $controllerAttribute = $route->getDefault('_controller');
@@ -82,16 +82,16 @@ class SchemaFilesExistenceChecker
                 continue;
             }
 
-            if ($checkError = $this->checkResponseSchema($annotation->getSchemas())) {
-                if (!array_key_exists($routePath = $route->getPath(), $corruptedFiles)) {
-                    $corruptedFiles[$routePath] = [];
+            if ($nonExistingSchemaFile = $this->getNonExistingSchemaFile($annotation->getSchemas())) {
+                if (!array_key_exists($routePath = $route->getPath(), $nonExistingFiles)) {
+                    $nonExistingFiles[$routePath] = [];
                 }
-                $corruptedFiles[$routePath][] = $checkError;
+                $nonExistingFiles[$routePath][] = $nonExistingSchemaFile;
             }
         }
 
-        if ($corruptedFiles) {
-            throw $this->createExceptionFromCorruptedFiles($corruptedFiles);
+        if (!empty($nonExistingFiles)) {
+            throw $this->createExceptionFromCorruptedFiles($nonExistingFiles);
         }
     }
 
@@ -99,7 +99,7 @@ class SchemaFilesExistenceChecker
      * @param array $schemas
      * @return null|string
      */
-    protected function checkResponseSchema(array $schemas): ?string
+    protected function getNonExistingSchemaFile(array $schemas): ?string
     {
         foreach ($schemas as $schema) {
             foreach ($schema as $schemaLocation) {
