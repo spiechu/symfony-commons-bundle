@@ -38,10 +38,10 @@ class SchemaFilesExistenceChecker
     protected $fileLocator;
 
     /**
-     * @param Reader $reader
-     * @param RouterInterface $router
+     * @param Reader                      $reader
+     * @param RouterInterface             $router
      * @param ControllerResolverInterface $controllerResolver
-     * @param FileLocatorInterface $fileLocator
+     * @param FileLocatorInterface        $fileLocator
      */
     public function __construct(
         Reader $reader,
@@ -56,7 +56,7 @@ class SchemaFilesExistenceChecker
     }
 
     /**
-     * @throws \LogicException If any of controllers can't be found by controller resolver
+     * @throws \LogicException   If any of controllers can't be found by controller resolver
      * @throws \RuntimeException When any of defined schema files in ResponseSchemaValidator not exist
      */
     public function checkControllerResponseSchemaValidatorFiles(): void
@@ -97,6 +97,7 @@ class SchemaFilesExistenceChecker
 
     /**
      * @param array $schemas
+     *
      * @return null|string
      */
     protected function checkResponseSchema(array $schemas): ?string
@@ -116,6 +117,7 @@ class SchemaFilesExistenceChecker
 
     /**
      * @param array $corruptedFiles
+     *
      * @return \RuntimeException
      */
     protected function createExceptionFromCorruptedFiles(array $corruptedFiles): \RuntimeException
