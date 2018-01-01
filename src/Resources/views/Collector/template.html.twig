@@ -25,8 +25,8 @@
 
     {% set text %}
         <div class="sf-toolbar-info-piece">
-            <b>Known response schemas</b>
-            <span class="sf-toolbar-status">{{ collector.knownResponseSchemaNumber }}</span>
+            <b>Known route response schemas</b>
+            <span class="sf-toolbar-status">{{ collector.knownRouteResponseSchemaNumber }}</span>
         </div>
         {% for format, schemas in collector.knownResponseSchemas %}
             <div class="sf-toolbar-info-piece">

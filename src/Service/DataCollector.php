@@ -61,7 +61,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function collect(Request $request, Response $response, \Exception $exception = null): void
     {
-        $this->data['known_response_schemas'] = $request->attributes->has(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS)
+        $this->data['known_route_response_schemas'] = $request->attributes->has(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS)
             ? $request->attributes->get(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS)
             : null;
 
@@ -122,23 +122,28 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
     /**
      * @return array
      */
-    public function getKnownResponseSchemas(): array
+    public function getKnownRouteResponseSchemas(): array
     {
-        return empty($this->data['known_response_schemas']) ? [] : $this->data['known_response_schemas'];
+        return empty($this->data['known_route_response_schemas']) ? [] : $this->data['known_route_response_schemas'];
     }
 
     /**
      * @return int
      */
-    public function getKnownResponseSchemaNumber(): int
+    public function getKnownRouteResponseSchemaNumber(): int
     {
         $counter = 0;
 
-        foreach ($this->getKnownResponseSchemas() as $format) {
+        foreach ($this->getKnownRouteResponseSchemas() as $format) {
             $counter += \count($format);
         }
 
         return $counter;
+    }
+
+    public function allPotentialErrorsCount(): int
+    {
+
     }
 
     /**
