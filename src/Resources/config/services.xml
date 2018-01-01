@@ -35,17 +35,6 @@
             <argument type="service" id="file_locator"/>
         </service>
 
-        <service id="spiechu_symfony_commons.service_schema_validator.schema_files_existence_checker"
-                 class="Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\SchemaFilesExistenceChecker"
-                 public="false"
-                 lazy="true"
-        >
-            <argument type="service" id="annotations.cached_reader"/>
-            <argument type="service" id="router"/>
-            <argument type="service" id="controller_resolver"/>
-            <argument type="service" id="file_locator"/>
-        </service>
-
         <service id="Spiechu\SymfonyCommonsBundle\Service\ApiVersionProvider"
                  alias="spiechu_symfony_commons.service.api_version_provider"
                  public="false"

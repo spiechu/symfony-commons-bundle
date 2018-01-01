@@ -168,7 +168,12 @@
                         {% endif %}
 
                         <td>{{ statusCode }}</td>
-                        <td>{{ value }}</td>
+                        <td>
+                            {{ value }}
+                            {% if not schema_file_exists(value) %}
+                                <span class="label label-error">NOT EXISTS</span>
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             {% endfor %}
@@ -179,5 +184,4 @@
         {% endfor %}
         </tbody>
     </table>
-    {%  schema_file_exists('buba') %}
 {% endblock %}

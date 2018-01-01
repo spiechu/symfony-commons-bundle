@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Spiechu\SymfonyCommonsBundle\Twig;
 
+use Symfony\Component\Config\Exception\FileLocatorFileNotFoundException;
 use Symfony\Component\Config\FileLocatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -33,8 +34,18 @@ class DataCollectorExtension extends AbstractExtension
         );
     }
 
-    public function schemaFileExists()
+    /**
+     * @param string $schemaLocation
+     * @return bool
+     */
+    public function schemaFileExists(string $schemaLocation): bool
     {
-        $s = null;
+        try {
+            $this->fileLocator->locate($schemaLocation);
+
+            return true;
+        } catch (FileLocatorFileNotFoundException $e) {
+            return false;
+        }
     }
 }
