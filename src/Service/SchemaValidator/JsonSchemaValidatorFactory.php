@@ -45,6 +45,10 @@ class JsonSchemaValidatorFactory extends AbstractSchemaValidatorFactory implemen
         $schemaStorage = new SchemaStorage($retriever);
         $schemaStorage->addSchema($schemaBaseUri, $schema);
 
+        if (!$schema instanceof \stdClass) {
+            throw new \InvalidArgumentException('Retriever result is not instance of \stdClass');
+        }
+
         return $schema;
     }
 }

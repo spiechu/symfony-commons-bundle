@@ -45,6 +45,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('get_method_override')
+                    ->info('Default options for GET method override feature')
                     ->addDefaultsIfNotSet()
                     ->canBeEnabled()
                     ->children()
@@ -97,6 +98,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('response_schema_validation')
+                    ->info('Default options for response schema validation feature')
                     ->addDefaultsIfNotSet()
                     ->canBeEnabled()
                     ->children()
@@ -135,6 +137,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->arrayNode('api_versioning')
+                    ->info('Default options for API versioning feature')
                     ->addDefaultsIfNotSet()
                     ->canBeEnabled()
                     ->children()
