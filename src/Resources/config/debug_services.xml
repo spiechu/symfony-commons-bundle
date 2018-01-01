@@ -13,10 +13,19 @@
         >
             <argument type="service" id="router"/>
             <argument type="service" id="annotations.cached_reader"/>
-            <argument type="service" id="service_container"/>
+            <argument type="service" id="controller_resolver"/>
 
             <tag name="kernel.event_subscriber"/>
             <tag name="data_collector" id="spiechu_symfony_commons.data_collector" template="@SpiechuSymfonyCommons/Collector/template.html.twig"/>
+        </service>
+
+        <service id="spiechu_symfony_commons.twig.data_collector_extension"
+                 class="Spiechu\SymfonyCommonsBundle\Twig\DataCollectorExtension"
+                 public="false"
+        >
+            <argument type="service" id="file_locator"/>
+
+            <tag name="twig.extension"/>
         </service>
 
     </services>

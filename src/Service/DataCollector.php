@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Spiechu\SymfonyCommonsBundle\Service;
 
 use Doctrine\Common\Annotations\Reader;
+use Spiechu\SymfonyCommonsBundle\Annotation\Controller\ControllerAnnotationExtractorTrait;
 use Spiechu\SymfonyCommonsBundle\Annotation\Controller\ResponseSchemaValidator;
 use Spiechu\SymfonyCommonsBundle\Event\ApiVersion\ApiVersionSetEvent;
 use Spiechu\SymfonyCommonsBundle\Event\ApiVersion\Events as ApiVersionEvents;
@@ -12,15 +13,17 @@ use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckResult;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Events as ResponseSchemaCheckEvents;
 use Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener;
 use Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\ValidationViolation;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector as BaseDataCollector;
 use Symfony\Component\Routing\RouterInterface;
 
 class DataCollector extends BaseDataCollector implements EventSubscriberInterface
 {
+    use ControllerAnnotationExtractorTrait;
+
     public const COLLECTOR_NAME = 'spiechu_symfony_commons.data_collector';
 
     /**
@@ -34,20 +37,23 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
     protected $reader;
 
     /**
-     * @var Container
+     * @var ControllerResolverInterface
      */
-    protected $container;
+    protected $controllerResolver;
 
     /**
      * @param RouterInterface $router
-     * @param Reader          $reader
-     * @param Container       $container
+     * @param Reader $reader
+     * @param ControllerResolverInterface $controllerResolver
      */
-    public function __construct(RouterInterface $router, Reader $reader, Container $container)
-    {
+    public function __construct(
+        RouterInterface $router,
+        Reader $reader,
+        ControllerResolverInterface $controllerResolver
+    ) {
         $this->router = $router;
         $this->reader = $reader;
-        $this->container = $container;
+        $this->controllerResolver = $controllerResolver;
     }
 
     /**
@@ -176,14 +182,11 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
         $this->data['global_response_schemas'] = [];
 
         foreach ($this->router->getRouteCollection() as $name => $route) {
-            $defaults = $route->getDefaults();
-
-            if (empty($defaults['_controller'])) {
+            if (empty($controllerDefinition = $route->getDefault('_controller'))) {
                 continue;
             }
 
-            $methodAnnotation = $this->extractControllerResponseValidator($defaults['_controller']);
-
+            $methodAnnotation = $this->extractControllerResponseValidator($controllerDefinition);
             if (!$methodAnnotation instanceof ResponseSchemaValidator) {
                 continue;
             }
@@ -191,7 +194,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
             $this->data['global_response_schemas'][] = [
                 'path' => $route->getPath(),
                 'name' => $name,
-                'controller' => $defaults['_controller'],
+                'controller' => $controllerDefinition,
                 'response_schemas' => $methodAnnotation->getSchemas(),
             ];
         }
@@ -206,14 +209,26 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     protected function extractControllerResponseValidator(string $controllerDefinition): ?ResponseSchemaValidator
     {
-        [$controllerDefinition, $controllerMethod] = explode(':', $controllerDefinition, 2);
+        $resolvedController = $this->controllerResolver->getController(new Request(
+            [],
+            [],
+            [
+                '_controller' => $controllerDefinition,
+            ]
+        ));
 
-        $controllerClass = $this->container->has($controllerDefinition)
-            ? $this->container->get($controllerDefinition)
-            : $controllerDefinition;
+        if (!\is_callable($resolvedController)) {
+            return null;
+        }
 
-        $reflectedMethod = new \ReflectionMethod($controllerClass, ltrim($controllerMethod, ':'));
+        return $this->getMethodAnnotationFromController($resolvedController, ResponseSchemaValidator::class);
+    }
 
-        return $this->reader->getMethodAnnotation($reflectedMethod, ResponseSchemaValidator::class);
+    /**
+     * {@inheritdoc}
+     */
+    protected function getAnnotationReader(): Reader
+    {
+        return $this->reader;
     }
 }
