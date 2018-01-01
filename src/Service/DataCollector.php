@@ -42,8 +42,8 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
     protected $controllerResolver;
 
     /**
-     * @param RouterInterface $router
-     * @param Reader $reader
+     * @param RouterInterface             $router
+     * @param Reader                      $reader
      * @param ControllerResolverInterface $controllerResolver
      */
     public function __construct(

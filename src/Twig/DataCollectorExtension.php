@@ -29,13 +29,14 @@ class DataCollectorExtension extends AbstractExtension
      */
     public function getFunctions()
     {
-        return array(
+        return [
             new TwigFunction('schema_file_exists', [$this, 'schemaFileExists']),
-        );
+        ];
     }
 
     /**
      * @param string $schemaLocation
+     *
      * @return bool
      */
     public function schemaFileExists(string $schemaLocation): bool
