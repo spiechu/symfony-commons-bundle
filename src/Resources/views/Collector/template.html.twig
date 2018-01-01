@@ -17,9 +17,9 @@
             {% include('@SpiechuSymfonyCommons/Collector/_icon_definition.html.twig') %}
         </svg>
         {% if collector.responseWasChecked %}
-            <span class="sf-toolbar-status{% if collector.validationErrors is empty %} sf-toolbar-status-green{% else %} sf-toolbar-status-red{% endif %}">checked</span>
+            <span class="sf-toolbar-status{% if collector.validationErrors is empty %} sf-toolbar-status-green{% else %} sf-toolbar-status-red{% endif %}">schema checked</span>
         {% else %}
-            <span class="sf-toolbar-status">not checked</span>
+            <span class="sf-toolbar-status">schema not checked</span>
         {% endif %}
     {% endset %}
 
@@ -28,7 +28,7 @@
             <b>Known route response schemas</b>
             <span class="sf-toolbar-status">{{ collector.knownRouteResponseSchemaNumber }}</span>
         </div>
-        {% for format, schemas in collector.knownResponseSchemas %}
+        {% for format, schemas in collector.knownRouteResponseSchemas %}
             <div class="sf-toolbar-info-piece">
                 <b>Format</b>
                 <span class="sf-toolbar-status">{{ format }}</span>
@@ -46,7 +46,7 @@
 {% endblock %}
 
 {% block menu %}
-    <span class="label{% if collector.validationErrors %} label-status-error{% endif %}{% if collector.knownResponseSchemas is empty %} disabled{% endif %}">
+    <span class="label{% if collector.validationErrors %} label-status-error{% endif %}{% if collector.knownRouteResponseSchemas is empty %} disabled{% endif %}">
     <span class="icon">
         <svg
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -64,9 +64,10 @@
         </svg>
     </span>
     <strong>Sf Commons</strong>
-        {% if collector.validationErrors %}
+        {% set potential_errors_count = collector.allPotentialErrorsCount %}
+        {% if potential_errors_count %}
             <span class="count">
-                <span>{{ collector.validationErrors|length }}</span>
+                <span>{{ potential_errors_count }}</span>
             </span>
         {% endif %}
     </span>
@@ -113,7 +114,7 @@
         </thead>
 
         <tbody>
-        {% for format, schemas in collector.knownResponseSchemas %}
+        {% for format, schemas in collector.knownRouteResponseSchemas %}
             {% for statusCode, value in schemas %}
                 <tr>
                     {% if loop.first %}

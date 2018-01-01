@@ -14,6 +14,7 @@
             <argument type="service" id="router"/>
             <argument type="service" id="annotations.cached_reader"/>
             <argument type="service" id="controller_resolver"/>
+            <argument type="service" id="spiechu_symfony_commons.twig.data_collector_extension"/>
 
             <tag name="kernel.event_subscriber"/>
             <tag name="data_collector" id="spiechu_symfony_commons.data_collector" template="@SpiechuSymfonyCommons/Collector/template.html.twig"/>

@@ -13,6 +13,7 @@ use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\CheckResult;
 use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Events as ResponseSchemaCheckEvents;
 use Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener;
 use Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\ValidationViolation;
+use Spiechu\SymfonyCommonsBundle\Twig\DataCollectorExtension;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,18 +43,26 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
     protected $controllerResolver;
 
     /**
+     * @var DataCollectorExtension
+     */
+    protected $dataCollectorExtension;
+
+    /**
      * @param RouterInterface             $router
      * @param Reader                      $reader
      * @param ControllerResolverInterface $controllerResolver
+     * @param DataCollectorExtension      $dataCollectorExtension
      */
     public function __construct(
         RouterInterface $router,
         Reader $reader,
-        ControllerResolverInterface $controllerResolver
+        ControllerResolverInterface $controllerResolver,
+        DataCollectorExtension $dataCollectorExtension
     ) {
         $this->router = $router;
         $this->reader = $reader;
         $this->controllerResolver = $controllerResolver;
+        $this->dataCollectorExtension = $dataCollectorExtension;
     }
 
     /**
@@ -141,9 +150,12 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
         return $counter;
     }
 
-    public function allPotentialErrorsCount(): int
+    /**
+     * @return int
+     */
+    public function getAllPotentialErrorsCount(): int
     {
-
+        return \count($this->getValidationErrors()) + $this->getGlobalNonExistingSchemaFiles();
     }
 
     /**
@@ -185,6 +197,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
     protected function extractRoutesData(): void
     {
         $this->data['global_response_schemas'] = [];
+        $this->data['global_non_existing_schema_files'] = 0;
 
         foreach ($this->router->getRouteCollection() as $name => $route) {
             if (empty($controllerDefinition = $route->getDefault('_controller'))) {
@@ -196,12 +209,22 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
                 continue;
             }
 
+            $annotationSchemas = $methodAnnotation->getSchemas();
+
             $this->data['global_response_schemas'][] = [
                 'path' => $route->getPath(),
                 'name' => $name,
                 'controller' => $controllerDefinition,
-                'response_schemas' => $methodAnnotation->getSchemas(),
+                'response_schemas' => $annotationSchemas,
             ];
+
+            foreach ($annotationSchemas as $schemas) {
+                foreach ($schemas as $schema) {
+                    if (!$this->dataCollectorExtension->schemaFileExists($schema)) {
+                        ++$this->data['global_non_existing_schema_files'];
+                    }
+                }
+            }
         }
     }
 
@@ -227,6 +250,14 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
         }
 
         return $this->getMethodAnnotationFromController($resolvedController, ResponseSchemaValidator::class);
+    }
+
+    /**
+     * @return int
+     */
+    protected function getGlobalNonExistingSchemaFiles(): int
+    {
+        return empty($this->data['global_non_existing_schema_files']) ? 0 : \count($this->data['global_non_existing_schema_files']);
     }
 
     /**
