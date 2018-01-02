@@ -18,11 +18,9 @@ Bundle characteristics:
 
 ## Bundle rules
 
-1. Every feature is disabled by default.
-2. You only enable what you need.
-3. No event listeners hanging around when unneeded.
-4. Provide sane defaults and extensive customisation possibilities.
-5. Every file runs on `declare(strict_types=1);`.
+1. Every feature is disabled by default. You only enable what you need.
+2. No event listeners hanging around when unneeded.
+3. Provide sane defaults and extensive customisation possibilities.
 
 ## Features
 
