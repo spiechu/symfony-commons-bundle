@@ -1,3 +1,12 @@
+0.2 (2018-01-06)
+
+[Diff between 0.1.1 - 0.2](https://github.com/spiechu/symfony-commons-bundle/compare/0.1.1...0.2)
+
+  * Add detailed DOCs
+  * Add `ext-xml` to Composer's require
+  * Broaden `justinrainbow/json-schema` acceptable versions to `~5.2` with some exceptions
+  * Upgrade data collector
+
 0.1.1 (2017-12-31)
 
 [Diff between 0.1 - 0.1.1](https://github.com/spiechu/symfony-commons-bundle/compare/0.1...0.1.1)
