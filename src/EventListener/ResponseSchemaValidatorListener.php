@@ -99,9 +99,9 @@ class ResponseSchemaValidatorListener
      * @param Request  $request
      * @param Response $response
      *
-     * @throws \RuntimeException
+     * @throws \RuntimeException When not able to determine response format on $this->throwExceptionWhenFormatNotFound flag true
      *
-     * @return null|string When not able to determine response format on $this->throwExceptionWhenFormatNotFound flag true
+     * @return null|string
      */
     protected function getFormat(Request $request, Response $response): ?string
     {
