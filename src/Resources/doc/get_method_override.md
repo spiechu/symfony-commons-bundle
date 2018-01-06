@@ -1,4 +1,4 @@
-Symfony allows you to change HTTP method in forms via hidden `_method` form field ([described here](https://symfony.com/doc/current/form/action_method.html)).
+Symfony allows you to change HTTP method in forms via hidden `_method` form field [described here](https://symfony.com/doc/current/form/action_method.html).
 This kind of override is not possible when using GET method.
 
 With this bundle you can use `http://myapp.com/mypath?_method=DELETE` or `PUT`.
@@ -27,7 +27,7 @@ First constructor argument will receive query param name (`_method` by default) 
 public function __construct(string $queryParamName, array $methodsToOverride)
 ```
 
-Also you need to create typical method `onKernelRequest` accepting `Symfony\Component\HttpKernel\Event\GetResponseEvent` object.
+Also you need to create typical method `onKernelRequest` accepting `Symfony\Component\HttpKernel\Event\GetResponseEvent` object as parameter.
 
 ```php
 /**
