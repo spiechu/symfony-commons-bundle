@@ -86,4 +86,14 @@ class WebTestCase extends BaseWebTestCase
         self::assertSame($expectedKnownRouteResponseSchemaNumber, $dataCollector->getKnownRouteResponseSchemaNumber());
         self::assertSame($expectedAllPotentialErrorsCount, $dataCollector->getAllPotentialErrorsCount());
     }
+
+    /**
+     * @param Client $client
+     *
+     * @return DataCollector
+     */
+    protected static function getDataCollector(Client $client): DataCollector
+    {
+        return $client->getProfile()->getCollector(DataCollector::COLLECTOR_NAME);
+    }
 }
