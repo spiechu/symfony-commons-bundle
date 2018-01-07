@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector as BaseDataCollector;
+use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
 
 class DataCollector extends BaseDataCollector implements EventSubscriberInterface
@@ -220,17 +221,11 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
         $this->data['global_response_schemas'] = [];
         $this->data['global_non_existing_schema_files'] = 0;
 
-        foreach ($this->router->getRouteCollection() as $name => $route) {
-            if (empty($controllerDefinition = $route->getDefault('_controller'))) {
-                continue;
-            }
-
-            $methodAnnotation = $this->extractControllerResponseValidator($controllerDefinition);
-            if (!$methodAnnotation instanceof ResponseSchemaValidator) {
-                continue;
-            }
-
-            $annotationSchemas = $methodAnnotation->getSchemas();
+        /** @var Route $route */
+        /** @var string $controllerDefinition */
+        /** @var ResponseSchemaValidator $responseSchemaValidator */
+        foreach ($this->getRouteCollectionGenerator() as $name => [$route, $controllerDefinition, $responseSchemaValidator]) {
+            $annotationSchemas = $responseSchemaValidator->getSchemas();
 
             $this->data['global_response_schemas'][] = [
                 'path' => $route->getPath(),
@@ -246,6 +241,27 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * @throws \Exception
+     *
+     * @return \Generator string $name => [Route $route, string $controllerDefinition, ResponseSchemaValidator $methodAnnotation]
+     */
+    protected function getRouteCollectionGenerator(): \Generator
+    {
+        foreach ($this->router->getRouteCollection() as $name => $route) {
+            if (empty($controllerDefinition = $route->getDefault('_controller'))) {
+                continue;
+            }
+
+            $methodAnnotation = $this->extractControllerResponseValidator($controllerDefinition);
+            if (!$methodAnnotation instanceof ResponseSchemaValidator) {
+                continue;
+            }
+
+            yield $name => [$route, $controllerDefinition, $methodAnnotation];
         }
     }
 
