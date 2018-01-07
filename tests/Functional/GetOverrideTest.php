@@ -15,11 +15,19 @@ class GetOverrideTest extends WebTestCase
         $client->request('GET', '/get-override/get-request');
 
         self::assertSame('GET request', $client->getResponse()->getContent());
-        self::assertFalse(static::getDataCollector($client)->isGetMethodWasOverridden());
 
-        $client->request('GET', '/get-override/delete-request?_method=DELETE');
+        $dataCollector = static::getDataCollector($client);
+
+        self::assertFalse($dataCollector->isGetMethodWasOverridden());
+        self::assertNull($dataCollector->getGetMethodOverriddenTo());
+
+        $client->request('GET', '/get-override/delete-request?_method=delete');
 
         self::assertSame('DELETE request', $client->getResponse()->getContent());
-        self::assertTrue(static::getDataCollector($client)->isGetMethodWasOverridden());
+
+        $dataCollector = static::getDataCollector($client);
+
+        self::assertTrue($dataCollector->isGetMethodWasOverridden());
+        self::assertSame('DELETE', $dataCollector->getGetMethodOverriddenTo());
     }
 }
