@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Spiechu\SymfonyCommonsBundle\ApiFeature;
 
+use Spiechu\SymfonyCommonsBundle\Utils\StringUtils;
+
 class Definition implements \JsonSerializable
 {
     /**
@@ -30,6 +32,8 @@ class Definition implements \JsonSerializable
      */
     public function __construct(string $name, ?string $since, ?string $until)
     {
+        StringUtils::assertNotEmpty($name, 'Empty feature name');
+
         if (null !== $since && !is_numeric($since)) {
             throw new \InvalidArgumentException('Since parameter is not numeric');
         }

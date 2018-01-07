@@ -8,13 +8,14 @@ class StringUtils
 {
     /**
      * @param string $string
+     * @param string $errorMessage
      *
      * @throws \InvalidArgumentException
      */
-    public static function assertNotEmpty(string $string): void
+    public static function assertNotEmpty(string $string, string $errorMessage = 'Empty string provided'): void
     {
         if ('' === $string) {
-            throw new \InvalidArgumentException('Empty string provided');
+            throw new \InvalidArgumentException($errorMessage);
         }
     }
 }
