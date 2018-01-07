@@ -32,6 +32,26 @@ class ResponseSchemaAnnotatedController extends Controller
     }
 
     /**
+     * @Route("/not-valid-json", name="not_valid_json")
+     *
+     * @ResponseSchemaValidator(
+     *   json={
+     *     200="@TestBundle/Resources/response_schema/200-simple.json",
+     *  }
+     * )
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function notValidJsonAction(Request $request): JsonResponse
+    {
+        return new JsonResponse([
+            'not-id' => $request->query->get('id'),
+        ]);
+    }
+
+    /**
      * @Route("/simple-xml", name="simple_xml")
      *
      * @ResponseSchemaValidator(

@@ -33,3 +33,9 @@ services:
           - name: kernel.event_listener
             event: kernel.request
             method: onKernelRequest
+
+    Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Service\EventListener\ListenerReplacingFailedSchemaCheckListener:
+        tags:
+          - name: kernel.event_listener
+            event: spiechu_symfony_commons.event.response_schema_check.check_result
+            method: onCheckResult
