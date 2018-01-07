@@ -24,6 +24,19 @@ class SchemaValidationTest extends WebTestCase
         self::assertTrue($dataCollector->responseWasChecked());
     }
 
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessageRegExp /schema violations/i
+     */
+    public function testInvalidJsonSchemaResult()
+    {
+        $client = static::createClient([
+            'test_case' => 'TestBundleIncluded',
+        ]);
+
+        $client->request('GET', '/schema-annotated/not-valid-json?id=123');
+    }
+
     public function testXmlResponseWasValidated()
     {
         $client = static::createClient([
