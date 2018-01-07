@@ -23,7 +23,6 @@ spiechu_symfony_commons:
                 until: 1.2
 
 services:
-    Spiechu\SymfonyCommonsBundle\Service\ApiVersionFeaturesProvider: '@spiechu_symfony_commons.service.api_version_features_provider'
     Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Controller\:
         resource: '../../Bundle/TestBundle/Controller/'
         public: true

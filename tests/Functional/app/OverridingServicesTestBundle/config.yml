@@ -1,0 +1,35 @@
+imports:
+    - { resource: ../default/config.yml }
+
+framework:
+    profiler:
+        enabled: true
+        collect: true
+
+spiechu_symfony_commons:
+    get_method_override:
+        enabled: true
+        listener_service_id: 'Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Service\EventListener\ListenerReplacingGetMethodListener'
+        allow_methods_override:
+              - POST
+              - PUT
+    response_schema_validation:
+        enabled: true
+        failed_schema_check_listener_service_id: 'Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Service\EventListener\ListenerReplacingFailedSchemaCheckListener'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Controller\:
+        resource: '../../Bundle/TestBundle/Controller/'
+        tags:
+          - name: controller.service_arguments
+
+    Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Service\EventListener\ListenerReplacingGetMethodListener:
+        tags:
+          - name: kernel.event_listener
+            event: kernel.request
+            method: onKernelRequest

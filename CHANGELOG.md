@@ -7,6 +7,8 @@
   * Broaden `justinrainbow/json-schema` acceptable versions to `~5.2` with some exceptions
   * Upgrade data collector
 
+---
+
 0.1.1 (2017-12-31)
 
 [Diff between 0.1 - 0.1.1](https://github.com/spiechu/symfony-commons-bundle/compare/0.1...0.1.1)
@@ -16,6 +18,8 @@
   * Enable Travis CI build against PHP 7.2
   * Enable PHP Stan level 1 check during CI build
   * Remove BitBucket pipelines support
+
+---
 
 0.1 (2017-11-15)
 

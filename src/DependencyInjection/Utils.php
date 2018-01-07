@@ -11,8 +11,8 @@ class Utils
 {
     /**
      * @param Definition $definition
-     * @param int $index
-     * @param mixed $value
+     * @param int        $index
+     * @param mixed      $value
      *
      * @throws OutOfBoundsException
      */

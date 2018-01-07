@@ -15,7 +15,6 @@ use Spiechu\SymfonyCommonsBundle\EventListener\ResponseSchemaValidatorListener;
 use Spiechu\SymfonyCommonsBundle\EventListener\VersionedViewListener;
 use Spiechu\SymfonyCommonsBundle\Service\DataCollector;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 
 class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -192,28 +191,6 @@ class SpiechuSymfonyCommonsExtensionTest extends \PHPUnit_Framework_TestCase
         $tags = $definition->getTags();
         self::assertArrayHasKey('kernel.event_subscriber', $tags);
         self::assertArrayHasKey('data_collector', $tags);
-    }
-
-    public function testExtensionWillReplaceExistingServiceArguments(): void
-    {
-        $fakeTestDefinition = new Definition(\stdClass::class, ['abc']);
-
-        $this->container->setDefinition('fake_test_service', $fakeTestDefinition);
-
-        $config = [
-            'spiechu_symfony_commons' => [
-                'get_method_override' => [
-                    'enabled' => true,
-                    'listener_service_id' => 'fake_test_service',
-                ],
-            ],
-        ];
-
-        self::assertSame('abc', $fakeTestDefinition->getArgument(0));
-
-        $this->extension->load($config, $this->container);
-
-        self::assertSame('_method', $fakeTestDefinition->getArgument(0));
     }
 
     public function testApiVersionListenersPresentWhenEnabled(): void

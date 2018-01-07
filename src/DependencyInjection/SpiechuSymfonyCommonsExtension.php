@@ -24,7 +24,7 @@ class SpiechuSymfonyCommonsExtension extends Extension
     {
         $processedConfig = $this->processConfiguration(new Configuration(), $configs);
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         $loader->load('services.xml');
 
@@ -38,9 +38,9 @@ class SpiechuSymfonyCommonsExtension extends Extension
     }
 
     /**
-     * @param XmlFileLoader $loader
+     * @param XmlFileLoader    $loader
      * @param ContainerBuilder $container
-     * @param array $options
+     * @param array            $options
      *
      * @throws \Exception
      */
@@ -67,9 +67,9 @@ class SpiechuSymfonyCommonsExtension extends Extension
     }
 
     /**
-     * @param XmlFileLoader $loader
+     * @param XmlFileLoader    $loader
      * @param ContainerBuilder $container
-     * @param array $options
+     * @param array            $options
      *
      * @throws \Exception
      */
@@ -100,9 +100,9 @@ class SpiechuSymfonyCommonsExtension extends Extension
     }
 
     /**
-     * @param XmlFileLoader $loader
+     * @param XmlFileLoader    $loader
      * @param ContainerBuilder $container
-     * @param array $options
+     * @param array            $options
      *
      * @throws \Exception
      */
