@@ -47,5 +47,11 @@ class JsonSchemaValidatorFactoryTest extends WebTestCase
         ]));
 
         self::assertFalse($validationResult->isValid());
+        self::assertCount(2, $validationResult);
+
+        foreach ($validationResult as $validationViolation) {
+            self::assertRegExp('/property/i', $validationViolation->getMessage());
+            self::assertRegExp('/property/i', (string) $validationViolation);
+        }
     }
 }

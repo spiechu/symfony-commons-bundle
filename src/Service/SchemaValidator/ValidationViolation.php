@@ -31,7 +31,7 @@ class ValidationViolation
      */
     public function __toString(): string
     {
-        return sprintf('%s %s', $this->property ? ($this->property.': ') : '', $this->message);
+        return sprintf('%s %s', ($property = $this->getProperty()) ? ($property.':') : '', $this->getMessage());
     }
 
     /**

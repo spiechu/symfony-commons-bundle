@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Spiechu\SymfonyCommonsBundle\Service\SchemaValidator;
 
-class ValidationResult
+class ValidationResult implements \IteratorAggregate, \Countable
 {
     /**
      * @var ValidationViolation[]
@@ -28,7 +28,7 @@ class ValidationResult
      */
     public function isValid(): bool
     {
-        return !\count($this->errors);
+        return empty($this->errors);
     }
 
     /**
@@ -37,5 +37,23 @@ class ValidationResult
     public function getViolations(): array
     {
         return $this->errors;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return \ArrayIterator|ValidationViolation[]
+     */
+    public function getIterator(): \ArrayIterator
+    {
+        return new \ArrayIterator($this->errors);
+    }
+
+    /**
+     * {@inheritdoc.
+     */
+    public function count(): int
+    {
+        return \count($this->errors);
     }
 }
