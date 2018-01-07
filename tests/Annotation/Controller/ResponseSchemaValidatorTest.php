@@ -14,7 +14,7 @@ class ResponseSchemaValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testEmptyDataIsNotAcceptable()
     {
-        return new ResponseSchemaValidator([]);
+        new ResponseSchemaValidator([]);
     }
 
     /**
@@ -23,7 +23,7 @@ class ResponseSchemaValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testWrongFormat()
     {
-        return new ResponseSchemaValidator([
+        new ResponseSchemaValidator([
             123 => [],
         ]);
     }
@@ -34,7 +34,7 @@ class ResponseSchemaValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testWrongSchemas()
     {
-        return new ResponseSchemaValidator([
+        new ResponseSchemaValidator([
             'json' => 'im wrong schema',
         ]);
     }
@@ -45,7 +45,7 @@ class ResponseSchemaValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testWrongResponseSchemaCodes()
     {
-        return new ResponseSchemaValidator([
+        new ResponseSchemaValidator([
             'json' => [
                 'wrong code' => 'schema',
             ],
@@ -58,7 +58,7 @@ class ResponseSchemaValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testWrongResponseSchemas()
     {
-        return new ResponseSchemaValidator([
+        new ResponseSchemaValidator([
             'json' => [
                 200 => 12345,
             ],

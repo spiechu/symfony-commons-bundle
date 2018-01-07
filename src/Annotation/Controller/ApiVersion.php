@@ -20,7 +20,7 @@ class ApiVersion
     /**
      * @param array $values
      *
-     * @throws \InvalidArgumentException
+     * @throws \InvalidArgumentException When no API version provided or wrong format
      */
     public function __construct(array $values)
     {
@@ -28,11 +28,13 @@ class ApiVersion
             throw new \InvalidArgumentException('No API version provided');
         }
 
-        if (!preg_match('/^\d{1}\.\d{1}$/', $values['value'])) {
-            throw new \InvalidArgumentException('API version must have X.X format');
+        $stringifiedValue = (string) $values['value'];
+
+        if (!preg_match('/^\d{1,}(?:\.\d{1,}){0,1}$/', $stringifiedValue)) {
+            throw new \InvalidArgumentException('API version must have X or X.X format');
         }
 
-        $this->apiVersion = (string) $values['value'];
+        $this->apiVersion = $stringifiedValue;
     }
 
     /**
