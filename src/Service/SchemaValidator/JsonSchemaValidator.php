@@ -47,21 +47,20 @@ class JsonSchemaValidator implements SchemaValidatorInterface
         try {
             $this->validator->check($decodedJson, $this->schema);
         } catch (\Exception $e) {
-            $validationResult->addViolation(ValidationViolation::create($e->getMessage()));
+            $validationResult->addViolation(ValidationViolation::create(sprintf('Validator check exception: "%s"', $e->getMessage())));
         }
 
-        $this->mapErrorsToResultViolations($this->validator, $validationResult);
+        $this->mapErrorsToResultViolations($validationResult);
 
         return $validationResult;
     }
 
     /**
-     * @param Validator        $validator
      * @param ValidationResult $validationResult
      */
-    protected function mapErrorsToResultViolations(Validator $validator, ValidationResult $validationResult): void
+    protected function mapErrorsToResultViolations(ValidationResult $validationResult): void
     {
-        foreach ($validator->getErrors() as $error) {
+        foreach ($this->validator->getErrors() as $error) {
             $validationResult->addViolation(ValidationViolation::create($error['message'], $error['property']));
         }
     }
