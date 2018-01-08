@@ -14,30 +14,32 @@ trait ControllerAnnotationExtractorTrait
     abstract protected function getAnnotationReader(): Reader;
 
     /**
-     * @param null|callable $controller
-     * @param string        $annotationClass
+     * @param callable $controller
+     * @param string   $annotationClass
      *
      * @return null|object
      */
-    protected function getClassAnnotationFromController(?callable $controller, string $annotationClass)
+    protected function getClassAnnotationFromController(callable $controller, string $annotationClass)
     {
-        $objectToReflect = $this->getObjectToReflect($controller);
-
-        if (\is_object($objectToReflect)) {
+        if (\is_object($objectToReflect = $this->getObjectToReflect($controller))) {
             return $this->getAnnotationReader()->getClassAnnotation(
                 new \ReflectionObject($objectToReflect),
                 $annotationClass
             );
         }
+
+        return null;
     }
 
     /**
-     * @param null|callable $controller
-     * @param string        $annotationClass
+     * @param callable $controller
+     * @param string   $annotationClass
+     *
+     * @throws \ReflectionException When $controller method does not exist
      *
      * @return null|object
      */
-    protected function getMethodAnnotationFromController(?callable $controller, string $annotationClass)
+    protected function getMethodAnnotationFromController(callable $controller, string $annotationClass)
     {
         if (\is_array($controller)
             && isset($controller[1])
@@ -48,21 +50,25 @@ trait ControllerAnnotationExtractorTrait
                 $annotationClass
             );
         }
+
+        return null;
     }
 
     /**
-     * @param null|callable $controller
+     * @param callable $controller
      *
      * @return null|object
      */
-    protected function getObjectToReflect(?callable $controller)
+    protected function getObjectToReflect(callable $controller)
     {
-        if (\is_object($controller)) {
-            return $controller;
-        }
-
         if (\is_array($controller) && isset($controller[0]) && \is_object($controller[0])) {
             return $controller[0];
         }
+
+        if (\is_object($controller) && !$controller instanceof \Closure) {
+            return $controller;
+        }
+
+        return null;
     }
 }

@@ -43,11 +43,13 @@ class RequestSchemaValidatorListener
     }
 
     /**
-     * @param null|callable $controller
+     * @param callable $controller
+     *
+     * @throws \ReflectionException
      *
      * @return null|ResponseSchemaValidator
      */
-    protected function getResponseSchemaValidator(?callable $controller): ?ResponseSchemaValidator
+    protected function getResponseSchemaValidator(callable $controller): ?ResponseSchemaValidator
     {
         return $this->getMethodAnnotationFromController($controller, ResponseSchemaValidator::class);
     }

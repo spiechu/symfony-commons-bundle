@@ -53,11 +53,11 @@ class ApiVersionListener
     }
 
     /**
-     * @param null|callable $controller
+     * @param callable $controller
      *
      * @return null|ApiVersion
      */
-    protected function getApiVersionFromController(?callable $controller): ?ApiVersion
+    protected function getApiVersionFromController(callable $controller): ?ApiVersion
     {
         return $this->getClassAnnotationFromController($controller, ApiVersion::class);
     }
