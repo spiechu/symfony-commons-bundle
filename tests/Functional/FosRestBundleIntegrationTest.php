@@ -18,4 +18,17 @@ class FosRestBundleIntegrationTest extends WebTestCase
 
         self::assertDataCollectorContainsProperData($client, '1.0', 0, 0);
     }
+
+    public function testNotVersionedViewWillNotAttemptToSetVersion()
+    {
+        $client = static::createClient([
+            'test_case' => 'FosRestBundleIncluded',
+        ]);
+
+        $client->request('GET', '/fos-rest-bundle/get-simple-view-without-version.json?property1=abc123');
+
+        self::assertSame(['property_2' => '2'], json_decode($client->getResponse()->getContent(), true));
+
+        self::assertDataCollectorContainsProperData($client, null, 0, 0);
+    }
 }

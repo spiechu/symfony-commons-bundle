@@ -6,7 +6,7 @@
            read-only="true"
     >
 
-        <virtual-property method="getProperty1" serialized-name="property_1"/>
+        <virtual-property method="getProperty1" expose-if="object.exposeIfVersionSet(context)" serialized-name="property_1"/>
         <virtual-property method="getProperty2" since-version="1.1" serialized-name="property_2"/>
 
     </class>

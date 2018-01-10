@@ -68,14 +68,14 @@ class WebTestCase extends BaseWebTestCase
     }
 
     /**
-     * @param Client $client
-     * @param string $expectedApiVersion
-     * @param int    $expectedKnownRouteResponseSchemaNumber
-     * @param int    $expectedAllPotentialErrorsCount
+     * @param Client      $client
+     * @param null|string $expectedApiVersion
+     * @param int         $expectedKnownRouteResponseSchemaNumber
+     * @param int         $expectedAllPotentialErrorsCount
      */
     protected static function assertDataCollectorContainsProperData(
         Client $client,
-        string $expectedApiVersion,
+        ?string $expectedApiVersion,
         int $expectedKnownRouteResponseSchemaNumber,
         int $expectedAllPotentialErrorsCount
     ) {
