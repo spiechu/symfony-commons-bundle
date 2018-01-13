@@ -26,7 +26,7 @@ class SchemaValidationTest extends WebTestCase
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessageRegExp /schema violations/i
+     * @expectedExceptionMessageRegExp /json.{1,}schema violations.{1,}additional properties/i
      */
     public function testInvalidJsonSchemaResult()
     {
@@ -57,5 +57,18 @@ class SchemaValidationTest extends WebTestCase
         $dataCollector = $client->getProfile()->getCollector(DataCollector::COLLECTOR_NAME);
 
         self::assertTrue($dataCollector->responseWasChecked());
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessageRegExp /xml.{1,}schema violations.{1,}unexpected\-property/i
+     */
+    public function testInvalidXMLResponseErrors()
+    {
+        $client = static::createClient([
+            'test_case' => 'TestBundleIncluded',
+        ]);
+
+        $client->request('GET', '/schema-annotated/not-valid-simple-xml?id=789');
     }
 }

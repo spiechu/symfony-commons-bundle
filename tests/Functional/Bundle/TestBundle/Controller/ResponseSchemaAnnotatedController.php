@@ -83,4 +83,37 @@ EOT
             ]
         );
     }
+
+    /**
+     * @Route("/not-valid-simple-xml", name="not_valid_simple_xml")
+     *
+     * @ResponseSchemaValidator(
+     *   xml={
+     *     200="@TestBundle/Resources/response_schema/200-simple.xsd",
+     *  }
+     * )
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function notValidSimpleXmlAction(Request $request): Response
+    {
+        return new Response(
+            <<<EOT
+<?xml version="1.0" encoding="UTF-8"?>
+<testObjects>
+    <testObject>
+        <unexpected-property>im unexpected property</unexpected-property>
+        <int-property>{$request->query->get('id')}</int-property>
+    </testObject>
+</testObjects>
+EOT
+            ,
+            200,
+            [
+                'Content-Type' => 'text/xml',
+            ]
+        );
+    }
 }

@@ -39,6 +39,7 @@ class XmlSchemaValidator implements SchemaValidatorInterface
                 return $validationResult;
             }
 
+            /** @var \LibXMLError $error */
             foreach (libxml_get_errors() as $error) {
                 $validationResult->addViolation(ValidationViolation::create($error->message, 'line '.$error->line));
             }

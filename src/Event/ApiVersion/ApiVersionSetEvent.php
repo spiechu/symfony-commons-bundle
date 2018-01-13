@@ -16,15 +16,9 @@ class ApiVersionSetEvent extends Event
 
     /**
      * @param ApiVersion $apiVersion
-     *
-     * @throws \InvalidArgumentException When API version is not set
      */
     public function __construct(ApiVersion $apiVersion)
     {
-        if (empty($apiVersion->getApiVersion())) {
-            throw new \InvalidArgumentException('API version not set');
-        }
-
         $this->apiVersion = $apiVersion->getApiVersion();
     }
 
