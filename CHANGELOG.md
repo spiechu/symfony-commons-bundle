@@ -1,3 +1,12 @@
+0.2.1 (2018-01-13)
+
+[Diff between 0.2 - 0.2.1](https://github.com/spiechu/symfony-commons-bundle/compare/0.2...0.2.1)
+
+  * Allow single digit versions
+  * Fix `get_method_override_listener_service_id` with compiler pass
+
+---
+
 0.2 (2018-01-06)
 
 [Diff between 0.1.1 - 0.2](https://github.com/spiechu/symfony-commons-bundle/compare/0.1.1...0.2)
