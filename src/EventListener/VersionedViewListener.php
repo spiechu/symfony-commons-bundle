@@ -46,7 +46,7 @@ class VersionedViewListener
         if (class_exists(View::class) && is_a($controllerResult, View::class)) {
             $context = $controllerResult->getContext();
 
-            $context->setVersion($apiVersion);
+            $context->setVersion(/* @scrutinizer ignore-type */$apiVersion);
 
             $controllerResult->setContext($context);
         }

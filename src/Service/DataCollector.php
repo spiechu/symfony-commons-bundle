@@ -286,7 +286,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
             return null;
         }
 
-        return $this->getMethodAnnotationFromController($resolvedController, ResponseSchemaValidator::class);
+        return $this->getMethodAnnotationFromController(/* @scrutinizer ignore-type */$resolvedController, ResponseSchemaValidator::class);
     }
 
     /**
