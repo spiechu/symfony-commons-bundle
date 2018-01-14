@@ -103,7 +103,7 @@ class Configuration implements ConfigurationInterface
                     ->canBeEnabled()
                     ->children()
                         ->booleanNode('throw_exception_when_format_not_found')->defaultTrue()->end()
-                        ->scalarNode('failed_schema_check_listener_service_id')
+                        ->/* @scrutinizer ignore-call */scalarNode('failed_schema_check_listener_service_id')
                             ->defaultValue('spiechu_symfony_commons.event_listener.failed_schema_check_listener')
                         ->end()
                         ->booleanNode('disable_json_check_schema_subscriber')->defaultFalse()->end()
