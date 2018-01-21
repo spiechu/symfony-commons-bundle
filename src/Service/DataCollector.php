@@ -30,11 +30,13 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
     public const COLLECTOR_NAME = 'spiechu_symfony_commons.data_collector';
 
     protected const DATA_GLOBAL_RESPONSE_SCHEMAS = 'global_response_schemas';
+
     protected const DATA_GLOBAL_NON_EXISTING_SCHEMA_FILES = 'global_non_existing_schema_files';
 
     protected const DATA_GET_METHOD_OVERRIDE = 'get_method_override';
 
     protected const DATA_KNOWN_ROUTE_RESPONSE_SCHEMAS = 'known_route_response_schemas';
+
     protected const DATA_VALIDATION_RESULT = 'validation_result';
 
     protected const DATA_API_VERSION_SET = 'api_version_set';
