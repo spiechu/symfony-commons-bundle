@@ -72,13 +72,8 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function collect(Request $request, Response $response, \Exception $exception = null): void
     {
-        $this->data['known_route_response_schemas'] = $request->attributes->has(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS)
-            ? $request->attributes->get(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS)
-            : null;
-
-        $this->data['get_method_override'] = $request->attributes->has(GetMethodOverrideListener::ATTRIBUTE_REQUEST_GET_METHOD_OVERRIDE)
-            ? $request->attributes->get(GetMethodOverrideListener::ATTRIBUTE_REQUEST_GET_METHOD_OVERRIDE)
-            : null;
+        $this->data['known_route_response_schemas'] = $request->attributes->get(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS);
+        $this->data['get_method_override'] = $request->attributes->get(GetMethodOverrideListener::ATTRIBUTE_REQUEST_GET_METHOD_OVERRIDE);
 
         $this->extractRoutesData();
     }
@@ -205,7 +200,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function isGetMethodWasOverridden(): bool
     {
-        return empty($this->data['get_method_override']) ? false : true;
+        return !empty($this->data['get_method_override']);
     }
 
     /**
