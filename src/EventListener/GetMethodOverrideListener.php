@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Spiechu\SymfonyCommonsBundle\EventListener;
 
 use Spiechu\SymfonyCommonsBundle\Utils\AssertUtils;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class GetMethodOverrideListener
@@ -48,10 +49,18 @@ class GetMethodOverrideListener
 
         $request = $getResponseEvent->getRequest();
 
-        if (!$request->isMethod('GET')) {
+        if (!$request->isMethod(Request::METHOD_GET)) {
             return;
         }
 
+        $this->overrideRequestMethod($request);
+    }
+
+    /**
+     * @param Request $request
+     */
+    protected function overrideRequestMethod(Request $request): void
+    {
         if (!$request->query->has($this->queryParamName)) {
             return;
         }

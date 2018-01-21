@@ -28,14 +28,9 @@ class XmlSchemaValidator implements SchemaValidatorInterface
         libxml_clear_errors();
 
         try {
-            $doc = new \DOMDocument();
-            $doc->preserveWhiteSpace = true;
-            $doc->formatOutput = true;
-            $doc->recover = true;
+            $document = $this->createDOMDocument($xmlString);
 
-            $doc->loadXML($xmlString);
-
-            if ($doc->schemaValidateSource(file_get_contents($this->schemaLocation))) {
+            if ($document->schemaValidateSource(file_get_contents($this->schemaLocation))) {
                 return $validationResult;
             }
 
@@ -49,5 +44,22 @@ class XmlSchemaValidator implements SchemaValidatorInterface
             libxml_clear_errors();
             libxml_use_internal_errors($useInternalErrors);
         }
+    }
+
+    /**
+     * @param string $xmlString
+     *
+     * @return \DOMDocument
+     */
+    protected function createDOMDocument(string $xmlString): \DOMDocument
+    {
+        $document = new \DOMDocument();
+        $document->preserveWhiteSpace = true;
+        $document->formatOutput = true;
+        $document->recover = true;
+
+        $document->loadXML($xmlString);
+
+        return $document;
     }
 }
