@@ -229,11 +229,20 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
                 'response_schemas' => $annotationSchemas,
             ];
 
-            foreach ($annotationSchemas as $schemas) {
-                foreach ($schemas as $schema) {
-                    if (!$this->dataCollectorExtension->schemaFileExists($schema)) {
-                        ++$this->data['global_non_existing_schema_files'];
-                    }
+            $this->determineGlobalNonExistingSchemaFiles($annotationSchemas);
+        }
+    }
+
+    /**
+     * @param array $annotationSchemas
+     */
+    protected function determineGlobalNonExistingSchemaFiles(array $annotationSchemas)
+    {
+        /** @var array $schemas */
+        foreach ($annotationSchemas as $schemas) {
+            foreach ($schemas as $schema) {
+                if (!$this->dataCollectorExtension->schemaFileExists($schema)) {
+                    ++$this->data['global_non_existing_schema_files'];
                 }
             }
         }
