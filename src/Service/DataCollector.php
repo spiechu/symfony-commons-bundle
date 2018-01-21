@@ -196,11 +196,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function getValidationErrors(): array
     {
-        if (!$this->responseWasChecked()) {
-            return [];
-        }
-
-        return $this->data[static::DATA_VALIDATION_RESULT]->getViolations();
+        return $this->responseWasChecked() ? $this->data[static::DATA_VALIDATION_RESULT]->getViolations() : [];
     }
 
     /**
