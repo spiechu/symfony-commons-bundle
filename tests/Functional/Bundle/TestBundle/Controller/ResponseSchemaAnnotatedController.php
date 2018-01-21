@@ -3,6 +3,7 @@
 namespace Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Controller;
 
 use Spiechu\SymfonyCommonsBundle\Annotation\Controller\ResponseSchemaValidator;
+use Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Annotation\OverwrittenResponseSchemaValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,7 +55,7 @@ class ResponseSchemaAnnotatedController extends Controller
     /**
      * @Route("/simple-xml", name="simple_xml")
      *
-     * @ResponseSchemaValidator(
+     * @OverwrittenResponseSchemaValidator(
      *   xml={
      *     200="@TestBundle/Resources/response_schema/200-simple.xsd",
      *  }
