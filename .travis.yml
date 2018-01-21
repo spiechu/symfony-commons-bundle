@@ -42,7 +42,7 @@ script:
     else
       ./vendor/bin/simple-phpunit --testdox --coverage-text;
     fi;'
-  - './vendor/bin/phpstan analyse --level 1 src;'
+  - './vendor/bin/phpstan analyse -l 4 -c phpstan.neon src;'
 
 notifications:
   email: false
