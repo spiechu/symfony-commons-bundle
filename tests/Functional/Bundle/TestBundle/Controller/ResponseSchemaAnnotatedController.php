@@ -53,6 +53,31 @@ class ResponseSchemaAnnotatedController extends Controller
     }
 
     /**
+     * @Route("/multiple-schemas-endpoint", name="multiple_schemas_endpoint")
+     *
+     * @ResponseSchemaValidator(
+     *   json={
+     *     200="@TestBundle/Resources/response_schema/200-simple.json",
+     *     400="@TestBundle/Resources/response_schema/400-simple.json",
+     *  },
+     *  xml={
+     *     200="@TestBundle/Resources/response_schema/200-simple.xsd",
+     *     400="@TestBundle/Resources/response_schema/400-simple.xsd",
+     *  }
+     * )
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function multipleSchemasEndpointAction(Request $request): JsonResponse
+    {
+        return new JsonResponse([
+            'error' => $request->query->get('error'),
+        ], Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
      * @Route("/simple-xml", name="simple_xml")
      *
      * @OverwrittenResponseSchemaValidator(

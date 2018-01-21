@@ -57,6 +57,7 @@ class SchemaValidationTest extends WebTestCase
         $dataCollector = $client->getProfile()->getCollector(DataCollector::COLLECTOR_NAME);
 
         self::assertTrue($dataCollector->responseWasChecked());
+        self::assertSame(1, $dataCollector->getKnownRouteResponseSchemaNumber());
     }
 
     /**
@@ -70,5 +71,22 @@ class SchemaValidationTest extends WebTestCase
         ]);
 
         $client->request('GET', '/schema-annotated/not-valid-simple-xml?id=789');
+    }
+
+    public function testJsonResponseValidatedOnMultipleSchemas()
+    {
+        $client = static::createClient([
+            'test_case' => 'TestBundleIncluded',
+        ]);
+
+        $client->request('GET', '/schema-annotated/multiple-schemas-endpoint?error=wtf-error');
+
+        self::assertSame(['error' => 'wtf-error'], json_decode($client->getResponse()->getContent(), true));
+
+        /** @var DataCollector $dataCollector */
+        $dataCollector = $client->getProfile()->getCollector(DataCollector::COLLECTOR_NAME);
+
+        self::assertTrue($dataCollector->responseWasChecked());
+        self::assertSame(4, $dataCollector->getKnownRouteResponseSchemaNumber());
     }
 }

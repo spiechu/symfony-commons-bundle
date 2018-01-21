@@ -29,6 +29,16 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
 
     public const COLLECTOR_NAME = 'spiechu_symfony_commons.data_collector';
 
+    protected const DATA_GLOBAL_RESPONSE_SCHEMAS = 'global_response_schemas';
+    protected const DATA_GLOBAL_NON_EXISTING_SCHEMA_FILES = 'global_non_existing_schema_files';
+
+    protected const DATA_GET_METHOD_OVERRIDE = 'get_method_override';
+
+    protected const DATA_KNOWN_ROUTE_RESPONSE_SCHEMAS = 'known_route_response_schemas';
+    protected const DATA_VALIDATION_RESULT = 'validation_result';
+
+    protected const DATA_API_VERSION_SET = 'api_version_set';
+
     /**
      * @var RouterInterface
      */
@@ -72,8 +82,8 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function collect(Request $request, Response $response, \Exception $exception = null): void
     {
-        $this->data['known_route_response_schemas'] = $request->attributes->get(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS);
-        $this->data['get_method_override'] = $request->attributes->get(GetMethodOverrideListener::ATTRIBUTE_REQUEST_GET_METHOD_OVERRIDE);
+        $this->data[static::DATA_KNOWN_ROUTE_RESPONSE_SCHEMAS] = $request->attributes->get(RequestSchemaValidatorListener::ATTRIBUTE_RESPONSE_SCHEMAS);
+        $this->data[static::DATA_GET_METHOD_OVERRIDE] = $request->attributes->get(GetMethodOverrideListener::ATTRIBUTE_REQUEST_GET_METHOD_OVERRIDE);
 
         $this->extractRoutesData();
     }
@@ -99,7 +109,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function getGlobalResponseSchemas(): array
     {
-        return $this->data['global_response_schemas'];
+        return $this->data[static::DATA_GLOBAL_RESPONSE_SCHEMAS];
     }
 
     /**
@@ -118,7 +128,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function onCheckResult(CheckResult $checkResult): void
     {
-        $this->data['validation_result'] = $checkResult->getValidationResult();
+        $this->data[static::DATA_VALIDATION_RESULT] = $checkResult->getValidationResult();
     }
 
     /**
@@ -126,7 +136,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function onApiVersionSet(ApiVersionSetEvent $apiVersionSetEvent): void
     {
-        $this->data['api_version_set'] = $apiVersionSetEvent->getApiVersion();
+        $this->data[static::DATA_API_VERSION_SET] = $apiVersionSetEvent->getApiVersion();
     }
 
     /**
@@ -134,7 +144,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function getKnownRouteResponseSchemas(): array
     {
-        return empty($this->data['known_route_response_schemas']) ? [] : $this->data['known_route_response_schemas'];
+        return empty($this->data[static::DATA_KNOWN_ROUTE_RESPONSE_SCHEMAS]) ? [] : $this->data[static::DATA_KNOWN_ROUTE_RESPONSE_SCHEMAS];
     }
 
     /**
@@ -142,13 +152,9 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function getKnownRouteResponseSchemaNumber(): int
     {
-        $counter = 0;
-
-        foreach ($this->getKnownRouteResponseSchemas() as $format) {
-            $counter += \count($format);
-        }
-
-        return $counter;
+        return array_reduce($this->getKnownRouteResponseSchemas(), function (int $counter, array $formatSchemas) {
+            return $counter + \count($formatSchemas);
+        }, 0);
     }
 
     /**
@@ -164,7 +170,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function responseWasChecked(): bool
     {
-        return array_key_exists('validation_result', $this->data);
+        return array_key_exists(static::DATA_VALIDATION_RESULT, $this->data);
     }
 
     /**
@@ -172,7 +178,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function apiVersionWasSet(): bool
     {
-        return array_key_exists('api_version_set', $this->data);
+        return array_key_exists(static::DATA_API_VERSION_SET, $this->data);
     }
 
     /**
@@ -180,7 +186,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function getApiVersion(): ?string
     {
-        return $this->apiVersionWasSet() ? $this->data['api_version_set'] : null;
+        return $this->apiVersionWasSet() ? $this->data[static::DATA_API_VERSION_SET] : null;
     }
 
     /**
@@ -192,7 +198,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
             return [];
         }
 
-        return $this->data['validation_result']->getViolations();
+        return $this->data[static::DATA_VALIDATION_RESULT]->getViolations();
     }
 
     /**
@@ -200,7 +206,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function isGetMethodWasOverridden(): bool
     {
-        return !empty($this->data['get_method_override']);
+        return !empty($this->data[static::DATA_GET_METHOD_OVERRIDE]);
     }
 
     /**
@@ -208,13 +214,13 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function getGetMethodOverriddenTo(): ?string
     {
-        return $this->isGetMethodWasOverridden() ? $this->data['get_method_override'] : null;
+        return $this->isGetMethodWasOverridden() ? $this->data[static::DATA_GET_METHOD_OVERRIDE] : null;
     }
 
     protected function extractRoutesData(): void
     {
-        $this->data['global_response_schemas'] = [];
-        $this->data['global_non_existing_schema_files'] = 0;
+        $this->data[static::DATA_GLOBAL_RESPONSE_SCHEMAS] = [];
+        $this->data[static::DATA_GLOBAL_NON_EXISTING_SCHEMA_FILES] = 0;
 
         /** @var Route $route */
         /** @var string $controllerDefinition */
@@ -222,7 +228,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
         foreach ($this->getRouteCollectionGenerator() as $name => [$route, $controllerDefinition, $responseSchemaValidator]) {
             $annotationSchemas = $responseSchemaValidator->getSchemas();
 
-            $this->data['global_response_schemas'][] = [
+            $this->data[static::DATA_GLOBAL_RESPONSE_SCHEMAS][] = [
                 'path' => $route->getPath(),
                 'name' => $name,
                 'controller' => $controllerDefinition,
@@ -242,7 +248,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
         foreach ($annotationSchemas as $schemas) {
             foreach ($schemas as $schema) {
                 if (!$this->dataCollectorExtension->schemaFileExists($schema)) {
-                    ++$this->data['global_non_existing_schema_files'];
+                    ++$this->data[static::DATA_GLOBAL_NON_EXISTING_SCHEMA_FILES];
                 }
             }
         }
@@ -298,7 +304,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     protected function getGlobalNonExistingSchemaFiles(): int
     {
-        return empty($this->data['global_non_existing_schema_files']) ? 0 : \count($this->data['global_non_existing_schema_files']);
+        return empty($this->data[static::DATA_GLOBAL_NON_EXISTING_SCHEMA_FILES]) ? 0 : \count($this->data[static::DATA_GLOBAL_NON_EXISTING_SCHEMA_FILES]);
     }
 
     /**
