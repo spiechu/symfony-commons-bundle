@@ -66,7 +66,7 @@ class ApiVersionFeaturesProvider
             $until = $options['until'] ?? null;
             $this->assertVersionCompatibleString($until);
 
-            $this->features[$name] = new Definition($name, $since, $until);
+            $this->features[$name] = Definition::create($name, $since, $until);
         }
     }
 

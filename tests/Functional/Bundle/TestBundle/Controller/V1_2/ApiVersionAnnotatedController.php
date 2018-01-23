@@ -8,6 +8,7 @@ use Spiechu\SymfonyCommonsBundle\Annotation\Controller\ApiVersion;
 use Spiechu\SymfonyCommonsBundle\Service\ApiVersionFeaturesProvider;
 use Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Controller\V1_1\ApiVersionAnnotatedController as BaseApiVersionAnnotatedController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -41,7 +42,7 @@ class ApiVersionAnnotatedController extends BaseApiVersionAnnotatedController
     {
         return new JsonResponse(
             json_encode(array_values($apiVersionFeaturesProvider->getAvailableFeatures())),
-            200,
+            Response::HTTP_OK,
             [],
             true
         );

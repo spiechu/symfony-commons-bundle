@@ -27,24 +27,41 @@ class Definition implements \JsonSerializable
      * @param string      $name
      * @param null|string $since
      * @param null|string $until
+     */
+    protected function __construct(string $name, ?string $since, ?string $until)
+    {
+        $this->name = $name;
+        $this->since = $since;
+        $this->until = $until;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string      $name
+     * @param null|string $since
+     * @param null|string $until
      *
      * @throws \InvalidArgumentException
+     *
+     * @return Definition
      */
-    public function __construct(string $name, ?string $since, ?string $until)
+    public static function create(string $name, ?string $since, ?string $until): Definition
     {
         StringUtils::assertNotEmpty($name, 'Empty feature name');
         StringUtils::assertNumericOrNull($since, 'Since parameter is not numeric');
         StringUtils::assertNumericOrNull($until, 'Until parameter is not numeric');
         StringUtils::assertAtLeastOneArgumentNotNull('No version constraints provided', $since, $until);
 
-        $this->name = $name;
-        $this->since = $since;
-        $this->until = $until;
-    }
+        static::assertUntilVersionAtLeastSameAsSince($since, $until);
 
-    public function __toString(): string
-    {
-        return $this->name;
+        return new static($name, $since, $until);
     }
 
     /**
@@ -94,5 +111,22 @@ class Definition implements \JsonSerializable
             'since' => $this->since,
             'until' => $this->until,
         ];
+    }
+
+    /**
+     * @param null|string $since
+     * @param null|string $until
+     *
+     * @throws \InvalidArgumentException When $until parameter is lower than $since parameter
+     */
+    protected static function assertUntilVersionAtLeastSameAsSince(?string $since, ?string $until): void
+    {
+        if ($since === null || $until === null) {
+            return;
+        }
+
+        if (version_compare($until, $since, '<')) {
+            throw new \InvalidArgumentException('Until parameter is lower than since parameter');
+        }
     }
 }

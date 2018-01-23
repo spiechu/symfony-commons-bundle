@@ -14,7 +14,7 @@ class DefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testEmptyNameIsNotAcceptable()
     {
-        new Definition('', null, null);
+        Definition::create('', null, null);
     }
 
     /**
@@ -23,7 +23,7 @@ class DefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testWrongSince()
     {
-        new Definition('test-feature', 'wrong', null);
+        Definition::create('test-feature', 'wrong', null);
     }
 
     /**
@@ -32,7 +32,7 @@ class DefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testWringUntil()
     {
-        new Definition('test-feature', null, 'wrong');
+        Definition::create('test-feature', null, 'wrong');
     }
 
     /**
@@ -41,6 +41,24 @@ class DefinitionTest extends \PHPUnit_Framework_TestCase
      */
     public function testNoVersionConstraints()
     {
-        new Definition('test-feature', null, null);
+        Definition::create('test-feature', null, null);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessageRegExp /until parameter is lower than since parameter/i
+     */
+    public function testUntilIsLowerThanSinceVersionConstraint()
+    {
+        Definition::create('test-feature', '1.2', '1.1');
+    }
+
+    public function testDefinitionIsCorrectlySet()
+    {
+        $definition = Definition::create('correct-definition', '1.2', '1.3');
+
+        self::assertSame($definition->getName(), 'correct-definition');
+        self::assertSame($definition->getSince(), '1.2');
+        self::assertSame($definition->getUntil(), '1.3');
     }
 }
