@@ -29,11 +29,13 @@ services:
           - name: controller.service_arguments
 
     Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Service\EventListener\ListenerReplacingGetMethodListener:
+        public: true
         tags:
           - name: kernel.event_listener
             event: kernel.request
 
     Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Service\EventListener\ListenerReplacingFailedSchemaCheckListener:
+        public: true
         tags:
           - name: kernel.event_listener
             event: spiechu_symfony_commons.event.response_schema_check.check_result
