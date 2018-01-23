@@ -50,9 +50,9 @@ class Definition implements \JsonSerializable
      *
      * @throws \InvalidArgumentException
      *
-     * @return Definition
+     * @return static
      */
-    public static function create(string $name, ?string $since, ?string $until): Definition
+    public static function create(string $name, ?string $since, ?string $until)
     {
         StringUtils::assertNotEmpty($name, 'Empty feature name');
         StringUtils::assertNumericOrNull($since, 'Since parameter is not numeric');
