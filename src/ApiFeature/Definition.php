@@ -33,17 +33,9 @@ class Definition implements \JsonSerializable
     public function __construct(string $name, ?string $since, ?string $until)
     {
         StringUtils::assertNotEmpty($name, 'Empty feature name');
-
-        if (null !== $since && !is_numeric($since)) {
-            throw new \InvalidArgumentException('Since parameter is not numeric');
-        }
-        if (null !== $until && !is_numeric($until)) {
-            throw new \InvalidArgumentException('Until parameter is not numeric');
-        }
-
-        if (null === $since && null === $until) {
-            throw new \InvalidArgumentException('No version constraints provided');
-        }
+        StringUtils::assertNumericOrNull($since, 'Since parameter is not numeric');
+        StringUtils::assertNumericOrNull($until, 'Until parameter is not numeric');
+        StringUtils::assertAtLeastOneArgumentNotNull('No version constraints provided', $since, $until);
 
         $this->name = $name;
         $this->since = $since;
