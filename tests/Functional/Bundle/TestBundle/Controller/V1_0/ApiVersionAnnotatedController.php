@@ -6,6 +6,7 @@ namespace Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Control
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Spiechu\SymfonyCommonsBundle\Annotation\Controller\ApiVersion;
+use Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Service\CustomVersionedView;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,5 +23,15 @@ class ApiVersionAnnotatedController extends Controller
     public function fancyRouteAction(): Response
     {
         return new Response('response from fancy route');
+    }
+
+    /**
+     * @Route("/custom-versioned-view")
+     *
+     * @return CustomVersionedView
+     */
+    public function routeWithCustomVersionedView(): CustomVersionedView
+    {
+        return new CustomVersionedView();
     }
 }

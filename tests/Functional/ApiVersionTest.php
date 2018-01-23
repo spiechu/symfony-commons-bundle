@@ -31,7 +31,7 @@ class ApiVersionTest extends WebTestCase
      * @param string $routeUri
      * @param string $expectedApiVersion
      *
-     * @dataProvider getRoutesVersionsDataProvider
+     * @dataProvider getFancyRoutesVersionDataProvider
      */
     public function testResponseApiVersionsSet(string $routeUri, string $expectedApiVersion)
     {
@@ -51,9 +51,33 @@ class ApiVersionTest extends WebTestCase
     }
 
     /**
+     * @param string $routeUri
+     * @param string $expectedApiVersion
+     *
+     * @dataProvider getRoutesWithCustomVersionedViewDataProvider
+     */
+    public function testCustomVersionedView(string $routeUri, string $expectedApiVersion)
+    {
+        $client = static::createClient([
+            'test_case' => 'TestBundleIncluded',
+        ]);
+
+        $client->request('GET', $routeUri);
+
+        self::assertRegExp(
+            sprintf(
+                '/response from.{1,}%s.{1,}%d/i',
+                preg_quote($routeUri, '/'),
+                $expectedApiVersion
+            ),
+            $client->getResponse()->getContent()
+        );
+    }
+
+    /**
      * @return array
      */
-    public function getRoutesVersionsDataProvider(): array
+    public function getFancyRoutesVersionDataProvider(): array
     {
         return [
             [
@@ -70,6 +94,31 @@ class ApiVersionTest extends WebTestCase
             ],
             [
                 '/api-version-annotated/1.3/fancy-route',
+                '1.3',
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoutesWithCustomVersionedViewDataProvider(): array
+    {
+        return [
+            [
+                '/api-version-annotated/1.0/custom-versioned-view',
+                '1.0',
+            ],
+            [
+                '/api-version-annotated/1.1/custom-versioned-view',
+                '1.1',
+            ],
+            [
+                '/api-version-annotated/1.2/custom-versioned-view',
+                '1.2',
+            ],
+            [
+                '/api-version-annotated/1.3/custom-versioned-view',
                 '1.3',
             ],
         ];

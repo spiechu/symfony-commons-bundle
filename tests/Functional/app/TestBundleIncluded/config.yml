@@ -13,6 +13,7 @@ spiechu_symfony_commons:
         enabled: true
     api_versioning:
         enabled: true
+        versioned_view_listener: true
         features:
             feature_without_until:
                 since: 1.0
@@ -23,9 +24,17 @@ spiechu_symfony_commons:
                 until: 1.2
 
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
     Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Controller\:
         resource: '../../Bundle/TestBundle/Controller/'
         public: true
-        autowire: true
         tags:
           - name: controller.service_arguments
+
+    Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Service\EventListener\CustomVersionedViewListener:
+        tags:
+          - name: kernel.event_listener
+            event: kernel.view

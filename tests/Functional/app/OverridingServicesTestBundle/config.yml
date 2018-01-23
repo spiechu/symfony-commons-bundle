@@ -21,10 +21,10 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
-        public: true
 
     Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Controller\:
         resource: '../../Bundle/TestBundle/Controller/'
+        public: true
         tags:
           - name: controller.service_arguments
 
@@ -32,10 +32,14 @@ services:
         tags:
           - name: kernel.event_listener
             event: kernel.request
-            method: onKernelRequest
 
     Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Service\EventListener\ListenerReplacingFailedSchemaCheckListener:
         tags:
           - name: kernel.event_listener
             event: spiechu_symfony_commons.event.response_schema_check.check_result
             method: onCheckResult
+
+    Spiechu\SymfonyCommonsBundle\Test\Functional\Bundle\TestBundle\Service\EventListener\CustomVersionedViewListener:
+        tags:
+          - name: kernel.event_listener
+            event: kernel.view
