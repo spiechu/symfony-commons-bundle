@@ -41,7 +41,7 @@ class StringUtils
     public static function assertAtLeastOneArgumentNotNull(string $errorMessage, ?string ...$arguments): void
     {
         foreach ($arguments as $argument) {
-            if ($argument !== null) {
+            if (null !== $argument) {
                 return;
             }
         }

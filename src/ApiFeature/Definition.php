@@ -121,7 +121,7 @@ class Definition implements \JsonSerializable
      */
     protected static function assertUntilVersionAtLeastSameAsSince(?string $since, ?string $until): void
     {
-        if ($since === null || $until === null) {
+        if (null === $since || null === $until) {
             return;
         }
 
