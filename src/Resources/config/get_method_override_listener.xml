@@ -7,6 +7,8 @@
 
     <services>
 
+        <defaults public="false"/>
+
         <service id="spiechu_symfony_commons.event_listener.get_method_override_listener"
                  class="Spiechu\SymfonyCommonsBundle\EventListener\GetMethodOverrideListener"
         >

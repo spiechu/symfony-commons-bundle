@@ -7,6 +7,8 @@
 
     <services>
 
+        <defaults public="false"/>
+
         <service id="spiechu_symfony_commons.event_listener.request_schema_validator_listener"
                  class="Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener"
         >
@@ -37,7 +39,8 @@
         <service id="spiechu_symfony_commons.event_listener.json_check_schema_subscriber"
                  class="Spiechu\SymfonyCommonsBundle\EventListener\JsonCheckSchemaSubscriber"
         >
-            <argument type="service" id="spiechu_symfony_commons.service_schema_validator.json_schema_validator_factory"/>
+            <argument type="service"
+                      id="spiechu_symfony_commons.service_schema_validator.json_schema_validator_factory"/>
 
             <tag name="kernel.event_subscriber"/>
         </service>
@@ -45,7 +48,8 @@
         <service id="spiechu_symfony_commons.event_listener.xml_check_schema_subscriber"
                  class="Spiechu\SymfonyCommonsBundle\EventListener\XmlCheckSchemaSubscriber"
         >
-            <argument type="service" id="spiechu_symfony_commons.service_schema_validator.xml_schema_validator_factory"/>
+            <argument type="service"
+                      id="spiechu_symfony_commons.service_schema_validator.xml_schema_validator_factory"/>
 
             <tag name="kernel.event_subscriber"/>
         </service>
