@@ -7,6 +7,13 @@
 
     <services>
 
+        <service id="spiechu_symfony_commons.service.schema_locator"
+                 class="Spiechu\SymfonyCommonsBundle\Service\SchemaLocator"
+                 public="false"
+        >
+            <argument type="service" id="file_locator"/>
+        </service>
+
         <service id="spiechu_symfony_commons.service.data_collector"
                  class="Spiechu\SymfonyCommonsBundle\Service\DataCollector"
                  public="false"
@@ -14,7 +21,7 @@
             <argument type="service" id="router"/>
             <argument type="service" id="annotations.cached_reader"/>
             <argument type="service" id="controller_resolver"/>
-            <argument type="service" id="spiechu_symfony_commons.twig.data_collector_extension"/>
+            <argument type="service" id="spiechu_symfony_commons.service.schema_locator"/>
 
             <tag name="kernel.event_subscriber"/>
             <tag name="data_collector" id="spiechu_symfony_commons.data_collector" template="@SpiechuSymfonyCommons/Collector/template.html.twig"/>
@@ -24,7 +31,7 @@
                  class="Spiechu\SymfonyCommonsBundle\Twig\DataCollectorExtension"
                  public="false"
         >
-            <argument type="service" id="file_locator"/>
+            <argument type="service" id="spiechu_symfony_commons.service.schema_locator"/>
 
             <tag name="twig.extension"/>
         </service>

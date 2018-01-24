@@ -14,7 +14,6 @@ use Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck\Events as ResponseSch
 use Spiechu\SymfonyCommonsBundle\EventListener\GetMethodOverrideListener;
 use Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener;
 use Spiechu\SymfonyCommonsBundle\Service\SchemaValidator\ValidationViolation;
-use Spiechu\SymfonyCommonsBundle\Twig\DataCollectorExtension;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,26 +56,26 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
     protected $controllerResolver;
 
     /**
-     * @var DataCollectorExtension
+     * @var SchemaLocator
      */
-    protected $dataCollectorExtension;
+    protected $schemaLocator;
 
     /**
      * @param RouterInterface             $router
      * @param Reader                      $reader
      * @param ControllerResolverInterface $controllerResolver
-     * @param DataCollectorExtension      $dataCollectorExtension
+     * @param SchemaLocator               $schemaLocator
      */
     public function __construct(
         RouterInterface $router,
         Reader $reader,
         ControllerResolverInterface $controllerResolver,
-        DataCollectorExtension $dataCollectorExtension
+        SchemaLocator $schemaLocator
     ) {
         $this->router = $router;
         $this->reader = $reader;
         $this->controllerResolver = $controllerResolver;
-        $this->dataCollectorExtension = $dataCollectorExtension;
+        $this->schemaLocator = $schemaLocator;
     }
 
     /**
@@ -245,7 +244,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
         /** @var array $schemas */
         foreach ($annotationSchemas as $schemas) {
             foreach ($schemas as $schema) {
-                if (!$this->dataCollectorExtension->schemaFileExists($schema)) {
+                if (!$this->schemaLocator->schemaFileExists($schema)) {
                     ++$this->data[static::DATA_GLOBAL_NON_EXISTING_SCHEMA_FILES];
                 }
             }
