@@ -1,3 +1,15 @@
+0.3 (2018-01-24)
+
+[Diff between 0.2.1 - 0.3](https://github.com/spiechu/symfony-commons-bundle/compare/0.2.1...0.3)
+
+  * Fix data collector to work without Twig
+  * New Scrutinizer script
+  * Raise PHPStan analysis level to 4
+  * Add functional tests
+  * Add `assert()` usage for value objects
+
+---
+
 0.2.1 (2018-01-13)
 
 [Diff between 0.2 - 0.2.1](https://github.com/spiechu/symfony-commons-bundle/compare/0.2...0.2.1)
