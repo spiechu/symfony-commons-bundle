@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Spiechu\SymfonyCommonsBundle\ApiFeature;
 
-use Spiechu\SymfonyCommonsBundle\Utils\StringUtils;
+use Spiechu\SymfonyCommonsBundle\Utils\AssertUtils;
 
 class Definition implements \JsonSerializable
 {
@@ -48,18 +48,30 @@ class Definition implements \JsonSerializable
      * @param null|string $since
      * @param null|string $until
      *
-     * @throws \InvalidArgumentException
-     *
      * @return static
      */
     public static function create(string $name, ?string $since, ?string $until)
     {
-        StringUtils::assertNotEmpty($name, 'Empty feature name');
-        StringUtils::assertNumericOrNull($since, 'Since parameter is not numeric');
-        StringUtils::assertNumericOrNull($until, 'Until parameter is not numeric');
-        StringUtils::assertAtLeastOneArgumentNotNull('No version constraints provided', $since, $until);
-
-        static::assertUntilVersionAtLeastSameAsSince($since, $until);
+        \assert(
+            AssertUtils::isNotEmpty($name),
+            'Empty feature name'
+        );
+        \assert(
+            AssertUtils::isNumericOrNull($since),
+            'Since parameter is not numeric'
+        );
+        \assert(
+            AssertUtils::isNumericOrNull($until),
+            'Until parameter is not numeric'
+        );
+        \assert(
+            AssertUtils::isAtLeastOneArgumentNotNull($since, $until),
+            'No version constraints provided'
+        );
+        \assert(
+            static::isUntilVersionAtLeastSameAsSince($since, $until),
+            'Until parameter is lower than since parameter'
+        );
 
         return new static($name, $since, $until);
     }
@@ -117,16 +129,18 @@ class Definition implements \JsonSerializable
      * @param null|string $since
      * @param null|string $until
      *
-     * @throws \InvalidArgumentException When $until parameter is lower than $since parameter
+     * @return bool
      */
-    protected static function assertUntilVersionAtLeastSameAsSince(?string $since, ?string $until): void
+    protected static function isUntilVersionAtLeastSameAsSince(?string $since, ?string $until): bool
     {
         if (null === $since || null === $until) {
-            return;
+            return true;
         }
 
         if (version_compare($until, $since, '<')) {
-            throw new \InvalidArgumentException('Until parameter is lower than since parameter');
+            return false;
         }
+
+        return true;
     }
 }

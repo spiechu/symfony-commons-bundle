@@ -9,18 +9,52 @@ class AssertUtils
     /**
      * @param iterable|string[] $elements
      *
-     * @return string[]
+     * @return bool
      */
-    public static function getNonStrings(iterable $elements): array
+    public static function hasNonStrings(iterable $elements): bool
     {
-        $nonStrings = [];
-
         foreach ($elements as $string) {
             if (!\is_string($string)) {
-                $nonStrings[] = $string;
+                return true;
             }
         }
 
-        return $nonStrings;
+        return false;
+    }
+
+    /**
+     * @param string $string
+     *
+     * @return bool
+     */
+    public static function isNotEmpty(string $string): bool
+    {
+        return '' !== $string;
+    }
+
+    /**
+     * @param null|string $string
+     *
+     * @return bool
+     */
+    public static function isNumericOrNull(?string $string): bool
+    {
+        return !(null !== $string && !is_numeric($string));
+    }
+
+    /**
+     * @param null[]|string[] ...$arguments
+     *
+     * @return bool
+     */
+    public static function isAtLeastOneArgumentNotNull(?string ...$arguments): bool
+    {
+        foreach ($arguments as $argument) {
+            if (null !== $argument) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

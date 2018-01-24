@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Spiechu\SymfonyCommonsBundle\Event\ResponseSchemaCheck;
 
-use Spiechu\SymfonyCommonsBundle\Utils\StringUtils;
+use Spiechu\SymfonyCommonsBundle\Utils\AssertUtils;
 
 class Events
 {
@@ -18,13 +18,14 @@ class Events
     /**
      * @param string $format
      *
-     * @throws \InvalidArgumentException
-     *
      * @return string
      */
     public static function getCheckSchemaEventNameFor(string $format): string
     {
-        StringUtils::assertNotEmpty($format);
+        \assert(
+            AssertUtils::isNotEmpty($format),
+            '$format is empty'
+        );
 
         return sprintf(static::CHECK_SCHEMA_EVENT_NAME_PATTERN, strtolower($format));
     }

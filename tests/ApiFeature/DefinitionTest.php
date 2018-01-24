@@ -9,7 +9,7 @@ use Spiechu\SymfonyCommonsBundle\ApiFeature\Definition;
 class DefinitionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \AssertionError
      * @expectedExceptionMessageRegExp /empty feature name/i
      */
     public function testEmptyNameIsNotAcceptable()
@@ -18,7 +18,7 @@ class DefinitionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \AssertionError
      * @expectedExceptionMessageRegExp /since.{1,}not numeric/i
      */
     public function testWrongSince()
@@ -27,7 +27,7 @@ class DefinitionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \AssertionError
      * @expectedExceptionMessageRegExp /until.{1,}not numeric/i
      */
     public function testWringUntil()
@@ -36,7 +36,7 @@ class DefinitionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \AssertionError
      * @expectedExceptionMessageRegExp /no version constraints/i
      */
     public function testNoVersionConstraints()
@@ -45,7 +45,7 @@ class DefinitionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \AssertionError
      * @expectedExceptionMessageRegExp /until parameter is lower than since parameter/i
      */
     public function testUntilIsLowerThanSinceVersionConstraint()

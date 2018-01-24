@@ -31,8 +31,8 @@ class GetMethodOverrideListener
         $this->queryParamName = $queryParamName;
 
         \assert(
-            empty(AssertUtils::getNonStrings($methodsToOverride)),
-            'contains non string elements'
+            !AssertUtils::hasNonStrings($methodsToOverride),
+            '$methodsToOverride contain non string elements'
         );
 
         $this->methodsToOverride = $methodsToOverride;
