@@ -19,7 +19,7 @@ trait ControllerAnnotationExtractorTrait
      *
      * @return null|object
      */
-    protected function getClassAnnotationFromController(callable $controller, string $annotationClass): ?object
+    protected function getClassAnnotationFromController(callable $controller, string $annotationClass)
     {
         if (\is_object($objectToReflect = $this->getObjectToReflect($controller))) {
             return $this->getAnnotationReader()->getClassAnnotation(
@@ -39,7 +39,7 @@ trait ControllerAnnotationExtractorTrait
      *
      * @return null|object
      */
-    protected function getMethodAnnotationFromController(callable $controller, string $annotationClass): ?object
+    protected function getMethodAnnotationFromController(callable $controller, string $annotationClass)
     {
         if (\is_array($controller)
             && isset($controller[1])
