@@ -59,7 +59,7 @@ trait ControllerAnnotationExtractorTrait
      *
      * @return null|object
      */
-    protected function getObjectToReflect(callable $controller): ?object
+    protected function getObjectToReflect(callable $controller)
     {
         if (\is_array($controller) && isset($controller[0]) && \is_object($controller[0])) {
             return $controller[0];

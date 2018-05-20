@@ -34,6 +34,8 @@ class SchemaValidationTest extends WebTestCase
             'test_case' => 'TestBundleIncluded',
         ]);
 
+        $client->catchExceptions(false);
+
         $client->request('GET', '/schema-annotated/not-valid-json?id=123');
     }
 
@@ -69,6 +71,8 @@ class SchemaValidationTest extends WebTestCase
         $client = static::createClient([
             'test_case' => 'TestBundleIncluded',
         ]);
+
+        $client->catchExceptions(false);
 
         $client->request('GET', '/schema-annotated/not-valid-simple-xml?id=789');
     }
