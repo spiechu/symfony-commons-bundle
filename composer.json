@@ -20,7 +20,7 @@
     }
   ],
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.1",
     "ext-xml": "*",
     "symfony/framework-bundle": "~3.4|~4.0",
     "sensio/framework-extra-bundle": "~3.0|~4.0|~5.0",
