@@ -14,7 +14,6 @@ I can only learn by doing instead of passive DOC reading.
 Bundle characteristics:
 - plays well with [FOSRestBundle](https://github.com/FriendsOfSymfony/FOSRestBundle)
 - [Symfony Flex ready](https://github.com/symfony/recipes-contrib/tree/master/spiechu/symfony-commons-bundle)
-- has high version requirements (Symfony 3.3, PHP 7.1).
 
 ## Bundle rules
 
