@@ -13,6 +13,8 @@ class AssertUtilsTest extends \PHPUnit_Framework_TestCase
         if (!AssertUtils::isNotEmpty('0')) {
             self::fail('0 is not considered empty');
         }
+
+        self::assertTrue(true);
     }
 
     /**

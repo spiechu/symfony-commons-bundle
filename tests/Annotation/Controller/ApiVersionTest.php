@@ -15,9 +15,9 @@ class ApiVersionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAcceptableFormats($acceptableVersionFormat)
     {
-        new ApiVersion([
+        self::assertInstanceOf(ApiVersion::class, new ApiVersion([
             'value' => $acceptableVersionFormat,
-        ]);
+        ]));
     }
 
     /**
