@@ -57,7 +57,7 @@ class Configuration implements ConfigurationInterface
                             ->cannotBeEmpty()
                             ->defaultValue('_method')
                             ->validate()
-                                ->ifTrue(function ($methodName): bool {
+                                ->ifTrue(static function ($methodName): bool {
                                     return !\is_string($methodName);
                                 })
                                 ->thenInvalid('Not a string provided')
@@ -79,7 +79,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                             ->beforeNormalization()
                                 ->ifArray()
-                                ->then(function (array $methods): array {
+                                ->then(static function (array $methods): array {
                                     return array_unique(array_map('strtoupper', $methods));
                                 })
                             ->end()
@@ -160,7 +160,7 @@ class Configuration implements ConfigurationInterface
                                     ->end()
                                 ->end()
                                 ->beforeNormalization()
-                                    ->always(function ($prototypeValue): array {
+                                    ->always(static function ($prototypeValue): array {
                                         if (empty($prototypeValue)) {
                                             throw new \InvalidArgumentException('No version constraints provided');
                                         }

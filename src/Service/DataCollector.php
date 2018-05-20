@@ -153,7 +153,7 @@ class DataCollector extends BaseDataCollector implements EventSubscriberInterfac
      */
     public function getKnownRouteResponseSchemaNumber(): int
     {
-        return array_reduce($this->getKnownRouteResponseSchemas(), function (int $counter, array $formatSchemas) {
+        return array_reduce($this->getKnownRouteResponseSchemas(), static function (int $counter, array $formatSchemas) {
             return $counter + \count($formatSchemas);
         }, 0);
     }
