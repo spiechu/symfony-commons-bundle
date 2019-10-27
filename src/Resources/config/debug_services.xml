@@ -19,7 +19,7 @@
                  class="Spiechu\SymfonyCommonsBundle\Service\DataCollector"
         >
             <argument type="service" id="router"/>
-            <argument type="service" id="annotations.cached_reader"/>
+            <argument type="expression">container.has('annotations.cached_reader') ? service('annotations.cached_reader') : service('annotations.reader')</argument>
             <argument type="service" id="controller_resolver"/>
             <argument type="service" id="spiechu_symfony_commons.service.schema_locator"/>
 

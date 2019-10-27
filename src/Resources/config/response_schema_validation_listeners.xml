@@ -12,7 +12,7 @@
         <service id="spiechu_symfony_commons.event_listener.request_schema_validator_listener"
                  class="Spiechu\SymfonyCommonsBundle\EventListener\RequestSchemaValidatorListener"
         >
-            <argument type="service" id="annotations.cached_reader"/>
+            <argument type="expression">container.has('annotations.cached_reader') ? service('annotations.cached_reader') : service('annotations.reader')</argument>
 
             <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController"/>
         </service>
