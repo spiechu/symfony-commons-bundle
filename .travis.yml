@@ -45,7 +45,11 @@ script:
     else
       ./vendor/bin/simple-phpunit --testdox --coverage-text;
     fi;'
-  - './vendor/bin/phpstan analyse -l 4 -c phpstan.neon src;'
+  - 'if [ "$DEPENDENCIES" == "low" ]; then
+      ./vendor/bin/phpstan analyse -l 4 -c phpstan.neon src;
+    else
+      ./vendor/bin/phpstan analyse -l 1 -c phpstan_clean.neon src;
+    fi;'
 
 notifications:
   email: false
