@@ -9,6 +9,7 @@
     <php>
         <ini name="assert.exception" value="1"/>
         <ini name="zend.assertions" value="1"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
     </php>
 
     <testsuites>
