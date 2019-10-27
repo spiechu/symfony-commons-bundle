@@ -2,3 +2,5 @@ parameters:
     ignoreErrors:
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface::scalarNode\(\)#'
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface::arrayNode\(\)#'
+        - '#Symfony\\Component\\Config\\Definition\\Builder\\TreeBuilder does not have a constructor#'
+        - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\TreeBuilder::getRootNode\(\)#'
