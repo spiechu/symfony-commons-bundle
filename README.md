@@ -146,7 +146,7 @@ spiechu_symfony_commons:
         enabled: true
 ```
 
-### Composer based installation (Symfony 3.3 and 3.4)
+### Composer based installation (Symfony 3.4)
 
 #### Download the Bundle
 
