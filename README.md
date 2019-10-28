@@ -1,8 +1,8 @@
 # Symfony Commons Bundle
 
-| TravisCI | StyleCI | Scrutinizer | Code Coverage | Read the Docs |
-|:--------:|:-------:|:-----------:|:-------------:|:-------------:|
-| [![Build Status](https://travis-ci.org/spiechu/symfony-commons-bundle.svg?branch=master)](https://travis-ci.org/spiechu/symfony-commons-bundle) | [![StyleCI](https://styleci.io/repos/99513444/shield?style=flat)](https://styleci.io/repos/99513444) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/spiechu/symfony-commons-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/spiechu/symfony-commons-bundle/?branch=master) | [![Code Coverage](https://scrutinizer-ci.com/g/spiechu/symfony-commons-bundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/spiechu/symfony-commons-bundle/?branch=master) | [![Documentation Status](https://readthedocs.org/projects/symfony-commons-bundle/badge/?version=latest)](https://symfony-commons-bundle.readthedocs.io/en/latest/) |
+| TravisCI | StyleCI | Scrutinizer | Code Coverage |
+|:--------:|:-------:|:-----------:|:-------------:|
+| [![Build Status](https://travis-ci.org/spiechu/symfony-commons-bundle.svg?branch=master)](https://travis-ci.org/spiechu/symfony-commons-bundle) | [![StyleCI](https://styleci.io/repos/99513444/shield?style=flat)](https://styleci.io/repos/99513444) | [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/spiechu/symfony-commons-bundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/spiechu/symfony-commons-bundle/?branch=master) | [![Code Coverage](https://scrutinizer-ci.com/g/spiechu/symfony-commons-bundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/spiechu/symfony-commons-bundle/?branch=master) |
 
 ## Intro
 
